@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:oktoast/oktoast.dart';
 
 extension StringExtension on String {
@@ -25,9 +25,6 @@ extension StringExtension on String {
     try {
       var message = this == null || this.isEmpty ? "error" : this;
 
-      //dismiss before show toast
-      dismissAllToast(showAnim: true);
-
       showToastWidget(
           Toast(
             bgColor: Palette.red,
@@ -46,9 +43,6 @@ extension StringExtension on String {
   toToastSuccess() {
     try {
       var message = (this == null || this.isEmpty) ? "success" : this;
-
-      //dismiss before show toast
-      dismissAllToast(showAnim: true);
 
       // showToast(msg)
       showToastWidget(
@@ -87,22 +81,31 @@ extension StringExtension on String {
     }
   }
 
-  /// Example how to save json into sharedPreference
-  /// and load/read value by key
-/*String toTextDictionary() {
-    try {
-      logs(
-          "key $this : value : ${sl.get<DictionaryResponse>(instanceName: "text").data.singleWhere((element) => element.key.toLowerCase() == this.toLowerCase()).value}");
-      return sl
-          .get<DictionaryResponse>(instanceName: "text")
-          .data
-          .singleWhere(
-              (element) => element.key.toLowerCase() == this.toLowerCase())
-          .value;
-    } catch (e) {
-      logs(e);
-      return "key $this belum terdaftar";
+  String toCurrency() {
+    if (this.isNotEmpty) {
+      //clean string before format
+      var value = this.replaceAll(".", "");
+      return NumberFormat.currency(
+        symbol: "",
+        decimalDigits: 0,
+      ).format(int.parse(value)).replaceAll(",", ".");
     }
-  }*/
+    return "0";
+  }
 
+  String toClearText() {
+    return this.replaceAll(".", "");
+  }
+
+  String toIDR() {
+    if (this.isNotEmpty) {
+      //clean string before format
+      var value = this.replaceAll(".", "");
+      return NumberFormat.currency(
+        symbol: "Rp. ",
+        decimalDigits: 0,
+      ).format(int.parse(value)).replaceAll(",", ".");
+    }
+    return "0";
+  }
 }

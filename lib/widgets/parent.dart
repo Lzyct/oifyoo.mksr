@@ -1,5 +1,5 @@
-import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by ukietux on 24/08/20 with ♥
@@ -13,6 +13,7 @@ class Parent extends StatefulWidget {
   final bool isScroll;
   final AppBar appBar;
   final bool avoidBottomInset;
+  final Widget floatingButton;
 
   const Parent({
     Key key,
@@ -21,6 +22,7 @@ class Parent extends StatefulWidget {
     this.isScroll = true,
     @required this.appBar,
     this.avoidBottomInset = false,
+    this.floatingButton,
   }) : super(key: key);
 
   @override
@@ -75,6 +77,7 @@ class _ParentState extends State<Parent> {
           ),
         ),
       ),
+      floatingActionButton: widget.floatingButton,
     );
   }
 }

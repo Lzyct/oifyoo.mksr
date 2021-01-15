@@ -1,7 +1,7 @@
-import 'package:oifyoo_mksr/resources/resources.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by ukietux on 25/06/20 with ♥
@@ -22,9 +22,16 @@ class Empty extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.delete),
+          SvgPicture.asset(
+            Images.imgEmpty,
+            width: context.widthInPercent(50),
+          ),
+          SizedBox(
+            height: context.dp16(),
+          ),
           Text(
-            Strings.noData,
+            errorMessage ?? Strings.noData,
+            textAlign: TextAlign.center,
             style: TextStyles.text,
           )
         ],

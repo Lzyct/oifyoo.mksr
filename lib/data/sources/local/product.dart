@@ -1,0 +1,117 @@
+import 'package:oifyoo_mksr/data/models/entities/product_entity.dart';
+import 'package:oifyoo_mksr/di/di.dart';
+import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/utils/utils.dart';
+
+class Product {
+  Future<dynamic> addProduct(Map<String, dynamic> _params) async {
+    var dbClient = await sl.get<DbHelper>().dataBase;
+    try {
+      await dbClient.transaction((insert) async => insert.rawInsert('''
+      INSERT INTO product(
+        productName,
+        note,
+        stock,
+        capitalPrice,
+        sellingPrice,
+        createdAt,
+        updatedAt
+      ) VALUES (
+        '${_params['productName']}',
+        '${_params['note']}',
+        '${_params['stock']}',
+        '${_params['capitalPrice']}',
+        '${_params['sellingPrice']}',
+        '${DateTime.now()}',
+        '${DateTime.now()}'
+      )
+    '''));
+      return true;
+    } catch (e) {
+      logs(e);
+      return Strings.errorProductExist;
+    }
+  }
+
+  Future<dynamic> editProduct(Map<String, dynamic> _params) async {
+    var dbClient = await sl.get<DbHelper>().dataBase;
+    try {
+      var _query = '''
+      UPDATE product SET 
+          productName = '${_params['productName']}',
+          note = '${_params['note']}',
+          stock = ${_params['stock']},
+          capitalPrice = ${_params['capitalPrice']},
+          sellingPrice = ${_params['sellingPrice']},
+          updatedAt='${DateTime.now()}'
+      WHERE id=${_params['id']}
+    ''';
+      logs("query editProduct $_query");
+      await dbClient.transaction((update) async => update.rawUpdate(_query));
+      return true;
+    } catch (e) {
+      logs(e);
+      return Strings.failedToSave;
+    }
+  }
+
+  Future<dynamic> deleteProduct(int id) async {
+    var dbClient = await sl.get<DbHelper>().dataBase;
+    try {
+      await dbClient.transaction((delete) async => delete.rawDelete('''
+        DELETE FROM product WHERE id='$id'
+      '''));
+      return true;
+    } catch (e) {
+      logs(e);
+      return e;
+    }
+  }
+
+  Future<List<ProductEntity>> getListProduct(String productName) async {
+    //connect db
+    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _query =
+        "SELECT * FROM product WHERE productName like '%$productName%' ORDER BY productName ASC";
+    if (productName.isEmpty) {
+      _query = "SELECT * FROM product ORDER BY productName ASC";
+    }
+
+    logs("Query -> $_query");
+    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<ProductEntity> _listProduct = [];
+    _queryMap.forEach((element) {
+      _listProduct.add(ProductEntity(
+          id: element["id"],
+          productName: element["productName"],
+          note: element["note"],
+          stock: element["stock"],
+          capitalPrice: element["capitalPrice"],
+          sellingPrice: element["sellingPrice"],
+          createdAt: element["createdAt"],
+          updatedAt: element["updatedAt"]));
+    });
+    return _listProduct;
+  }
+
+  Future<ProductEntity> getDetailProduct(int id) async {
+    //connect db
+    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _query = "SELECT * FROM product WHERE id='$id'";
+
+    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<ProductEntity> _listProduct = [];
+    _queryMap.forEach((element) {
+      _listProduct.add(ProductEntity(
+          id: element["id"],
+          productName: element["productName"],
+          note: element["note"],
+          stock: element["stock"],
+          capitalPrice: element["capitalPrice"],
+          sellingPrice: element["sellingPrice"],
+          createdAt: element["createdAt"],
+          updatedAt: element["updatedAt"]));
+    });
+    return _listProduct[0];
+  }
+}

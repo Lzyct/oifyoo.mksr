@@ -17,24 +17,24 @@ extension ContextExtensions on BuildContext {
         "========================================================================================");
   }
 
-  goTo(Widget widget) {
-    Navigator.push(
+  goTo(Widget widget) async {
+    await Navigator.push(
         this,
         MaterialPageRoute(
           builder: (context) => widget,
         ));
   }
 
-  goToReplacePageRoute(Widget widget) {
-    Navigator.pushReplacement(
+  goToReplacePageRoute(Widget widget) async {
+    await Navigator.pushReplacement(
         this,
         PageRouteBuilder(
             transitionDuration: Duration(milliseconds: 1000),
             pageBuilder: (_, __, ___) => widget));
   }
 
-  goToReplace(Widget widget) {
-    Navigator.pushReplacement(
+  goToReplace(Widget widget) async {
+    await Navigator.pushReplacement(
         this,
         MaterialPageRoute(
           builder: (context) => widget,
@@ -48,14 +48,13 @@ extension ContextExtensions on BuildContext {
 
   appBar({@required String title}) {
     return AppBar(
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       backgroundColor: Palette.colorPrimary,
-      elevation: 0,
       centerTitle: true,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios,
-          color: Colors.white,
+          color: Palette.colorText,
         ),
         onPressed: () {
           Navigator.pop(this);
@@ -64,7 +63,7 @@ extension ContextExtensions on BuildContext {
       automaticallyImplyLeading: true,
       title: Text(
         title,
-        style: TextStyles.white.copyWith(
+        style: TextStyles.text.copyWith(
           fontSize: Dimens.fontLarge,
         ),
       ),

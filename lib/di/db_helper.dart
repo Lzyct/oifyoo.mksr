@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
+
 ///*********************************************
 /// Created by ukietux on 2019-12-30 with ♥
 /// (>’’)> email : ukie.tux@gmail.com
@@ -5,7 +11,7 @@
 ///*********************************************
 /// © 2019 | All Right Reserved
 class DbHelper {
-  /*Database db;
+  Database db;
 
   Future<Database> get dataBase async {
     if (db != null) return db;
@@ -14,26 +20,42 @@ class DbHelper {
   }
 
   initDb() async {
-    io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "lazywa.db");
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentsDirectory.path, "oifyoo_mksr.db");
     var theDb = await openDatabase(path, version: 1, onCreate: onCreate);
     return theDb;
   }
 
   // Creating a table name Employee with fields
   void onCreate(Database db, int version) async {
-    // When creating the db, create the table
+    //create table product
     await db.execute('''
-    CREATE TABLE numberLog (
+    CREATE TABLE product (
         id INTEGER PRIMARY KEY, 
-        code TEXT,
-        phone TEXT, 
-        notes TEXT, 
-        message TEXT, 
-        createAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updateAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        productName TEXT,
+        note TEXT, 
+        stock INTEGER, 
+        capitalPrice INTEGER,
+        sellingPrice INTEGER,
+        createdAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''');
+    //create table transaction
+    await db.execute('''
+    CREATE TABLE transaksi (
+        id INTEGER PRIMARY KEY,
+        transactionNumber TEXT,
+        idProduct INTEGER,
+        qty INTEGER,
+        type TEXT,
+        status TEXT,
+        note TEXT,
+        buyer TEXT,
+        createdAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''');
     print("Created tables");
-  }*/
+  }
 }

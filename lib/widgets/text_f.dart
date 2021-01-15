@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by ukieTux on 22/04/2020 with ♥
@@ -13,23 +13,24 @@ import 'package:oifyoo_mksr/resources/resources.dart';
 class TextF extends StatefulWidget {
   const TextF(
       {Key key,
-        this.curFocusNode,
-        this.nextFocusNode,
-        this.hint,
-        this.validator,
-        this.onChanged,
-        this.keyboardType,
-        this.textInputAction,
-        this.obscureText,
-        this.suffixIcon,
-        this.controller,
-        this.onTap,
-        this.textAlign,
-        this.enable,
-        this.inputFormatter,
-        this.minLine,
-        this.maxLine,
-        this.isHintVisible = true})
+      this.curFocusNode,
+      this.nextFocusNode,
+      this.hint,
+      this.validator,
+      this.onChanged,
+      this.keyboardType,
+      this.textInputAction,
+      this.obscureText,
+      this.suffixIcon,
+      this.controller,
+      this.onTap,
+      this.textAlign,
+      this.enable,
+      this.inputFormatter,
+      this.minLine,
+      this.maxLine,
+      this.isHintVisible = true,
+      this.prefixText})
       : super(key: key);
 
   final FocusNode curFocusNode;
@@ -49,6 +50,7 @@ class TextF extends StatefulWidget {
   final bool enable;
   final List<TextInputFormatter> inputFormatter;
   final bool isHintVisible;
+  final String prefixText;
 
   @override
   _TextFState createState() => _TextFState();
@@ -110,6 +112,7 @@ class _TextFState extends State<TextF> {
             decoration: InputDecoration(
                 alignLabelWithHint: true,
                 suffixIcon: widget.suffixIcon,
+                prefixText: widget.prefixText ?? "",
                 contentPadding: EdgeInsets.symmetric(
                     vertical: context.dp8(), horizontal: context.dp12()),
                 enabledBorder: OutlineInputBorder(

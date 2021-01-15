@@ -1,3 +1,5 @@
-export 'about/about_page.dart';
 export 'home/home_page.dart';
 export 'main_page.dart';
+export 'product/product.dart';
+export 'purchase/purchase.dart';
+export 'sale/sale.dart';

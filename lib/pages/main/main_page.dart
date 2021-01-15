@@ -24,16 +24,16 @@ class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<DataSelected> _dataMenus = [];
   NavDrawerBloc _drawerBloc;
-  String _currentOpen = Strings.dashboard;
+  String _currentOpen = Strings.home;
 
   @override
   void initState() {
     super.initState();
     _drawerBloc = BlocProvider.of<NavDrawerBloc>(context);
     _dataMenus = [
-      DataSelected(title: Strings.dashboard, isSelected: true),
-      DataSelected(title: Strings.income, isSelected: false),
-      DataSelected(title: Strings.outcome, isSelected: false),
+      DataSelected(title: Strings.home, isSelected: true),
+      DataSelected(title: Strings.sale, isSelected: false),
+      DataSelected(title: Strings.purchase, isSelected: false),
       DataSelected(title: Strings.product, isSelected: false),
     ];
   }
@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
     return WillPopScope(
         onWillPop: () async {
           context.logs("onBackPress");
-          if (_currentOpen == Strings.dashboard) {
+          if (_currentOpen == Strings.home) {
             context.logs("true");
             return true;
           } else {
@@ -56,13 +56,13 @@ class _MainPageState extends State<MainPage> {
 
               _dataMenus.forEach((element) {
                 setState(() {
-                  if (element.title == Strings.dashboard)
+                  if (element.title == Strings.home)
                     element.isSelected = true;
                   else
                     element.isSelected = false;
                 });
               });
-              _currentOpen = Strings.dashboard;
+              _currentOpen = Strings.home;
             }
             return false;
           }
@@ -71,12 +71,11 @@ class _MainPageState extends State<MainPage> {
             key: _scaffoldKey,
             appBar: AppBar(
               brightness: Brightness.light,
-              backgroundColor: Colors.white,
-              elevation: 0,
+              backgroundColor: Palette.colorPrimary,
               centerTitle: true,
               title: Text(
                 _currentOpen,
-                style: TextStyles.primary.copyWith(
+                style: TextStyles.primaryBold.copyWith(
                     fontSize: Dimens.fontLarge, color: Palette.colorText),
               ),
               leading: IconButton(
@@ -154,10 +153,32 @@ class _MainPageState extends State<MainPage> {
                           });
 
                           //return selected page
-                          if (value.title == Strings.dashboard)
-                            _drawerBloc.openDrawer(NavigationEvents.HomePage);
-                          else
-                            _drawerBloc.openDrawer(NavigationEvents.AboutPage);
+                          switch (value.title) {
+                            case Strings.home:
+                              {
+                                _drawerBloc
+                                    .openDrawer(NavigationEvents.HomePage);
+                                break;
+                              }
+                            case Strings.sale:
+                              {
+                                _drawerBloc
+                                    .openDrawer(NavigationEvents.SalePage);
+                              }
+                              break;
+                            case Strings.purchase:
+                              {
+                                _drawerBloc
+                                    .openDrawer(NavigationEvents.PurchasePage);
+                              }
+                              break;
+                            default:
+                              {
+                                _drawerBloc
+                                    .openDrawer(NavigationEvents.Product);
+                                break;
+                              }
+                          }
 
                           setState(() {
                             _currentOpen = value.title;

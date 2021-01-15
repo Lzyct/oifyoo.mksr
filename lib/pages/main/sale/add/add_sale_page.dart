@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
 
 ///*********************************************
@@ -7,25 +8,21 @@ import 'package:oifyoo_mksr/widgets/widgets.dart';
 /// github : https://www.github.com/ukieTux <(’_’<)
 ///*********************************************
 /// © 2020 | All Right Reserved
-class AboutPage extends StatefulWidget {
-  AboutPage({Key key}) : super(key: key);
+class AddSalePage extends StatefulWidget {
+  AddSalePage({Key key}) : super(key: key);
 
   @override
-  _AboutPageState createState() => _AboutPageState();
+  _AddSalePageState createState() => _AddSalePageState();
 }
 
-class _AboutPageState extends State<AboutPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _AddSalePageState extends State<AddSalePage> {
   @override
   Widget build(BuildContext context) {
     return Parent(
-        appBar: null,
-        child: Container(
-          color: Colors.blue,
-        ));
+      appBar: null,
+      child: Container(
+        color: Colors.red,
+      ),
+    );
   }
 }

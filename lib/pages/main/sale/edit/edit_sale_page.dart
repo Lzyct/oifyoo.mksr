@@ -8,14 +8,14 @@ import 'package:oifyoo_mksr/widgets/widgets.dart';
 /// github : https://www.github.com/ukieTux <(’_’<)
 ///*********************************************
 /// © 2020 | All Right Reserved
-class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+class EditSalePage extends StatefulWidget {
+  EditSalePage({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _EditSalePageState createState() => _EditSalePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _EditSalePageState extends State<EditSalePage> {
   @override
   Widget build(BuildContext context) {
     return Parent(

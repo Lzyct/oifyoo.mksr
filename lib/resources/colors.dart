@@ -79,7 +79,7 @@ class Palette {
 
 ThemeData themeDefault = ThemeData(
   fontFamily: 'Poppins',
-  backgroundColor: Palette.colorBackground,
+  backgroundColor: Palette.colorBackgroundAlt,
   primaryColor: Palette.colorPrimary,
   accentColor: Palette.colorAccent,
   textSelectionTheme: TextSelectionThemeData(cursorColor: Palette.colorAccent),
