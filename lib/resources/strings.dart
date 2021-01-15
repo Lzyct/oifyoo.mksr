@@ -52,4 +52,6 @@ class Strings {
 
   static var askDeleteProduct = "Apakah anda ingin menghapus";
   static var questionMark = "?";
+
+  static var detailProduct = "Detail Produk";
 }

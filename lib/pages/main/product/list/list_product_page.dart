@@ -5,6 +5,7 @@ import 'package:oifyoo_mksr/blocs/blocs.dart';
 import 'package:oifyoo_mksr/blocs/product/delete_product_bloc.dart';
 import 'package:oifyoo_mksr/data/models/models.dart';
 import 'package:oifyoo_mksr/pages/main/main.dart';
+import 'package:oifyoo_mksr/pages/main/product/detail/detail_product_page.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
@@ -188,8 +189,7 @@ class _ListProductPageState extends State<ListProductPage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteProductBloc
-                          .deleteProduct(_listProduct[index].id);
+                      _deleteProductBloc.deleteProduct(_listProduct[index].id);
                       _getListProduct();
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
@@ -238,7 +238,14 @@ class _ListProductPageState extends State<ListProductPage> {
               )
             ],
           ).padding(edgeInsets: EdgeInsets.all(context.dp16())),
-          onTap: () {}),
+          onTap: () {
+            context.goTo(BlocProvider(
+              create: (_) => DetailProductBloc(),
+              child: DetailProductPage(
+                id: _listProduct[index].id,
+              ),
+            ));
+          }),
     );
   }
 }
