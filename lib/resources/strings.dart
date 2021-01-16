@@ -54,4 +54,8 @@ class Strings {
   static var questionMark = "?";
 
   static var detailProduct = "Detail Produk";
+
+  static var lastUpdate = "Update terakhir";
+
+  static const String stockDot = "Stok : ";
 }

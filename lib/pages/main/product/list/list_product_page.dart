@@ -223,18 +223,27 @@ class _ListProductPageState extends State<ListProductPage> {
                   Expanded(
                     child: Text(
                       _listProduct[index].productName,
-                      style: TextStyles.textBold,
+                      style: TextStyles.textBold
+                          .copyWith(fontSize: Dimens.fontLarge1),
                     ),
                   ),
                   Text(
-                    "Stok : ${_listProduct[index].stock}",
-                    style: TextStyles.text,
+                    "${Strings.stockDot} ${_listProduct[index].stock}",
+                    style: TextStyles.textBold
+
                   )
                 ],
               ),
+              SizedBox(height: context.dp16()),
               Text(
                 _listProduct[index].sellingPrice.toString().toIDR(),
-                style: TextStyles.textHint,
+                style: TextStyles.text,
+              ),
+              SizedBox(height: context.dp8()),
+              Text(
+                "${Strings.lastUpdate} ${_listProduct[index].updatedAt.toDateTime()}",
+                style: TextStyles.textHint.copyWith(
+                    fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
               )
             ],
           ).padding(edgeInsets: EdgeInsets.all(context.dp16())),
