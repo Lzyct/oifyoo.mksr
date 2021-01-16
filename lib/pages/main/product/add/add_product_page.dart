@@ -83,7 +83,6 @@ class _AddProductPageState extends State<AddProductPage> {
                 nextFocusNode: _fnStock,
                 controller: _conNote,
                 textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.stock,

@@ -125,7 +125,6 @@ class _EditProductPageState extends State<EditProductPage> {
                 nextFocusNode: _fnStock,
                 controller: _conNote,
                 textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.stock,
