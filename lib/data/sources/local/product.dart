@@ -1,13 +1,13 @@
-import 'package:oifyoo_mksr/data/models/entities/product_entity.dart';
+import 'package:oifyoo_mksr/data/models/models.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
 class Product {
   Future<dynamic> addProduct(Map<String, dynamic> _params) async {
-    var dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
-      await dbClient.transaction((insert) async => insert.rawInsert('''
+      await _dbClient.transaction((insert) async => insert.rawInsert('''
       INSERT INTO product(
         productName,
         note,
@@ -26,6 +26,7 @@ class Product {
         '${DateTime.now()}'
       )
     '''));
+      _dbClient.close();
       return true;
     } catch (e) {
       logs(e);
@@ -34,7 +35,7 @@ class Product {
   }
 
   Future<dynamic> editProduct(Map<String, dynamic> _params) async {
-    var dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
       var _query = '''
       UPDATE product SET 
@@ -47,7 +48,8 @@ class Product {
       WHERE id=${_params['id']}
     ''';
       logs("query editProduct $_query");
-      await dbClient.transaction((update) async => update.rawUpdate(_query));
+      await _dbClient.transaction((update) async => update.rawUpdate(_query));
+      _dbClient.close();
       return true;
     } catch (e) {
       logs(e);
@@ -56,11 +58,12 @@ class Product {
   }
 
   Future<dynamic> deleteProduct(int id) async {
-    var dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
-      await dbClient.transaction((delete) async => delete.rawDelete('''
+      await _dbClient.transaction((delete) async => delete.rawDelete('''
         DELETE FROM product WHERE id='$id'
       '''));
+      _dbClient.close();
       return true;
     } catch (e) {
       logs(e);
@@ -91,6 +94,7 @@ class Product {
           createdAt: element["createdAt"],
           updatedAt: element["updatedAt"]));
     });
+    _dbClient.close();
     return _listProduct;
   }
 
@@ -112,6 +116,7 @@ class Product {
           createdAt: element["createdAt"],
           updatedAt: element["updatedAt"]));
     });
+    _dbClient.close();
     return _listProduct[0];
   }
 }

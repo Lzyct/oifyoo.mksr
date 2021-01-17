@@ -16,6 +16,16 @@ extension StringExtension on String {
     return DateFormat("dd MMMM yyyy").format(object);
   }
 
+  String toDateAlt() {
+    var object = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(this);
+    return DateFormat("yyyy-mm-dd").format(object);
+  }
+
+  String toMonthYear() {
+    var object = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(this);
+    return DateFormat("MMyy").format(object);
+  }
+
   String toDateTime() {
     var object = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(this);
     return DateFormat("dd MMM yyyy HH:mm").format(object);
@@ -113,4 +123,6 @@ extension StringExtension on String {
     }
     return "0";
   }
+
+  int toInt() => int.parse(this);
 }

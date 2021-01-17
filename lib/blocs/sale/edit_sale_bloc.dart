@@ -3,13 +3,13 @@ import 'package:oifyoo_mksr/blocs/blocs.dart';
 import 'package:oifyoo_mksr/data/repositories/repositories.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 
-class DeleteProductBloc extends Cubit<Resources<dynamic>> {
-  DeleteProductBloc() : super(Resources.loading());
+class EditSaleBloc extends Cubit<Resources<dynamic>> {
+  EditSaleBloc() : super(Resources.loading());
 
-  var _productRepo = sl<ProductRepository>();
+  var _saleRepo = sl<SaleRepository>();
 
-  deleteProduct(int _id) async {
+  editSale(Map<String, dynamic> _params) async {
     emit(Resources.loading());
-    emit(await _productRepo.deleteProduct(_id));
+    emit(await _saleRepo.editSale(_params));
   }
 }

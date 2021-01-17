@@ -9,5 +9,7 @@ export 'edit.dart';
 export 'empty.dart';
 export 'loading.dart';
 export 'parent.dart';
+export 'quantity_picker.dart';
+export 'search_bar.dart';
 export 'text_f.dart';
 export 'toast.dart';

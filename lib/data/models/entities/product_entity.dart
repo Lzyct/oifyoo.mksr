@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class ProductEntity {
   int id;
   String productName;
@@ -7,6 +9,9 @@ class ProductEntity {
   int sellingPrice;
   String createdAt;
   String updatedAt;
+  bool isSelected = false;
+  TextEditingController textEditingController =
+      new TextEditingController(text: "1");
 
   ProductEntity({
     this.id,
@@ -18,4 +23,15 @@ class ProductEntity {
     this.createdAt,
     this.updatedAt,
   });
+
+  ProductEntity.clone(ProductEntity source) {
+    this.id = source.id;
+    this.productName = source.productName;
+    this.note = source.note;
+    this.stock = source.stock;
+    this.capitalPrice = source.capitalPrice;
+    this.sellingPrice = source.sellingPrice;
+    this.createdAt = source.createdAt;
+    this.updatedAt = source.updatedAt;
+  }
 }

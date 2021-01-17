@@ -13,9 +13,11 @@ Future<void> serviceLocator() async {
 
   // register db query
   sl.registerLazySingleton(() => Product());
+  sl.registerLazySingleton(() => Sale());
 
   // register  Repositories
   sl.registerLazySingleton(() => ProductRepository());
+  sl.registerLazySingleton(() => SaleRepository());
 }
 
 //register prefManager

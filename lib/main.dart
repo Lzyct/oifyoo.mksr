@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/pages/splashscreen/splash_screen_page.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:oktoast/oktoast.dart';
 
 void main() async {
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: [
             const Locale('id'),

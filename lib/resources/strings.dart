@@ -26,36 +26,61 @@ class Strings {
   static const String note = "Catatan";
   static const String stock = "Stok";
 
-  static var errorEmpty = "Tidak boleh kosong";
+  static const String errorEmpty = "Tidak boleh kosong";
 
-  static var save = "Simpan";
+  static const String save = "Simpan";
 
-  static var addProduct = "Tambah Produk";
+  static const String addProduct = "Tambah Produk";
 
-  static var capitalPrice = "Harga Modal";
-  static var sellingPrice = "Harga Jual";
-  static var transactionNumber = "Nomor Transaksi";
+  static const String capitalPrice = "Harga Modal";
+  static const String sellingPrice = "Harga Jual";
+  static const String transactionNumber = "Nomor Transaksi";
 
-  static var prefixRupiah = "Rp. ";
+  static const String prefixRupiah = "Rp. ";
 
-  static String failedToSave = "Gagal Menyimpan";
-  static String successSaveData = "Sukses menyimpan data";
-  static String successBackupData = "Berhasil membackup data";
-  static String successRestoreData = "Berhasil merestore data";
+  static const String failedToSave = "Gagal Menyimpan";
+  static const String successSaveData = "Sukses menyimpan data";
+  static const String successBackupData = "Berhasil membackup data";
+  static const String successRestoreData = "Berhasil merestore data";
 
-  static String errorProductExist = "Produk telah terdaftar";
+  static const String errorProductExist = "Produk telah terdaftar";
 
-  static String errorNoProduct =
+  static const String errorNoProduct =
       "Produk tidak ditemukan\nSilahkan tambahkan produk";
 
-  static String editProduct = "Edit Produk";
+  static const String editProduct = "Edit Produk";
 
-  static var askDeleteProduct = "Apakah anda ingin menghapus";
-  static var questionMark = "?";
+  static const String askDelete = "Apakah anda ingin menghapus";
+  static const String questionMark = "?";
 
-  static var detailProduct = "Detail Produk";
+  static const String detailProduct = "Detail Produk";
 
-  static var lastUpdate = "Update terakhir";
+  static const String lastUpdate = "Update terakhir";
 
   static const String stockDot = "Stok : ";
+
+  static const String errorNoSale =
+      "Penjualan tidak ditemukan\n Silahkan buat transaksi penjualan";
+
+  static const String searchSale = "Cari penjualan";
+  static const String searchSaleHint = "Masukkan No.Transaksi / Nama Pembeli";
+
+  static const String addSale = "Tambah Penjualan";
+
+  static const String buyerName = "Nama Pembeli";
+
+  static const String status = "Status";
+  static const List<String> listStatus = ["Belum Lunas", "Lunas"];
+
+  static const String close = "Tutup";
+
+  static const String productNotFound = "Produk tidak ditemukan";
+
+  static const String pleaseSelectProduct = "Silahkan menambahkan Produk";
+
+  static const String productList = "List Produk";
+
+  static const String qty = "Qty";
+
+  static const String maxQty = "Maksimum Quantity";
 }

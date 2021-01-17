@@ -160,7 +160,7 @@ class _ListProductPageState extends State<ListProductPage> {
                 content: RichText(
                   text: TextSpan(children: [
                     TextSpan(
-                      text: Strings.askDeleteProduct,
+                      text: Strings.askDelete,
                       style: TextStyles.text,
                     ),
                     TextSpan(

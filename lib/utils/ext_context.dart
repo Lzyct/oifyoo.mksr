@@ -67,22 +67,6 @@ extension ContextExtensions on BuildContext {
           fontSize: Dimens.fontLarge,
         ),
       ),
-      /* actions: [
-        IconButton(
-          icon: SvgPicture.network(
-            "ic_home".toIconDictionary(),
-            color: Palette.colorPrimary,
-          ),
-          onPressed: () {
-            goToClearStack(MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (context) => NavDrawerBloc()),
-              ],
-              child: MainPage(),
-            ));
-          },
-        )
-      ],*/
     );
   }
 
