@@ -25,7 +25,6 @@ class _AddSalePageState extends State<AddSalePage> {
   ListProductBloc _listProductBloc;
   var _formKey = GlobalKey<FormState>();
 
-  var _conTransactionNumber = TextEditingController();
   var _conNote = TextEditingController();
   var _conBuyer = TextEditingController();
 
@@ -35,6 +34,7 @@ class _AddSalePageState extends State<AddSalePage> {
   var _selectedStatus = "";
   List<ProductEntity> _listProduct = [];
   List<ProductEntity> _listProductFilter = [];
+  String _transactionNumber = "";
 
   @override
   void initState() {
@@ -119,7 +119,9 @@ class _AddSalePageState extends State<AddSalePage> {
                   {
                     logs("transactionNumber ${state.data}");
 
-                    _conTransactionNumber.text = state.data;
+                    setState(() {
+                      _transactionNumber = state.data;
+                    });
                   }
                   break;
               }
@@ -131,10 +133,18 @@ class _AddSalePageState extends State<AddSalePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextF(
+              TextD(
                 hint: Strings.transactionNumber,
-                curFocusNode: DisableFocusNode(),
-                controller: _conTransactionNumber,
+                content: _transactionNumber,
+              ),
+              ProductPicker(
+                label: Strings.product,
+                labelButton: Strings.addProduct,
+                listProduct: _listProduct,
+                listProductFilter: _listProductFilter,
+                selectedProduct: (_) {
+                  setState(() {});
+                },
               ),
               Text(
                 Strings.productList,
@@ -149,15 +159,6 @@ class _AddSalePageState extends State<AddSalePage> {
                         ? _listItem(index)
                         : Container();
                   }),
-              ProductPicker(
-                label: Strings.product,
-                labelButton: Strings.addProduct,
-                listProduct: _listProduct,
-                listProductFilter: _listProductFilter,
-                selectedProduct: (_) {
-                  setState(() {});
-                },
-              ),
               TextF(
                 hint: Strings.note,
                 curFocusNode: _fnNote,
@@ -193,14 +194,23 @@ class _AddSalePageState extends State<AddSalePage> {
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     List<ProductEntity> _selectedProduct = [];
-                    for (var item in _listProduct) {
-                      if (item.isSelected) _selectedProduct.add(item);
+                    bool _isHasSelected = false;
+                    _listProduct.forEach((element) {
+                      if (element.isSelected) _isHasSelected = true;
+                    });
+                    if (_isHasSelected) {
+                      for (var item in _listProduct) {
+                        if (item.isSelected) _selectedProduct.add(item);
+                      }
+
+                      for (var selected in _selectedProduct) {
+                        logs(
+                            "qty ${selected.textEditingController.text} - productName ${selected.productName}");
+                      }
+                    } else {
+                      Strings.pleaseSelectProduct.toToastError();
                     }
 
-                    for (var selected in _selectedProduct) {
-                      logs(
-                          "qty ${selected.textEditingController.text} - productName ${selected.productName}");
-                    }
                     /* var _params = {
                       "productName": _conProductName.text,
                       "note": _conNote.text,
