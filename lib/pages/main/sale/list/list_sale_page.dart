@@ -224,29 +224,34 @@ class _ListSalePageState extends State<ListSalePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _listSale[index].transactionNumber,
-                      style: TextStyles.textBold
-                          .copyWith(fontSize: Dimens.fontLarge1),
-                    ),
-                  ),
-                  Text("${Strings.qtyDot} ${_listSale[index].qty}",
-                      style: TextStyles.textBold)
-                ],
-              ),
-              SizedBox(height: context.dp16()),
-              Text(
-                _listSale[index].productPrice.toString().toIDR(),
-                style: TextStyles.text,
+              TextD(
+                isFirst: true,
+                hint: Strings.transactionNumber,
+                content: _listSale[index].transactionNumber,
               ),
               SizedBox(height: context.dp8()),
-              Text(
-                "${Strings.lastUpdate} ${_listSale[index].updatedAt.toDateTime()}",
-                style: TextStyles.textHint.copyWith(
-                    fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${_listSale[index].total.toString().toIDR()}",
+                    style: TextStyles.text,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: _listSale[index].status == Strings.listStatus[0]
+                          ? Palette.red
+                          : Palette.green,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(Dimens.radius)),
+                    ),
+                    padding: EdgeInsets.all(context.dp8()),
+                    child: Text(
+                      _listSale[index].status,
+                      style: TextStyles.white,
+                    ),
+                  ),
+                ],
               )
             ],
           ).padding(edgeInsets: EdgeInsets.all(context.dp16())),

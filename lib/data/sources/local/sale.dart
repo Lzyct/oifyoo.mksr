@@ -124,9 +124,10 @@ class Sale {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query =
-        "SELECT * FROM transaksi WHERE transactionNumber like '%$searchText%' OR buyer like '%$searchText%' GROUP BY transactionNumber ORDER BY transactionNumber ASC";
+        "SELECT *,SUM(qty*productPrice) as total FROM transaksi WHERE transactionNumber like '%$searchText%' OR buyer like '%$searchText%' GROUP BY transactionNumber ORDER BY transactionNumber ASC";
     if (searchText.isEmpty) {
-      _query = "SELECT * FROM transaksi GROUP BY transactionNumber ORDER BY transactionNumber ASC ";
+      _query =
+          "SELECT *,SUM(qty*productPrice) as total FROM transaksi GROUP BY transactionNumber ORDER BY transactionNumber ASC ";
     }
 
     logs("Query -> $_query");
@@ -144,7 +145,8 @@ class Sale {
           note: element['note'],
           buyer: element['buyer'],
           createdAt: element['createdAt'],
-          updatedAt: element['updatedAt']));
+          updatedAt: element['updatedAt'],
+          total: element['total']));
     });
     _dbClient.close();
     return _listSale;

@@ -10,8 +10,10 @@ class TransactionEntity {
   final String buyer;
   final String createdAt;
   final String updatedAt;
+  final int total;
 
-  TransactionEntity({this.id,
+  TransactionEntity({
+    this.id,
     this.transactionNumber,
     this.idProduct,
     this.qty,
@@ -21,5 +23,7 @@ class TransactionEntity {
     this.note,
     this.buyer,
     this.createdAt,
-    this.updatedAt});
+    this.updatedAt,
+    this.total,
+  });
 }

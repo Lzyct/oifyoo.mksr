@@ -68,5 +68,7 @@ class Strings {
   static const String productList = "List Produk";
   static const String maxQty = "Maksimum Quantity";
 
-  static const String totalDot= "Total : ";
+  static const String totalDot = "Total : ";
+
+  static const String qtyEmpty = "Stok kosong";
 }
