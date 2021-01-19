@@ -3,7 +3,9 @@ class Strings {
   static const String home = "Beranda";
   static const String transaction = "Transaksi";
   static const String sale = "Penjualan";
+  static const String saleVoid = "Penjualan Void";
   static const String purchase = "Pembelian";
+  static const String purchaseVoid = "Pembelian Void";
   static const String product = "Produk";
   static const String pleaseWait = "Harap tunggu...";
   static const String noData = "Tidak ada data";
@@ -71,4 +73,8 @@ class Strings {
   static const String totalDot = "Total : ";
 
   static const String qtyEmpty = "Stok kosong";
+
+  static const String editSale = "Edit Detail Penjualan";
+
+  static var successVoidData = "Berhasil melakukan void";
 }

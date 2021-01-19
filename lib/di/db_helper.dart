@@ -49,6 +49,7 @@ class DbHelper {
         idProduct INTEGER,
         qty INTEGER,
         productPrice INTEGER,
+        productName TEXT,
         type TEXT,
         status TEXT,
         note TEXT,

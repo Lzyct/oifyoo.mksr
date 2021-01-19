@@ -163,9 +163,7 @@ class _AddSalePageState extends State<AddSalePage> {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (_, index) {
-                        return _listSelectedProduct[index].isSelected
-                            ? _listItem(index)
-                            : Container();
+                        return _listItem(index);
                       })
                   : Empty(errorMessage: Strings.errorNoProduct),
               Visibility(

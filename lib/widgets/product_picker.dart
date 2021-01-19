@@ -109,7 +109,7 @@ class ProductPickerState extends State<ProductPicker> {
                                           element == _listDataFilter[index]);
 
                                     widget.selectedProduct(_listSelected);
-                                  }else{
+                                  } else {
                                     Strings.qtyEmpty.toToastError();
                                   }
                                 });
@@ -122,10 +122,12 @@ class ProductPickerState extends State<ProductPicker> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      _listDataFilter[index].productName,
-                                      style: TextStyles.textBold
-                                          .copyWith(fontSize: Dimens.fontLarge),
+                                    Expanded(
+                                      child: Text(
+                                        _listDataFilter[index].productName,
+                                        style: TextStyles.textBold.copyWith(
+                                            fontSize: Dimens.fontLarge),
+                                      ),
                                     ),
                                     Text(
                                       "${Strings.qtyDot} ${_listDataFilter[index].qty}",

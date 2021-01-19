@@ -4,6 +4,7 @@ class TransactionEntity {
   final int idProduct;
   final int qty;
   final int productPrice;
+  final String productName;
   final String type;
   final String status;
   final String note;
@@ -18,6 +19,7 @@ class TransactionEntity {
     this.idProduct,
     this.qty,
     this.productPrice,
+    this.productName,
     this.type,
     this.status,
     this.note,

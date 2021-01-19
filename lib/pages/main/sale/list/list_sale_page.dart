@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +10,7 @@ import 'package:oifyoo_mksr/pages/main/main.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
+import 'package:path_provider/path_provider.dart';
 
 ///*********************************************
 /// Created by Mudassir (ukietux) on 1/12/21 with ♥
@@ -37,8 +40,10 @@ class _ListSalePageState extends State<ListSalePage> {
     _getListSale();
   }
 
-  _getListSale() {
+  _getListSale() async {
     _listSaleBloc.listSale(_productName);
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    logs("path $documentsDirectory");
   }
 
   @override
@@ -91,54 +96,77 @@ class _ListSalePageState extends State<ListSalePage> {
           ).margin(
               edgeInsets: EdgeInsets.symmetric(horizontal: context.dp16())),
           Expanded(
-              child: BlocBuilder(
-            cubit: _listSaleBloc,
-            builder: (_, state) {
+              child: BlocListener(
+            cubit: _deleteSaleBloc,
+            listener: (_, state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
-                    return Center(child: Loading());
-                  }
-                  break;
-                case Status.EMPTY:
-                  {
-                    return Center(
-                      child: Empty(
-                        errorMessage: state.message.toString(),
-                      ),
-                    );
+                    Strings.pleaseWait.toToastLoading();
                   }
                   break;
                 case Status.ERROR:
                   {
-                    return Center(
-                      child: Empty(
-                        errorMessage: state.message.toString(),
-                      ),
-                    );
+                    state.message.toString().toToastError();
                   }
                   break;
                 case Status.SUCCESS:
                   {
-                    _listSale = state.data;
-                    return RefreshIndicator(
-                      onRefresh: () async {
-                        _getListSale();
-                      },
-                      child: ListView.builder(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: _listSale.length,
-                          shrinkWrap: true,
-                          itemBuilder: (_, index) {
-                            return _listItem(index);
-                          }),
-                    );
+                    Strings.successVoidData.toToastSuccess();
+                    _getListSale();
                   }
                   break;
-                default:
-                  return Container();
               }
             },
+            child: BlocBuilder(
+              cubit: _listSaleBloc,
+              builder: (_, state) {
+                switch (state.status) {
+                  case Status.LOADING:
+                    {
+                      return Center(child: Loading());
+                    }
+                    break;
+                  case Status.EMPTY:
+                    {
+                      return Center(
+                        child: Empty(
+                          errorMessage: state.message.toString(),
+                        ),
+                      );
+                    }
+                    break;
+                  case Status.ERROR:
+                    {
+                      return Center(
+                        child: Empty(
+                          errorMessage: state.message.toString(),
+                        ),
+                      );
+                    }
+                    break;
+                  case Status.SUCCESS:
+                    {
+                      _listSale = state.data;
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          _getListSale();
+                        },
+                        child: ListView.builder(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: _listSale.length,
+                            shrinkWrap: true,
+                            itemBuilder: (_, index) {
+                              return _listItem(index);
+                            }),
+                      );
+                    }
+                    break;
+                  default:
+                    return Container();
+                }
+              },
+            ),
           )),
         ],
       ),
@@ -196,7 +224,7 @@ class _ListSalePageState extends State<ListSalePage> {
                     onPressed: () {
                       _deleteSaleBloc
                           .deleteSale(_listSale[index].transactionNumber);
-                      _getListSale();
+
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -206,14 +234,15 @@ class _ListSalePageState extends State<ListSalePage> {
             },
           );
         } else {
-          /*  await context.goTo(MultiBlocProvider(
+          await context.goTo(MultiBlocProvider(
               providers: [
                 BlocProvider(create: (_) => EditSaleBloc()),
                 BlocProvider(create: (_) => DetailSaleBloc()),
               ],
               child: EditSalePage(
-                trans: _listSale[index].id,
-              )));*/
+                transactionNumber: _listSale[index].transactionNumber,
+                total: _listSale[index].total.toString().toIDR(),
+              )));
           _getListSale();
         }
         return false;

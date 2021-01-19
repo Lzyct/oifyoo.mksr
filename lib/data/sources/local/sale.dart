@@ -24,6 +24,7 @@ class Sale {
              idProduct,
              qty,
              productPrice,
+             productName,
              type,
              status,
              note,
@@ -35,6 +36,7 @@ class Sale {
              ${item.id},
              $_qty,
              ${item.sellingPrice},
+             '${item.productName}',
              '${Strings.sale}',
              '$_status',
              '$_note',
@@ -51,7 +53,6 @@ class Sale {
                       updatedAt='${DateTime.now()}'
                   WHERE id=${item.id}
                 ''';
-        logs("query editSale $_query");
         await _dbClient.transaction((update) async => update.rawUpdate(_query));
       }
 
@@ -68,13 +69,11 @@ class Sale {
     try {
       var _query = '''
       UPDATE transaksi SET 
-          status = ${_params['status']},
-          note = ${_params['note']},
-          buyer = ${_params['buyer']},
+          status = '${_params['status']}',
           updatedAt='${DateTime.now()}'
-      WHERE transactionNumber=${_params['transactionNumber']}
+      WHERE transactionNumber='${_params['transactionNumber']}'
     ''';
-      logs("query editSale $_query");
+      logs("query $_query");
       await _dbClient.transaction((update) async => update.rawUpdate(_query));
       _dbClient.close();
       return true;
@@ -87,15 +86,58 @@ class Sale {
   Future<dynamic> deleteSale(String _transactionNumber) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
-      // TODO Revert back qty to product before delete
-      await _dbClient.transaction((delete) async => delete.rawDelete('''
-        DELETE FROM transaksi WHERE transactionNumber='$_transactionNumber'
-      '''));
+      // set sale to void
+      var _queryVoid = '''
+      UPDATE transaksi SET
+          type = '${Strings.saleVoid}',
+          updatedAt='${DateTime.now()}'
+      WHERE transactionNumber='$_transactionNumber'
+      ''';
+      logs("query void $_queryVoid");
+      await _dbClient
+          .transaction((update) async => update.rawUpdate(_queryVoid));
+
+      //return stock to product
+      var _queryList = '''
+      SELECT * FROM transaksi WHERE transactionNumber = '$_transactionNumber'
+      ''';
+      List<Map> _queryMap = await _dbClient.rawQuery(_queryList);
+      List<TransactionEntity> _listSale = [];
+      _queryMap.forEach((element) {
+        _listSale.add(TransactionEntity(
+            id: element['id'],
+            transactionNumber: element['transactionNumber'],
+            idProduct: element['idProduct'],
+            qty: element['qty'],
+            productPrice: element['productPrice'],
+            type: element['type'],
+            status: element['status'],
+            note: element['note'],
+            buyer: element['buyer'],
+            createdAt: element['createdAt'],
+            updatedAt: element['updatedAt'],
+            total: element['total']));
+      });
+
+      // Loop for update stock
+      for (var item in _listSale) {
+        // restore stock to product
+        var _queryReturn = '''
+              UPDATE product SET
+                  qty = qty+${item.qty},
+                  updatedAt='${DateTime.now()}'
+              WHERE id='${item.idProduct}'
+            ''';
+        logs("query void $_queryReturn");
+        await _dbClient
+            .transaction((update) async => update.rawUpdate(_queryReturn));
+      }
+
       _dbClient.close();
       return true;
     } catch (e) {
       logs(e);
-      return e;
+      return Strings.failedToSave;
     }
   }
 
@@ -104,9 +146,10 @@ class Sale {
     try {
       //Format transaction number
       var _query =
-          await _dbClient.transaction((delete) async => delete.rawQuery('''
-        SELECT COUNT(transactionNumber) FROM transaksi WHERE createdAt like '%${DateTime.now().toString().toDateAlt()}%'
+          await _dbClient.transaction((select) async => select.rawQuery('''
+        SELECT COUNT(DISTINCT transactionNumber) FROM transaksi WHERE createdAt like '%${DateTime.now().toString().toDateAlt()}%'
       '''));
+
       int _count = Sqflite.firstIntValue(_query);
       _count++;
       var _transactionNumber =
@@ -123,11 +166,18 @@ class Sale {
   Future<List<TransactionEntity>> getListSale(String searchText) async {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
-    var _query =
-        "SELECT *,SUM(qty*productPrice) as total FROM transaksi WHERE transactionNumber like '%$searchText%' OR buyer like '%$searchText%' GROUP BY transactionNumber ORDER BY transactionNumber ASC";
+    var _query = '''
+    SELECT *,SUM(qty*productPrice) as total FROM transaksi 
+      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+      AND type='${Strings.sale}'
+      GROUP BY transactionNumber ORDER BY transactionNumber ASC
+    ''';
     if (searchText.isEmpty) {
-      _query =
-          "SELECT *,SUM(qty*productPrice) as total FROM transaksi GROUP BY transactionNumber ORDER BY transactionNumber ASC ";
+      _query = '''
+      SELECT *,SUM(qty*productPrice) as total FROM transaksi 
+        WHERE type='${Strings.sale}'
+        GROUP BY transactionNumber ORDER BY transactionNumber ASC 
+      ''';
     }
 
     logs("Query -> $_query");
@@ -168,6 +218,7 @@ class Sale {
           idProduct: element['idProduct'],
           qty: element['qty'],
           productPrice: element['productPrice'],
+          productName: element['productName'],
           type: element['type'],
           status: element['status'],
           note: element['note'],
