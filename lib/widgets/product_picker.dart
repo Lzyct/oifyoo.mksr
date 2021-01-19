@@ -10,6 +10,7 @@ class ProductPicker extends StatefulWidget {
   final List<ProductEntity> listProduct;
   final List<ProductEntity> listProductFilter;
   final Function(List<ProductEntity>) selectedProduct;
+  final bool isSale;
 
   const ProductPicker({
     Key key,
@@ -18,6 +19,7 @@ class ProductPicker extends StatefulWidget {
     this.listProduct,
     this.listProductFilter,
     this.selectedProduct,
+    this.isSale=true,
   }) : super(key: key);
 
   @override

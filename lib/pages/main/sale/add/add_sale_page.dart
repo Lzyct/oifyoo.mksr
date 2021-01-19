@@ -34,6 +34,8 @@ class _AddSalePageState extends State<AddSalePage> {
   var _selectedStatus = "";
   List<ProductEntity> _listProduct = [];
   List<ProductEntity> _listProductFilter = [];
+  List<ProductEntity> _listSelectedProduct = [];
+
   String _transactionNumber = "";
 
   @override
@@ -142,8 +144,10 @@ class _AddSalePageState extends State<AddSalePage> {
                 labelButton: Strings.addProduct,
                 listProduct: _listProduct,
                 listProductFilter: _listProductFilter,
-                selectedProduct: (_) {
-                  setState(() {});
+                selectedProduct: (_selected) {
+                  setState(() {
+                    _listSelectedProduct = _selected;
+                  });
                 },
               ),
               Text(
@@ -151,11 +155,11 @@ class _AddSalePageState extends State<AddSalePage> {
                 style: TextStyles.textHint,
               ),
               ListView.builder(
-                  itemCount: _listProduct.length,
+                  itemCount: _listSelectedProduct.length,
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (_, index) {
-                    return _listProduct[index].isSelected
+                    return _listSelectedProduct[index].isSelected
                         ? _listItem(index)
                         : Container();
                   }),
@@ -193,17 +197,8 @@ class _AddSalePageState extends State<AddSalePage> {
                 title: Strings.save,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    List<ProductEntity> _selectedProduct = [];
-                    bool _isHasSelected = false;
-                    _listProduct.forEach((element) {
-                      if (element.isSelected) _isHasSelected = true;
-                    });
-                    if (_isHasSelected) {
-                      for (var item in _listProduct) {
-                        if (item.isSelected) _selectedProduct.add(item);
-                      }
-
-                      for (var selected in _selectedProduct) {
+                    if (_listSelectedProduct.isNotEmpty) {
+                      for (var selected in _listSelectedProduct) {
                         logs(
                             "qty ${selected.textEditingController.text} - productName ${selected.productName}");
                       }
@@ -230,8 +225,8 @@ class _AddSalePageState extends State<AddSalePage> {
   }
 
   _listItem(int index) {
-    if (_listProduct[index].textEditingController.text == "0")
-      _listProduct[index].textEditingController.text = "1";
+    if (_listSelectedProduct[index].textEditingController.text == "0")
+      _listSelectedProduct[index].textEditingController.text = "1";
     return Column(
       children: [
         Row(
@@ -240,14 +235,14 @@ class _AddSalePageState extends State<AddSalePage> {
             Expanded(
                 flex: 5,
                 child: Text(
-                  _listProduct[index].productName,
+                  _listSelectedProduct[index].productName,
                   style:
                       TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 )),
             QuantityPicker(
                 focusNode: FocusNode(),
                 textEditingController:
-                    _listProduct[index].textEditingController,
+                    _listSelectedProduct[index].textEditingController,
                 onChanged: (value) async {
                   logs("value $value");
                   // logs("index 1 $index");
@@ -281,7 +276,7 @@ class _AddSalePageState extends State<AddSalePage> {
                     style: TextStyles.text,
                   ),
                   TextSpan(
-                      text: " ${_listProduct[index].productName} ",
+                      text: " ${_listSelectedProduct[index].productName} ",
                       style: TextStyles.textBold),
                   TextSpan(
                     text: Strings.questionMark,
@@ -316,20 +311,24 @@ class _AddSalePageState extends State<AddSalePage> {
       if (_isRemove) {
         // delete from list product
         setState(() {
-          _listProduct[index].isSelected = false;
+          _listProduct.forEach((element) {
+            if (element.id == _listSelectedProduct[index].id)
+              element.isSelected = false;
+          });
+          _listSelectedProduct.removeAt(index);
         });
       } else {
         //reset to 1 if cancel
-        _listProduct[index].textEditingController.text = "1";
+        _listSelectedProduct[index].textEditingController.text = "1";
       }
     }
   }
 
   _plus(String value, int index) {
     var _qty = value.toInt();
-    if (_qty > _listProduct[index].stock) {
-      _listProduct[index].textEditingController.text =
-          _listProduct[index].stock.toString();
+    if (_qty > _listSelectedProduct[index].stock) {
+      _listSelectedProduct[index].textEditingController.text =
+          _listSelectedProduct[index].stock.toString();
       Strings.maxQty.toToastError();
     }
   }
