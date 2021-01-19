@@ -34,7 +34,7 @@ class DbHelper {
         id INTEGER PRIMARY KEY, 
         productName TEXT,
         note TEXT, 
-        stock INTEGER, 
+        qty INTEGER, 
         capitalPrice INTEGER,
         sellingPrice INTEGER,
         createdAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,

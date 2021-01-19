@@ -7,33 +7,54 @@ import 'package:sqflite/sqflite.dart';
 class Sale {
   Future<dynamic> addSale(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _note = _params["note"];
+    var _buyer = _params["buyer"];
+    var _status = _params["status"];
+    var _transactionNumber = _params["transactionNumber"];
+
+    List<ProductEntity> _listProduct = _params["listProduct"];
+
     try {
-      await _dbClient.transaction((insert) async => insert.rawInsert('''
-      INSERT INTO transaksi(
-        transactionNumber,
-        idProduct,
-        qty,
-        productPrice,
-        type,
-        status,
-        note,
-        buyer,
-        createdAt,
-        updatedAt 
-      ) VALUES (
-        '${_params['transactionNumber']}',
-        ${_params['idProduct']},
-        ${_params['qty']},
-        ${_params['productPrice']},
-        '${_params['type']}',
-        '${_params['status']}',
-        '${_params['note']}',
-        '${_params['buyer']}',
-        '${DateTime.now()}',
-        '${DateTime.now()}'
-      )
-    '''));
-      // TODO minus qty in table product
+      for (var item in _listProduct) {
+        // insert transaction to db
+        var _qty = item.textEditingController.text.toInt();
+        await _dbClient.transaction((insert) async => insert.rawInsert('''
+           INSERT INTO transaksi(
+             transactionNumber,
+             idProduct,
+             qty,
+             productPrice,
+             type,
+             status,
+             note,
+             buyer,
+             createdAt,
+             updatedAt 
+           ) VALUES (
+             '$_transactionNumber',
+             ${item.id},
+             $_qty,
+             ${item.sellingPrice},
+             '${Strings.sale}',
+             '$_status',
+             '$_note',
+             '$_buyer',
+             '${DateTime.now()}',
+             '${DateTime.now()}'
+           )
+        '''));
+
+        // Update qty from transaction
+        var _query = '''
+                  UPDATE product SET 
+                      qty = qty-$_qty,
+                      updatedAt='${DateTime.now()}'
+                  WHERE id=${item.id}
+                ''';
+        logs("query editSale $_query");
+        await _dbClient.transaction((update) async => update.rawUpdate(_query));
+      }
+
       _dbClient.close();
       return true;
     } catch (e) {
@@ -66,7 +87,7 @@ class Sale {
   Future<dynamic> deleteSale(String _transactionNumber) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
-      // TODO Revert back stock to product before delete
+      // TODO Revert back qty to product before delete
       await _dbClient.transaction((delete) async => delete.rawDelete('''
         DELETE FROM transaksi WHERE transactionNumber='$_transactionNumber'
       '''));
@@ -103,9 +124,9 @@ class Sale {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query =
-        "SELECT * FROM transaksi WHERE transactionNumber like '%$searchText%' OR buyer like '%$searchText%' ORDER BY transactionNumber ASC";
+        "SELECT * FROM transaksi WHERE transactionNumber like '%$searchText%' OR buyer like '%$searchText%' GROUP BY transactionNumber ORDER BY transactionNumber ASC";
     if (searchText.isEmpty) {
-      _query = "SELECT * FROM transaksi ORDER BY transactionNumber ASC";
+      _query = "SELECT * FROM transaksi GROUP BY transactionNumber ORDER BY transactionNumber ASC ";
     }
 
     logs("Query -> $_query");

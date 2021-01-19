@@ -23,6 +23,7 @@ class _AddSalePageState extends State<AddSalePage> {
   AddSaleBloc _addSaleBloc;
   TransactionNumberSaleBloc _transactionNumberSaleBloc;
   ListProductBloc _listProductBloc;
+
   var _formKey = GlobalKey<FormState>();
 
   var _conNote = TextEditingController();
@@ -37,6 +38,7 @@ class _AddSalePageState extends State<AddSalePage> {
   List<ProductEntity> _listSelectedProduct = [];
 
   String _transactionNumber = "";
+  int _totalPrice = 0;
 
   @override
   void initState() {
@@ -147,6 +149,7 @@ class _AddSalePageState extends State<AddSalePage> {
                 selectedProduct: (_selected) {
                   setState(() {
                     _listSelectedProduct = _selected;
+                    _updateTotal();
                   });
                 },
               ),
@@ -154,15 +157,35 @@ class _AddSalePageState extends State<AddSalePage> {
                 Strings.productList,
                 style: TextStyles.textHint,
               ),
-              ListView.builder(
-                  itemCount: _listSelectedProduct.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (_, index) {
-                    return _listSelectedProduct[index].isSelected
-                        ? _listItem(index)
-                        : Container();
-                  }),
+              _listSelectedProduct.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: _listSelectedProduct.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (_, index) {
+                        return _listSelectedProduct[index].isSelected
+                            ? _listItem(index)
+                            : Container();
+                      })
+                  : Empty(errorMessage: Strings.errorNoProduct),
+              Visibility(
+                  visible: _listSelectedProduct.isNotEmpty,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${Strings.totalDot}",
+                        style: TextStyles.textBold
+                            .copyWith(fontSize: Dimens.fontLarge),
+                      ),
+                      Text(
+                        _totalPrice.toString().toIDR(),
+                        style: TextStyles.textBold
+                            .copyWith(fontSize: Dimens.fontLarge1),
+                      )
+                    ],
+                  )),
+              SizedBox(height: context.dp16()),
               TextF(
                 hint: Strings.note,
                 curFocusNode: _fnNote,
@@ -206,14 +229,14 @@ class _AddSalePageState extends State<AddSalePage> {
                       Strings.pleaseSelectProduct.toToastError();
                     }
 
-                    /* var _params = {
-                      "productName": _conProductName.text,
+                    var _params = {
+                      "transactionNumber": _transactionNumber,
                       "note": _conNote.text,
-                      "stock": _conStock.text,
-                      "capitalPrice": _conCapitalPrice.text.toClearText(),
-                      "sellingPrice": _conSellingPrice.text.toClearText()
-                    };*/
-                    // _addProductBloc.addSale(_params);
+                      "buyer": _conBuyer.text,
+                      "status": _selectedStatus,
+                      "listProduct": _listSelectedProduct
+                    };
+                    _addSaleBloc.addSale(_params);
                   }
                 },
               )
@@ -236,25 +259,35 @@ class _AddSalePageState extends State<AddSalePage> {
                 flex: 5,
                 child: Text(
                   _listSelectedProduct[index].productName,
-                  style:
-                      TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
+                  style: TextStyles.textBold,
                 )),
+            Text(
+                "@${_listSelectedProduct[index].sellingPrice.toString().toCurrency()}"),
             QuantityPicker(
                 focusNode: FocusNode(),
                 textEditingController:
                     _listSelectedProduct[index].textEditingController,
                 onChanged: (value) async {
-                  logs("value $value");
-                  // logs("index 1 $index");
-                  // logs("index 2 $index ${_listProduct[index].textEditingController.text}");
                   await _minus(value, index);
                   _plus(value, index);
+                  _updateTotal();
                 })
           ],
         ),
         Divider()
       ],
     );
+  }
+
+  _updateTotal() {
+    _totalPrice = 0;
+    for (var item in _listSelectedProduct) {
+      int _qty = item.textEditingController.text.toInt();
+      int _totalPerProduct = _qty * item.sellingPrice;
+      setState(() {
+        _totalPrice += _totalPerProduct;
+      });
+    }
   }
 
   _minus(String value, int index) async {
@@ -321,14 +354,17 @@ class _AddSalePageState extends State<AddSalePage> {
         //reset to 1 if cancel
         _listSelectedProduct[index].textEditingController.text = "1";
       }
+
+      // Update total when item removed
+      _updateTotal();
     }
   }
 
   _plus(String value, int index) {
     var _qty = value.toInt();
-    if (_qty > _listSelectedProduct[index].stock) {
+    if (_qty > _listSelectedProduct[index].qty) {
       _listSelectedProduct[index].textEditingController.text =
-          _listSelectedProduct[index].stock.toString();
+          _listSelectedProduct[index].qty.toString();
       Strings.maxQty.toToastError();
     }
   }

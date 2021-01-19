@@ -228,7 +228,7 @@ class _ListProductPageState extends State<ListProductPage> {
                     ),
                   ),
                   Text(
-                    "${Strings.stockDot} ${_listProduct[index].stock}",
+                    "${Strings.qtyDot} ${_listProduct[index].qty}",
                     style: TextStyles.textBold
 
                   )

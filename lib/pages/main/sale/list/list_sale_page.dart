@@ -233,7 +233,7 @@ class _ListSalePageState extends State<ListSalePage> {
                           .copyWith(fontSize: Dimens.fontLarge1),
                     ),
                   ),
-                  Text("${Strings.stockDot} ${_listSale[index].qty}",
+                  Text("${Strings.qtyDot} ${_listSale[index].qty}",
                       style: TextStyles.textBold)
                 ],
               ),

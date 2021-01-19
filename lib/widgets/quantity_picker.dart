@@ -36,7 +36,7 @@ class _QuantityPickerState extends State<QuantityPicker> {
             shape: CircleBorder(),
             color: Palette.red,
             minWidth: 0,
-            height: context.dp25(),
+            height: context.dp20(),
             padding: EdgeInsets.all(context.dp6()),
             onPressed: () {
               logs("onPressed");
@@ -47,7 +47,7 @@ class _QuantityPickerState extends State<QuantityPicker> {
             },
             child: SvgPicture.asset(
               Images.icRemove,
-              height: context.dp16(),
+              height: context.dp12(),
             )),
         SizedBox(
             width: context.widthInPercent(10),
@@ -63,7 +63,7 @@ class _QuantityPickerState extends State<QuantityPicker> {
                   ),
                 ),
               ),
-              style: TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge2),
+              style: TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
               textAlign: TextAlign.center,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -88,7 +88,7 @@ class _QuantityPickerState extends State<QuantityPicker> {
             },
             child: SvgPicture.asset(
               Images.icAdd,
-              height: context.dp16(),
+              height: context.dp12(),
             )),
       ],
     );

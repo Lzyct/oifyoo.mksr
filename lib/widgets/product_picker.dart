@@ -19,7 +19,7 @@ class ProductPicker extends StatefulWidget {
     this.listProduct,
     this.listProductFilter,
     this.selectedProduct,
-    this.isSale=true,
+    this.isSale = true,
   }) : super(key: key);
 
   @override
@@ -113,13 +113,25 @@ class ProductPickerState extends State<ProductPicker> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  _listDataFilter[index].productName,
-                                  style: TextStyles.textBold
-                                      .copyWith(fontSize: Dimens.fontLarge),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      _listDataFilter[index].productName,
+                                      style: TextStyles.textBold
+                                          .copyWith(fontSize: Dimens.fontLarge),
+                                    ),
+                                    Text(
+                                      "${Strings.qtyDot} ${_listDataFilter[index].qty}",
+                                      style: TextStyles.textBold
+                                          .copyWith(fontSize: Dimens.fontLarge),
+                                    ),
+                                  ],
                                 ),
+                                SizedBox(height: context.dp8()),
                                 Text(
-                                  "${Strings.stock} ${_listDataFilter[index].stock}",
+                                  "${_listDataFilter[index].sellingPrice.toString().toIDR()}",
                                   style: TextStyles.textHint,
                                 ),
                                 Divider()

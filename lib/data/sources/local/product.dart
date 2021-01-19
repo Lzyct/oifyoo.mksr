@@ -11,7 +11,7 @@ class Product {
       INSERT INTO product(
         productName,
         note,
-        stock,
+        qty,
         capitalPrice,
         sellingPrice,
         createdAt,
@@ -19,7 +19,7 @@ class Product {
       ) VALUES (
         '${_params['productName']}',
         '${_params['note']}',
-        '${_params['stock']}',
+        '${_params['qty']}',
         '${_params['capitalPrice']}',
         '${_params['sellingPrice']}',
         '${DateTime.now()}',
@@ -41,7 +41,7 @@ class Product {
       UPDATE product SET 
           productName = '${_params['productName']}',
           note = '${_params['note']}',
-          stock = ${_params['stock']},
+          qty = ${_params['qty']},
           capitalPrice = ${_params['capitalPrice']},
           sellingPrice = ${_params['sellingPrice']},
           updatedAt='${DateTime.now()}'
@@ -88,7 +88,7 @@ class Product {
           id: element["id"],
           productName: element["productName"],
           note: element["note"],
-          stock: element["stock"],
+          qty: element["qty"],
           capitalPrice: element["capitalPrice"],
           sellingPrice: element["sellingPrice"],
           createdAt: element["createdAt"],
@@ -110,7 +110,7 @@ class Product {
           id: element["id"],
           productName: element["productName"],
           note: element["note"],
-          stock: element["stock"],
+          qty: element["qty"],
           capitalPrice: element["capitalPrice"],
           sellingPrice: element["sellingPrice"],
           createdAt: element["createdAt"],

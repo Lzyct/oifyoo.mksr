@@ -24,7 +24,7 @@ class Strings {
 
   static const String productName = "Nama Produk";
   static const String note = "Catatan";
-  static const String stock = "Stok";
+  static const String qty = "Qty";
 
   static const String errorEmpty = "Tidak boleh kosong";
 
@@ -49,38 +49,24 @@ class Strings {
       "Produk tidak ditemukan\nSilahkan tambahkan produk";
 
   static const String editProduct = "Edit Produk";
-
   static const String askDelete = "Apakah anda ingin menghapus";
   static const String questionMark = "?";
-
   static const String detailProduct = "Detail Produk";
-
   static const String lastUpdate = "Update terakhir";
-
-  static const String stockDot = "Stok : ";
-
+  static const String qtyDot = "Stok : ";
   static const String errorNoSale =
       "Penjualan tidak ditemukan\n Silahkan buat transaksi penjualan";
-
   static const String searchSale = "Cari penjualan";
   static const String searchSaleHint = "Masukkan No.Transaksi / Nama Pembeli";
-
   static const String addSale = "Tambah Penjualan";
-
   static const String buyerName = "Nama Pembeli";
-
   static const String status = "Status";
   static const List<String> listStatus = ["Belum Lunas", "Lunas"];
-
   static const String close = "Tutup";
-
   static const String productNotFound = "Produk tidak ditemukan";
-
   static const String pleaseSelectProduct = "Silahkan menambahkan Produk";
-
   static const String productList = "List Produk";
-
-  static const String qty = "Qty";
-
   static const String maxQty = "Maksimum Quantity";
+
+  static const String totalDot= "Total : ";
 }

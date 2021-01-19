@@ -4,7 +4,7 @@ class ProductEntity {
   int id;
   String productName;
   String note;
-  int stock;
+  int qty;
   int capitalPrice;
   int sellingPrice;
   String createdAt;
@@ -17,7 +17,7 @@ class ProductEntity {
     this.id,
     this.productName,
     this.note,
-    this.stock,
+    this.qty,
     this.capitalPrice,
     this.sellingPrice,
     this.createdAt,
@@ -28,7 +28,7 @@ class ProductEntity {
     this.id = source.id;
     this.productName = source.productName;
     this.note = source.note;
-    this.stock = source.stock;
+    this.qty = source.qty;
     this.capitalPrice = source.capitalPrice;
     this.sellingPrice = source.sellingPrice;
     this.createdAt = source.createdAt;
