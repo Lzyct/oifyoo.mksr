@@ -17,7 +17,7 @@ class ProductEntity {
     this.id,
     this.productName,
     this.note,
-    this.qty,
+    this.qty = 0,
     this.capitalPrice,
     this.sellingPrice,
     this.createdAt,

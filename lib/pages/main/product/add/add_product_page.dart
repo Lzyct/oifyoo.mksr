@@ -23,13 +23,11 @@ class _AddProductPageState extends State<AddProductPage> {
 
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
-  var _conQty = TextEditingController();
   var _conCapitalPrice = TextEditingController();
   var _conSellingPrice = TextEditingController();
 
   var _fnProductName = FocusNode();
   var _fnNote = FocusNode();
-  var _fnQty = FocusNode();
   var _fnCapitalPrice = FocusNode();
   var _fnSellingPrice = FocusNode();
 
@@ -81,21 +79,9 @@ class _AddProductPageState extends State<AddProductPage> {
               TextF(
                 hint: Strings.note,
                 curFocusNode: _fnNote,
-                nextFocusNode: _fnQty,
+                nextFocusNode: _fnCapitalPrice,
                 controller: _conNote,
                 textInputAction: TextInputAction.next,
-              ),
-              TextF(
-                hint: Strings.qty,
-                curFocusNode: _fnQty,
-                nextFocusNode: _fnCapitalPrice,
-                controller: _conQty,
-                keyboardType: TextInputType.number,
-                inputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.capitalPrice,
@@ -142,7 +128,6 @@ class _AddProductPageState extends State<AddProductPage> {
                     var _params = {
                       "productName": _conProductName.text,
                       "note": _conNote.text,
-                      "qty": _conQty.text,
                       "capitalPrice": _conCapitalPrice.text.toClearText(),
                       "sellingPrice": _conSellingPrice.text.toClearText()
                     };
