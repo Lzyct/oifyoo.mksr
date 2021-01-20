@@ -176,7 +176,7 @@ class _EditSalePageState extends State<EditSalePage> {
 
   _listItem(int index) {
     int _qty = _listSelectedProduct[index].qty;
-    int _price = _listSelectedProduct[index].productPrice;
+    int _price = _listSelectedProduct[index].sellingPrice;
     return Column(
       children: [
         Row(

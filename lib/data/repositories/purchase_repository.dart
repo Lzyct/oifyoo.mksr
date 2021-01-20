@@ -6,7 +6,7 @@ import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
 class PurchaseRepository {
-  var _patientDb = sl<Purchase>();
+  var _patientDb = sl<ModelPurchase>();
 
   Future<Resources<String>> transactionNumber() async {
     try {

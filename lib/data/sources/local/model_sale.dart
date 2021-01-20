@@ -4,7 +4,7 @@ import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
-class Sale {
+class ModelSale {
   Future<dynamic> addSale(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _note = _params["note"];
@@ -23,7 +23,8 @@ class Sale {
              transactionNumber,
              idProduct,
              qty,
-             productPrice,
+             capitalPrice,
+             sellingPrice,
              productName,
              type,
              status,
@@ -35,6 +36,7 @@ class Sale {
              '$_transactionNumber',
              ${item.id},
              $_qty,
+             ${item.capitalPrice},
              ${item.sellingPrice},
              '${item.productName}',
              '${Strings.sale}',
@@ -109,7 +111,8 @@ class Sale {
             transactionNumber: element['transactionNumber'],
             idProduct: element['idProduct'],
             qty: element['qty'],
-            productPrice: element['productPrice'],
+            capitalPrice: element['capitalPrice'],
+            sellingPrice: element['sellingPrice'],
             type: element['type'],
             status: element['status'],
             note: element['note'],
@@ -169,14 +172,14 @@ class Sale {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query = '''
-    SELECT *,SUM(qty*productPrice) as total FROM transaksi 
+    SELECT *,SUM(qty*sellingPrice) as total FROM transaksi 
       WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
       AND type='${Strings.sale}'
       GROUP BY transactionNumber ORDER BY transactionNumber DESC
     ''';
     if (searchText.isEmpty) {
       _query = '''
-      SELECT *,SUM(qty*productPrice) as total FROM transaksi 
+      SELECT *,SUM(qty*sellingPrice) as total FROM transaksi 
         WHERE type='${Strings.sale}'
         GROUP BY transactionNumber ORDER BY transactionNumber DESC 
       ''';
@@ -191,7 +194,8 @@ class Sale {
           transactionNumber: element['transactionNumber'],
           idProduct: element['idProduct'],
           qty: element['qty'],
-          productPrice: element['productPrice'],
+          capitalPrice: element['capitalPrice'],
+          sellingPrice: element['sellingPrice'],
           type: element['type'],
           status: element['status'],
           note: element['note'],
@@ -219,7 +223,8 @@ class Sale {
           transactionNumber: element['transactionNumber'],
           idProduct: element['idProduct'],
           qty: element['qty'],
-          productPrice: element['productPrice'],
+          capitalPrice: element['capitalPrice'],
+          sellingPrice: element['sellingPrice'],
           productName: element['productName'],
           type: element['type'],
           status: element['status'],

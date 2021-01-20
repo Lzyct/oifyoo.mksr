@@ -12,9 +12,9 @@ Future<void> serviceLocator() async {
   sl.registerFactory<DbHelper>(() => DbHelper());
 
   // register db query
-  sl.registerLazySingleton(() => Product());
-  sl.registerLazySingleton(() => Sale());
-  sl.registerLazySingleton(() => Purchase());
+  sl.registerLazySingleton(() => ModelProduct());
+  sl.registerLazySingleton(() => ModelSale());
+  sl.registerLazySingleton(() => ModelPurchase());
 
   // register  Repositories
   sl.registerLazySingleton(() => ProductRepository());

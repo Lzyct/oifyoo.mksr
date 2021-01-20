@@ -25,7 +25,7 @@ class EditPurchasePage extends StatefulWidget {
 
 class _EditPurchasePageState extends State<EditPurchasePage> {
   EditPurchaseBloc _editPurchaseBloc;
-  DetailSaleBloc _detailSaleBloc;
+  DetailPurchaseBloc _detailPurchaseBloc;
 
   var _selectedStatus = Strings.listStatus[0];
   var _note = "";
@@ -37,8 +37,8 @@ class _EditPurchasePageState extends State<EditPurchasePage> {
     super.initState();
 
     _editPurchaseBloc = BlocProvider.of(context);
-    _detailSaleBloc = BlocProvider.of(context);
-    _detailSaleBloc.detailSale(widget.transactionNumber);
+    _detailPurchaseBloc = BlocProvider.of(context);
+    _detailPurchaseBloc.detailPurchase(widget.transactionNumber);
   }
 
   @override
@@ -72,7 +72,7 @@ class _EditPurchasePageState extends State<EditPurchasePage> {
             },
           ),
           BlocListener(
-            cubit: _detailSaleBloc,
+            cubit: _detailPurchaseBloc,
             listener: (_, state) {
               switch (state.status) {
                 case Status.LOADING:
@@ -176,7 +176,7 @@ class _EditPurchasePageState extends State<EditPurchasePage> {
 
   _listItem(int index) {
     int _qty = _listSelectedProduct[index].qty;
-    int _price = _listSelectedProduct[index].productPrice;
+    int _price = _listSelectedProduct[index].sellingPrice;
     return Column(
       children: [
         Row(

@@ -222,7 +222,7 @@ class _ListProductPageState extends State<ListProductPage> {
                     child: Text(
                       _listProduct[index].productName,
                       style: TextStyles.textBold
-                          .copyWith(fontSize: Dimens.fontLarge1),
+                          .copyWith(fontSize: Dimens.fontLarge),
                     ),
                   ),
                   Text(
@@ -232,7 +232,7 @@ class _ListProductPageState extends State<ListProductPage> {
                   )
                 ],
               ),
-              SizedBox(height: context.dp16()),
+              SizedBox(height: context.dp8()),
               Text(
                 _listProduct[index].sellingPrice.toString().toIDR(),
                 style: TextStyles.text,

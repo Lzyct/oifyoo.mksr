@@ -6,7 +6,7 @@ import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
 class ProductRepository {
-  var _patientDb = sl<Product>();
+  var _patientDb = sl<ModelProduct>();
 
   Future<Resources<dynamic>> addProduct(Map<String, dynamic> _params) async {
     try {

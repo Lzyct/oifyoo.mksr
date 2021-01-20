@@ -1,3 +1,3 @@
-export 'local/product.dart';
-export 'local/sale.dart';
-export 'local/purchase.dart';
+export 'local/model_product.dart';
+export 'local/model_sale.dart';
+export 'local/model_purchase.dart';

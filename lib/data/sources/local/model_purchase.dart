@@ -4,7 +4,7 @@ import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
-class Purchase {
+class ModelPurchase {
   Future<dynamic> addPurchase(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _note = _params["note"];
@@ -23,7 +23,8 @@ class Purchase {
              transactionNumber,
              idProduct,
              qty,
-             productPrice,
+             capitalPrice,
+             sellingPrice,
              productName,
              type,
              status,
@@ -35,6 +36,7 @@ class Purchase {
              '$_transactionNumber',
              ${item.id},
              $_qty,
+             ${item.capitalPrice},
              ${item.sellingPrice},
              '${item.productName}',
              '${Strings.purchase}',
@@ -49,7 +51,7 @@ class Purchase {
         // Update qty from transaction
         var _query = '''
                   UPDATE product SET 
-                      qty = qty-$_qty,
+                      qty = qty+$_qty,
                       updatedAt='${DateTime.now()}'
                   WHERE id=${item.id}
                 ''';
@@ -109,7 +111,8 @@ class Purchase {
             transactionNumber: element['transactionNumber'],
             idProduct: element['idProduct'],
             qty: element['qty'],
-            productPrice: element['productPrice'],
+            capitalPrice: element['capitalPrice'],
+            sellingPrice: element['sellingPrice'],
             type: element['type'],
             status: element['status'],
             note: element['note'],
@@ -124,7 +127,7 @@ class Purchase {
         // restore stock to product
         var _queryReturn = '''
               UPDATE product SET
-                  qty = qty+${item.qty},
+                  qty = qty-${item.qty},
                   updatedAt='${DateTime.now()}'
               WHERE id='${item.idProduct}'
             ''';
@@ -169,14 +172,14 @@ class Purchase {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query = '''
-    SELECT *,SUM(qty*productPrice) as total FROM transaksi 
+    SELECT *,SUM(qty*sellingPrice) as total FROM transaksi 
       WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
       AND type='${Strings.purchase}'
       GROUP BY transactionNumber ORDER BY transactionNumber DESC
     ''';
     if (searchText.isEmpty) {
       _query = '''
-      SELECT *,SUM(qty*productPrice) as total FROM transaksi 
+      SELECT *,SUM(qty*sellingPrice) as total FROM transaksi 
         WHERE type='${Strings.purchase}'
         GROUP BY transactionNumber ORDER BY transactionNumber DESC 
       ''';
@@ -191,7 +194,8 @@ class Purchase {
           transactionNumber: element['transactionNumber'],
           idProduct: element['idProduct'],
           qty: element['qty'],
-          productPrice: element['productPrice'],
+          capitalPrice: element['capitalPrice'],
+          sellingPrice: element['sellingPrice'],
           type: element['type'],
           status: element['status'],
           note: element['note'],
@@ -219,7 +223,8 @@ class Purchase {
           transactionNumber: element['transactionNumber'],
           idProduct: element['idProduct'],
           qty: element['qty'],
-          productPrice: element['productPrice'],
+          capitalPrice: element['capitalPrice'],
+          sellingPrice: element['sellingPrice'],
           productName: element['productName'],
           type: element['type'],
           status: element['status'],

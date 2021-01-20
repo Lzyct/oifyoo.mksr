@@ -3,7 +3,7 @@ import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
-class Product {
+class ModelProduct {
   Future<dynamic> addProduct(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
@@ -19,7 +19,7 @@ class Product {
       ) VALUES (
         '${_params['productName']}',
         '${_params['note']}',
-        '${_params['qty']}',
+        0,
         '${_params['capitalPrice']}',
         '${_params['sellingPrice']}',
         '${DateTime.now()}',

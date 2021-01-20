@@ -119,7 +119,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               SizedBox(
-                height: context.dp30(),
+                height: context.dp16(),
               ),
               Button(
                 title: Strings.save,
