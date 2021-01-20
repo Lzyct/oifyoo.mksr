@@ -170,13 +170,13 @@ class Sale {
     SELECT *,SUM(qty*productPrice) as total FROM transaksi 
       WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
       AND type='${Strings.sale}'
-      GROUP BY transactionNumber ORDER BY transactionNumber ASC
+      GROUP BY transactionNumber ORDER BY transactionNumber DESC
     ''';
     if (searchText.isEmpty) {
       _query = '''
       SELECT *,SUM(qty*productPrice) as total FROM transaksi 
         WHERE type='${Strings.sale}'
-        GROUP BY transactionNumber ORDER BY transactionNumber ASC 
+        GROUP BY transactionNumber ORDER BY transactionNumber DESC 
       ''';
     }
 

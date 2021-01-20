@@ -166,7 +166,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
                     SizedBox(height: context.dp16()),
                     TextD(
                       hint: Strings.note,
-                      content: _note,
+                      content: _note.isEmpty ? "-" : _note,
                     ),
                     TextD(
                       hint: Strings.buyerName,
@@ -196,18 +196,21 @@ class _DetailSalePageState extends State<DetailSalePage> {
           children: [
             Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(_listSelectedProduct[index].productName,
-                        style: TextStyles.textBold),
-                    SizedBox(height: context.dp8()),
-                    Text(
-                      "$_qty@${_price.toString().toCurrency()}",
-                      style: TextStyles.text,
-                    ),
-                  ],
-                )),
-            Text("${(_qty * _price).toString().toIDR()}",style: TextStyles.text,)
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(_listSelectedProduct[index].productName,
+                    style: TextStyles.textBold),
+                SizedBox(height: context.dp8()),
+                Text(
+                  "$_qty@${_price.toString().toCurrency()}",
+                  style: TextStyles.text,
+                ),
+              ],
+            )),
+            Text(
+              "${(_qty * _price).toString().toIDR()}",
+              style: TextStyles.text,
+            )
           ],
         ),
         Divider()

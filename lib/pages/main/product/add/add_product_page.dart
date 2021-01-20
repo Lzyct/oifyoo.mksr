@@ -43,6 +43,7 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Parent(
       appBar: context.appBar(title: Strings.addProduct),
+      avoidBottomInset: true,
       child: BlocListener(
         cubit: _addProductBloc,
         listener: (_, state) {

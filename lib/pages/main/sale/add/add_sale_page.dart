@@ -141,6 +141,7 @@ class _AddSalePageState extends State<AddSalePage> {
               TextD(
                 hint: Strings.transactionNumber,
                 content: _transactionNumber,
+                isFirst: true,
               ),
               ProductPicker(
                 label: Strings.product,
@@ -180,7 +181,7 @@ class _AddSalePageState extends State<AddSalePage> {
                       Text(
                         _totalPrice.toString().toIDR(),
                         style: TextStyles.textBold
-                            .copyWith(fontSize: Dimens.fontLarge1),
+                            .copyWith(fontSize: Dimens.fontLarge),
                       )
                     ],
                   )),

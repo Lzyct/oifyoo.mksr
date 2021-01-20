@@ -53,6 +53,7 @@ class _EditProductPageState extends State<EditProductPage> {
   Widget build(BuildContext context) {
     return Parent(
       appBar: context.appBar(title: Strings.editProduct),
+      avoidBottomInset: true,
       child: MultiBlocListener(
         listeners: [
           BlocListener(

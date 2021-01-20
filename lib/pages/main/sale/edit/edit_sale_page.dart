@@ -45,6 +45,7 @@ class _EditSalePageState extends State<EditSalePage> {
   Widget build(BuildContext context) {
     return Parent(
       appBar: context.appBar(title: Strings.editSale),
+      avoidBottomInset: true,
       child: MultiBlocListener(
         listeners: [
           BlocListener(
@@ -129,7 +130,7 @@ class _EditSalePageState extends State<EditSalePage> {
                 Text(
                   widget.total,
                   style:
-                      TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge1),
+                      TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 )
               ],
             ),
@@ -189,10 +190,16 @@ class _EditSalePageState extends State<EditSalePage> {
                     Text(_listSelectedProduct[index].productName,
                         style: TextStyles.textBold),
                     SizedBox(height: context.dp8()),
-                    Text("$_qty@${_price.toString().toCurrency()}"),
+                    Text(
+                      "$_qty@${_price.toString().toCurrency()}",
+                      style: TextStyles.text,
+                    ),
                   ],
                 )),
-            Text("${(_qty * _price).toString().toIDR()}")
+            Text(
+              "${(_qty * _price).toString().toIDR()}",
+              style: TextStyles.text,
+            )
           ],
         ),
         Divider()
