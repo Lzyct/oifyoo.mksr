@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oifyoo_mksr/blocs/blocs.dart';
-import 'package:oifyoo_mksr/data/models/entities/product_entity.dart';
+import 'package:oifyoo_mksr/data/models/models.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';

@@ -4,7 +4,6 @@ import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oifyoo_mksr/blocs/blocs.dart';
-import 'package:oifyoo_mksr/blocs/sale/delete_sale_bloc.dart';
 import 'package:oifyoo_mksr/data/models/models.dart';
 import 'package:oifyoo_mksr/pages/main/main.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';

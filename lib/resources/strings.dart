@@ -81,4 +81,17 @@ class Strings {
   static var detailSale = "Detail Penjualan";
 
   static var share = "Bagikan";
+
+  static const String errorNoPurchase =
+      "Pembelian tidak ditemukan\n Silahkan buat transaksi pembelian";
+
+  static var addPurchase = "Tambah Pembelian";
+
+  static String detailPurchase = "Detail Pembelian";
+
+  static const String editPurchase = "Edit Pembelian";
+
+  static var searchPurchase = "Cari Pembelian";
+  static const String searchPurchaseHint =
+      "Masukkan No.Transaksi / Nama Pembeli";
 }

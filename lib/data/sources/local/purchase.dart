@@ -4,8 +4,8 @@ import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
-class Sale {
-  Future<dynamic> addSale(Map<String, dynamic> _params) async {
+class Purchase {
+  Future<dynamic> addPurchase(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _note = _params["note"];
     var _buyer = _params["buyer"];
@@ -37,7 +37,7 @@ class Sale {
              $_qty,
              ${item.sellingPrice},
              '${item.productName}',
-             '${Strings.sale}',
+             '${Strings.purchase}',
              '$_status',
              '$_note',
              '$_buyer',
@@ -64,7 +64,7 @@ class Sale {
     }
   }
 
-  Future<dynamic> editSale(Map<String, dynamic> _params) async {
+  Future<dynamic> editPurchase(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
       var _query = '''
@@ -83,13 +83,13 @@ class Sale {
     }
   }
 
-  Future<dynamic> deleteSale(String _transactionNumber) async {
+  Future<dynamic> deletePurchase(String _transactionNumber) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
-      // set sale to void
+      // set purchase to void
       var _queryVoid = '''
       UPDATE transaksi SET
-          type = '${Strings.saleVoid}',
+          type = '${Strings.purchaseVoid}',
           updatedAt='${DateTime.now()}'
       WHERE transactionNumber='$_transactionNumber'
       ''';
@@ -102,9 +102,9 @@ class Sale {
       SELECT * FROM transaksi WHERE transactionNumber = '$_transactionNumber'
       ''';
       List<Map> _queryMap = await _dbClient.rawQuery(_queryList);
-      List<TransactionEntity> _listSale = [];
+      List<TransactionEntity> _listPurchase = [];
       _queryMap.forEach((element) {
-        _listSale.add(TransactionEntity(
+        _listPurchase.add(TransactionEntity(
             id: element['id'],
             transactionNumber: element['transactionNumber'],
             idProduct: element['idProduct'],
@@ -120,7 +120,7 @@ class Sale {
       });
 
       // Loop for update stock
-      for (var item in _listSale) {
+      for (var item in _listPurchase) {
         // restore stock to product
         var _queryReturn = '''
               UPDATE product SET
@@ -148,14 +148,14 @@ class Sale {
       var _query =
           await _dbClient.transaction((select) async => select.rawQuery('''
         SELECT COUNT(DISTINCT transactionNumber) FROM transaksi 
-            WHERE createdAt like '%${DateTime.now().toString().toDateAlt()}%'
-            AND transactionNumber like'%SL%'
+          WHERE createdAt like '%${DateTime.now().toString().toDateAlt()}%'
+          AND transactionNumber like'%PRCHS%'
       '''));
 
       int _count = Sqflite.firstIntValue(_query);
       _count++;
       var _transactionNumber =
-          "OIFYOO-MKSR/SL_${DateTime.now().toString().toMonthYear()}_${_count.toString().padLeft(4, "0")}";
+          "OIFYOO-MKSR/PRCHS_${DateTime.now().toString().toMonthYear()}_${_count.toString().padLeft(4, "0")}";
 
       _dbClient.close();
       return _transactionNumber;
@@ -165,28 +165,28 @@ class Sale {
     }
   }
 
-  Future<List<TransactionEntity>> getListSale(String searchText) async {
+  Future<List<TransactionEntity>> getListPurchase(String searchText) async {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query = '''
     SELECT *,SUM(qty*productPrice) as total FROM transaksi 
       WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
-      AND type='${Strings.sale}'
+      AND type='${Strings.purchase}'
       GROUP BY transactionNumber ORDER BY transactionNumber DESC
     ''';
     if (searchText.isEmpty) {
       _query = '''
       SELECT *,SUM(qty*productPrice) as total FROM transaksi 
-        WHERE type='${Strings.sale}'
+        WHERE type='${Strings.purchase}'
         GROUP BY transactionNumber ORDER BY transactionNumber DESC 
       ''';
     }
 
     logs("Query -> $_query");
     List<Map> _queryMap = await _dbClient.rawQuery(_query);
-    List<TransactionEntity> _listSale = [];
+    List<TransactionEntity> _listPurchase = [];
     _queryMap.forEach((element) {
-      _listSale.add(TransactionEntity(
+      _listPurchase.add(TransactionEntity(
           id: element['id'],
           transactionNumber: element['transactionNumber'],
           idProduct: element['idProduct'],
@@ -201,10 +201,10 @@ class Sale {
           total: element['total']));
     });
     _dbClient.close();
-    return _listSale;
+    return _listPurchase;
   }
 
-  Future<List<TransactionEntity>> getDetailSale(
+  Future<List<TransactionEntity>> getDetailPurchase(
       String _transactionNumber) async {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
@@ -212,9 +212,9 @@ class Sale {
         "SELECT * FROM transaksi WHERE transactionNumber='$_transactionNumber'";
 
     List<Map> _queryMap = await _dbClient.rawQuery(_query);
-    List<TransactionEntity> _listSale = [];
+    List<TransactionEntity> _listPurchase = [];
     _queryMap.forEach((element) {
-      _listSale.add(TransactionEntity(
+      _listPurchase.add(TransactionEntity(
           id: element['id'],
           transactionNumber: element['transactionNumber'],
           idProduct: element['idProduct'],
@@ -229,6 +229,6 @@ class Sale {
           updatedAt: element['updatedAt']));
     });
     _dbClient.close();
-    return _listSale;
+    return _listPurchase;
   }
 }

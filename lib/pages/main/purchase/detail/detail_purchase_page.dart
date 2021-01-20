@@ -19,19 +19,19 @@ import 'package:share/share.dart';
 /// github : https://www.github.com/ukieTux <(’_’<)
 ///*********************************************
 /// © 2021 | All Right Reserved
-class DetailSalePage extends StatefulWidget {
+class DetailPurchasePage extends StatefulWidget {
   final String transactionNumber;
   final String total;
 
-  const DetailSalePage({Key key, this.transactionNumber, this.total})
+  const DetailPurchasePage({Key key, this.transactionNumber, this.total})
       : super(key: key);
 
   @override
-  _DetailSalePageState createState() => _DetailSalePageState();
+  _DetailPurchasePageState createState() => _DetailPurchasePageState();
 }
 
-class _DetailSalePageState extends State<DetailSalePage> {
-  DetailSaleBloc _detailSaleBloc;
+class _DetailPurchasePageState extends State<DetailPurchasePage> {
+  DetailPurchaseBloc _detailPurchaseBloc;
   GlobalKey _globalKey = new GlobalKey();
 
   var _selectedStatus = Strings.listStatus[0];
@@ -43,9 +43,9 @@ class _DetailSalePageState extends State<DetailSalePage> {
   void initState() {
     super.initState();
 
-    _detailSaleBloc = BlocProvider.of(context);
-    _detailSaleBloc = BlocProvider.of(context);
-    _detailSaleBloc.detailSale(widget.transactionNumber);
+    _detailPurchaseBloc = BlocProvider.of(context);
+    _detailPurchaseBloc = BlocProvider.of(context);
+    _detailPurchaseBloc.detailPurchase(widget.transactionNumber);
   }
 
   @override
@@ -67,7 +67,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
         ),
         automaticallyImplyLeading: true,
         title: Text(
-          Strings.detailSale,
+          Strings.detailPurchase,
           style: TextStyles.text.copyWith(
             fontSize: Dimens.fontLarge,
           ),
@@ -84,7 +84,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
         ],
       ),
       child: BlocListener(
-        cubit: _detailSaleBloc,
+        cubit: _detailPurchaseBloc,
         listener: (_, state) {
           switch (state.status) {
             case Status.LOADING:

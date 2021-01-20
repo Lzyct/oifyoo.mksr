@@ -109,6 +109,17 @@ class ProductPickerState extends State<ProductPicker> {
                                           element == _listDataFilter[index]);
 
                                     widget.selectedProduct(_listSelected);
+                                  } else if (!widget.isSale) {
+                                    _listDataFilter[index].isSelected =
+                                        !_listDataFilter[index].isSelected;
+                                    //update list product selected
+                                    if (_listDataFilter[index].isSelected)
+                                      _listSelected.add(_listDataFilter[index]);
+                                    else
+                                      _listSelected.removeWhere((element) =>
+                                          element == _listDataFilter[index]);
+
+                                    widget.selectedProduct(_listSelected);
                                   } else {
                                     Strings.qtyEmpty.toToastError();
                                   }
