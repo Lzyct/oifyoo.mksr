@@ -197,7 +197,7 @@ class _AddSalePageState extends State<AddSalePage> {
                 hint: Strings.buyerName,
                 curFocusNode: _fnBuyer,
                 controller: _conBuyer,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               DropDown(
@@ -225,18 +225,17 @@ class _AddSalePageState extends State<AddSalePage> {
                         logs(
                             "qty ${selected.textEditingController.text} - productName ${selected.productName}");
                       }
+                      var _params = {
+                        "transactionNumber": _transactionNumber,
+                        "note": _conNote.text,
+                        "buyer": _conBuyer.text,
+                        "status": _selectedStatus,
+                        "listProduct": _listSelectedProduct
+                      };
+                      _addSaleBloc.addSale(_params);
                     } else {
                       Strings.pleaseSelectProduct.toToastError();
                     }
-
-                    var _params = {
-                      "transactionNumber": _transactionNumber,
-                      "note": _conNote.text,
-                      "buyer": _conBuyer.text,
-                      "status": _selectedStatus,
-                      "listProduct": _listSelectedProduct
-                    };
-                    _addSaleBloc.addSale(_params);
                   }
                 },
               )
