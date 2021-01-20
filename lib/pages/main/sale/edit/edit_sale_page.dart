@@ -156,7 +156,7 @@ class _EditSalePageState extends State<EditSalePage> {
               },
             ),
             SizedBox(
-              height: context.dp30(),
+              height: context.dp16(),
             ),
             Button(
                 title: Strings.save,

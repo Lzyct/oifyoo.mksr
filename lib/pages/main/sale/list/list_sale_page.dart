@@ -259,6 +259,10 @@ class _ListSalePageState extends State<ListSalePage> {
                 content: _listSale[index].transactionNumber,
               ),
               SizedBox(height: context.dp8()),
+              Text(
+                _listSale[index].buyer,
+                style: TextStyles.text,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -285,12 +289,13 @@ class _ListSalePageState extends State<ListSalePage> {
             ],
           ).padding(edgeInsets: EdgeInsets.all(context.dp16())),
           onTap: () {
-            /* context.goTo(BlocProvider(
+            context.goTo(BlocProvider(
               create: (_) => DetailSaleBloc(),
               child: DetailSalePage(
-                id: _listSale[index].id,
+                transactionNumber: _listSale[index].transactionNumber,
+                total: _listSale[index].total.toString().toIDR(),
               ),
-            ));*/
+            ));
           }),
     );
   }

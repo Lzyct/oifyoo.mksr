@@ -22,7 +22,7 @@ class TransactionEntity {
     this.productName,
     this.type,
     this.status,
-    this.note,
+    this.note = "-",
     this.buyer,
     this.createdAt,
     this.updatedAt,

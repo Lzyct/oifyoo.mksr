@@ -77,4 +77,8 @@ class Strings {
   static const String editSale = "Edit Detail Penjualan";
 
   static var successVoidData = "Berhasil melakukan void";
+
+  static var detailSale = "Detail Penjualan";
+
+  static var share = "Bagikan";
 }

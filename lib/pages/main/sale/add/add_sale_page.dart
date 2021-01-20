@@ -56,6 +56,7 @@ class _AddSalePageState extends State<AddSalePage> {
   Widget build(BuildContext context) {
     return Parent(
       appBar: context.appBar(title: Strings.addSale),
+      avoidBottomInset: true,
       child: MultiBlocListener(
         listeners: [
           BlocListener(
@@ -212,7 +213,7 @@ class _AddSalePageState extends State<AddSalePage> {
                 },
               ),
               SizedBox(
-                height: context.dp30(),
+                height: context.dp16(),
               ),
               Button(
                 title: Strings.save,
@@ -260,7 +261,9 @@ class _AddSalePageState extends State<AddSalePage> {
                   style: TextStyles.textBold,
                 )),
             Text(
-                "@${_listSelectedProduct[index].sellingPrice.toString().toCurrency()}"),
+              "@${_listSelectedProduct[index].sellingPrice.toString().toCurrency()}",
+              style: TextStyles.text,
+            ),
             QuantityPicker(
                 focusNode: FocusNode(),
                 textEditingController:
