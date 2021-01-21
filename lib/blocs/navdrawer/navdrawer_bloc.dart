@@ -8,6 +8,7 @@ enum NavigationEvents {
   HomePage,
   SalePage,
   PurchasePage,
+  SpendingPage,
   Product,
 }
 
@@ -38,6 +39,15 @@ class NavDrawerBloc extends Cubit<Widget> {
             BlocProvider(create: (_) => DeleteProductBloc())
           ],
           child: ListProductPage(),
+        ));
+        break;
+      case NavigationEvents.SpendingPage:
+        emit(MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => ListSpendingBloc()),
+            BlocProvider(create: (_) => DeleteSpendingBloc())
+          ],
+          child: ListSpendingPage(),
         ));
         break;
     }

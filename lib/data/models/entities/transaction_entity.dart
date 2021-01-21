@@ -3,8 +3,7 @@ class TransactionEntity {
   final String transactionNumber;
   final int idProduct;
   final int qty;
-  final int capitalPrice;
-  final int sellingPrice;
+  final int price;
   final String productName;
   final String type;
   final String status;
@@ -19,8 +18,7 @@ class TransactionEntity {
     this.transactionNumber,
     this.idProduct,
     this.qty,
-    this.capitalPrice,
-    this.sellingPrice,
+    this.price,
     this.productName,
     this.type,
     this.status,

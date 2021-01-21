@@ -13,43 +13,28 @@ class Strings {
   static const String select = "Pilih";
   static const String cancel = "Batal";
   static const String ok = "Ok";
-
   static const String selectTime = "Pilih jam";
-
   static const String addMedicalRecord = "Tambah Produk";
-
   static const String searchProduct = "Cari Produk";
   static const String searchProductHint = "Masukkan nama produk";
-
   static const String delete = "Hapus";
   static const String edit = "Ubah";
-
   static const String productName = "Nama Produk";
   static const String note = "Catatan";
   static const String qty = "Qty";
-
   static const String errorEmpty = "Tidak boleh kosong";
-
   static const String save = "Simpan";
-
   static const String addProduct = "Tambah Produk";
-
-  static const String capitalPrice = "Harga Modal";
-  static const String sellingPrice = "Harga Jual";
+  static const String price = "Harga";
   static const String transactionNumber = "Nomor Transaksi";
-
   static const String prefixRupiah = "Rp. ";
-
   static const String failedToSave = "Gagal Menyimpan";
   static const String successSaveData = "Sukses menyimpan data";
   static const String successBackupData = "Berhasil membackup data";
   static const String successRestoreData = "Berhasil merestore data";
-
   static const String errorProductExist = "Produk telah terdaftar";
-
   static const String errorNoProduct =
       "Produk tidak ditemukan\nSilahkan tambahkan produk";
-
   static const String editProduct = "Edit Produk";
   static const String askDelete = "Apakah anda ingin menghapus";
   static const String questionMark = "?";
@@ -69,29 +54,27 @@ class Strings {
   static const String pleaseSelectProduct = "Silahkan menambahkan Produk";
   static const String productList = "List Produk";
   static const String maxQty = "Maksimum Quantity";
-
   static const String totalDot = "Total : ";
-
   static const String qtyEmpty = "Stok kosong";
-
   static const String editSale = "Edit Detail Penjualan";
-
-  static var successVoidData = "Berhasil melakukan void";
-
-  static var detailSale = "Detail Penjualan";
-
-  static var share = "Bagikan";
-
+  static const String successVoidData = "Berhasil melakukan void";
+  static const String detailSale = "Detail Penjualan";
+  static const String share = "Bagikan";
   static const String errorNoPurchase =
       "Pembelian tidak ditemukan\n Silahkan buat transaksi pembelian";
-
-  static var addPurchase = "Tambah Pembelian";
-
-  static String detailPurchase = "Detail Pembelian";
-
+  static const String addPurchase = "Tambah Pembelian";
+  static const String detailPurchase = "Detail Pembelian";
   static const String editPurchase = "Edit Pembelian";
-
-  static var searchPurchase = "Cari Pembelian";
+  static const String searchPurchase = "Cari Pembelian";
   static const String searchPurchaseHint =
       "Masukkan No.Transaksi / Nama Pembeli";
+  static const String spending = "Pengeluaran";
+  static const String spendingName = "Nama pengeluaran";
+  static const String addSpending = "Tambah Pengeluaran";
+  static const String editSpending = "Edit Pengeluaran";
+  static const String searchSpending = "Cari pengeluaran";
+  static const String searchSpendingHint = "Masukkan Nama/Note Pengeluaran";
+  static const String errorNoSpending =
+      "Pengeluaran tidak ditemukan\nSilahkan tambahkan pengeluaran";
+  static const String detailSpending = "Detail Pengeluaran";
 }

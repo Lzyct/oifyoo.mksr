@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +7,6 @@ import 'package:oifyoo_mksr/pages/main/main.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
-import 'package:path_provider/path_provider.dart';
 
 ///*********************************************
 /// Created by Mudassir (ukietux) on 1/12/21 with ♥
@@ -17,32 +14,30 @@ import 'package:path_provider/path_provider.dart';
 /// github : https://www.github.com/ukieTux <(’_’<)
 ///*********************************************
 /// © 2021 | All Right Reserved
-class ListSalePage extends StatefulWidget {
-  ListSalePage({Key key}) : super(key: key);
+class ListSpendingPage extends StatefulWidget {
+  ListSpendingPage({Key key}) : super(key: key);
 
   @override
-  _ListSalePageState createState() => _ListSalePageState();
+  _ListSpendingPageState createState() => _ListSpendingPageState();
 }
 
-class _ListSalePageState extends State<ListSalePage> {
-  ListSaleBloc _listSaleBloc;
-  DeleteSaleBloc _deleteSaleBloc;
+class _ListSpendingPageState extends State<ListSpendingPage> {
+  ListSpendingBloc _listSpendingBloc;
+  DeleteSpendingBloc _deleteSpendingBloc;
 
-  List<TransactionEntity> _listSale;
-  String _productName = "";
+  List<SpendingEntity> _listSpending;
+  String _spendingName = "";
 
   @override
   void initState() {
     super.initState();
-    _listSaleBloc = BlocProvider.of(context);
-    _deleteSaleBloc = BlocProvider.of(context);
-    _getListSale();
+    _listSpendingBloc = BlocProvider.of(context);
+    _deleteSpendingBloc = BlocProvider.of(context);
+    _getListSpending();
   }
 
-  _getListSale() async {
-    _listSaleBloc.listSale(_productName);
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    logs("path $documentsDirectory");
+  _getListSpending() {
+    _listSpendingBloc.listSpending(_spendingName);
   }
 
   @override
@@ -54,29 +49,23 @@ class _ListSalePageState extends State<ListSalePage> {
       floatingButton: FloatingActionButton(
           backgroundColor: Palette.colorPrimary,
           onPressed: () async {
-            await context.goTo(
-              MultiBlocProvider(
-                providers: [
-                  BlocProvider(create: (_) => AddSaleBloc()),
-                  BlocProvider(create: (_) => TransactionNumberSaleBloc()),
-                  BlocProvider(create: (_) => ListProductBloc()),
-                ],
-                child: AddSalePage(),
-              ),
-            );
-            _getListSale();
+            await context.goTo(BlocProvider(
+              create: (_) => AddSpendingBloc(),
+              child: AddSpendingPage(),
+            ));
+            _getListSpending();
           },
           tooltip: Strings.addMedicalRecord,
           child: Icon(Icons.add)),
       child: Column(
         children: [
           AnimatedSearchBar(
-            label: Strings.searchSale,
+            label: Strings.searchSpending,
             labelStyle: TextStyles.textBold,
             searchStyle: TextStyles.text,
             searchDecoration: InputDecoration(
                 alignLabelWithHint: true,
-                hintText: Strings.searchSaleHint,
+                hintText: Strings.searchSpendingHint,
                 hintStyle: TextStyles.textHint,
                 contentPadding: EdgeInsets.symmetric(horizontal: context.dp8()),
                 border: OutlineInputBorder(
@@ -89,14 +78,14 @@ class _ListSalePageState extends State<ListSalePage> {
                 )),
             cursorColor: Palette.colorPrimary,
             onChanged: (value) {
-              _productName = value;
-              _listSaleBloc.listSale(_productName);
+              _spendingName = value;
+              _listSpendingBloc.listSpending(_spendingName);
             },
           ).margin(
               edgeInsets: EdgeInsets.symmetric(horizontal: context.dp16())),
           Expanded(
               child: BlocListener(
-            cubit: _deleteSaleBloc,
+            cubit: _deleteSpendingBloc,
             listener: (_, state) {
               switch (state.status) {
                 case Status.LOADING:
@@ -112,13 +101,13 @@ class _ListSalePageState extends State<ListSalePage> {
                 case Status.SUCCESS:
                   {
                     Strings.successVoidData.toToastSuccess();
-                    _getListSale();
+                    _getListSpending();
                   }
                   break;
               }
             },
             child: BlocBuilder(
-              cubit: _listSaleBloc,
+              cubit: _listSpendingBloc,
               builder: (_, state) {
                 switch (state.status) {
                   case Status.LOADING:
@@ -146,14 +135,14 @@ class _ListSalePageState extends State<ListSalePage> {
                     break;
                   case Status.SUCCESS:
                     {
-                      _listSale = state.data;
+                      _listSpending = state.data;
                       return RefreshIndicator(
                         onRefresh: () async {
-                          _getListSale();
+                          _getListSpending();
                         },
                         child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: _listSale.length,
+                            itemCount: _listSpending.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
                               return _listItem(index);
@@ -196,7 +185,7 @@ class _ListSalePageState extends State<ListSalePage> {
                       style: TextStyles.text,
                     ),
                     TextSpan(
-                        text: " ${_listSale[index].transactionNumber} ",
+                        text: " ${_listSpending[index].name} ",
                         style: TextStyles.textBold),
                     TextSpan(
                       text: Strings.questionMark,
@@ -221,8 +210,8 @@ class _ListSalePageState extends State<ListSalePage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteSaleBloc
-                          .deleteSale(_listSale[index].transactionNumber);
+                      _deleteSpendingBloc
+                          .deleteSpending(_listSpending[index].id);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -234,14 +223,13 @@ class _ListSalePageState extends State<ListSalePage> {
         } else {
           await context.goTo(MultiBlocProvider(
               providers: [
-                BlocProvider(create: (_) => EditSaleBloc()),
-                BlocProvider(create: (_) => DetailSaleBloc()),
+                BlocProvider(create: (_) => EditSpendingBloc()),
+                BlocProvider(create: (_) => DetailSpendingBloc()),
               ],
-              child: EditSalePage(
-                transactionNumber: _listSale[index].transactionNumber,
-                total: _listSale[index].total.toString().toIDR(),
+              child: EditSpendingPage(
+                id: _listSpending[index].id,
               )));
-          _getListSale();
+          _getListSpending();
         }
         return false;
       },
@@ -251,47 +239,39 @@ class _ListSalePageState extends State<ListSalePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextD(
-                isFirst: true,
-                hint: Strings.transactionNumber,
-                content: _listSale[index].transactionNumber,
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _listSpending[index].name,
+                      style: TextStyles.textBold
+                          .copyWith(fontSize: Dimens.fontLarge),
+                    ),
+                  ),
+                  Text(
+                    _listSpending[index].price.toString().toIDR(),
+                    style: TextStyles.textBold,
+                  )
+                ],
               ),
               SizedBox(height: context.dp8()),
               Text(
-                _listSale[index].buyer,
+                _listSpending[index].price.toString().toIDR(),
                 style: TextStyles.text,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "${_listSale[index].total.toString().toIDR()}",
-                    style: TextStyles.text,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: _listSale[index].status == Strings.listStatus[0]
-                          ? Palette.red
-                          : Palette.green,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(Dimens.radius)),
-                    ),
-                    padding: EdgeInsets.all(context.dp8()),
-                    child: Text(
-                      _listSale[index].status,
-                      style: TextStyles.white,
-                    ),
-                  ),
-                ],
+              SizedBox(height: context.dp8()),
+              Text(
+                "${Strings.note} : ${_listSpending[index].note}",
+                style: TextStyles.textHint.copyWith(
+                    fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
               )
             ],
           ).padding(edgeInsets: EdgeInsets.all(context.dp16())),
           onTap: () {
             context.goTo(BlocProvider(
-              create: (_) => DetailSaleBloc(),
-              child: DetailSalePage(
-                transactionNumber: _listSale[index].transactionNumber,
-                total: _listSale[index].total.toString().toIDR(),
+              create: (_) => DetailSpendingBloc(),
+              child: DetailSpendingPage(
+                id: _listSpending[index].id,
               ),
             ));
           }),

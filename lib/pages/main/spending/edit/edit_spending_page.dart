@@ -13,49 +13,47 @@ import 'package:oifyoo_mksr/widgets/widgets.dart';
 /// github : https://www.github.com/ukieTux <(’_’<)
 ///*********************************************
 /// © 2021 | All Right Reserved
-class EditProductPage extends StatefulWidget {
+class EditSpendingPage extends StatefulWidget {
   final int id;
 
-  const EditProductPage({Key key, this.id}) : super(key: key);
+  const EditSpendingPage({Key key, this.id}) : super(key: key);
 
   @override
-  _EditProductPageState createState() => _EditProductPageState();
+  _EditSpendingPageState createState() => _EditSpendingPageState();
 }
 
-class _EditProductPageState extends State<EditProductPage> {
-  EditProductBloc _editProductBloc;
-  DetailProductBloc _detailProductBloc;
+class _EditSpendingPageState extends State<EditSpendingPage> {
+  EditSpendingBloc _editSpendingBloc;
+  DetailSpendingBloc _detailSpendingBloc;
   var _formKey = GlobalKey<FormState>();
 
-  var _conProductName = TextEditingController();
+  var _conName = TextEditingController();
   var _conNote = TextEditingController();
-  var _conQty = TextEditingController();
   var _conPrice = TextEditingController();
 
-  var _fnProductName = FocusNode();
+  var _fnSpendingName = FocusNode();
   var _fnNote = FocusNode();
-  var _fnQty = FocusNode();
   var _fnPrice = FocusNode();
 
-  ProductEntity _productEntity;
+  SpendingEntity _spendingEntity;
 
   @override
   void initState() {
     super.initState();
-    _editProductBloc = BlocProvider.of(context);
-    _detailProductBloc = BlocProvider.of(context);
-    _detailProductBloc.detailProduct(widget.id);
+    _editSpendingBloc = BlocProvider.of(context);
+    _detailSpendingBloc = BlocProvider.of(context);
+    _detailSpendingBloc.detailSpending(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Parent(
-      appBar: context.appBar(title: Strings.editProduct),
+      appBar: context.appBar(title: Strings.editSpending),
       avoidBottomInset: true,
       child: MultiBlocListener(
         listeners: [
           BlocListener(
-              cubit: _editProductBloc,
+              cubit: _editSpendingBloc,
               listener: (_, state) {
                 switch (state.status) {
                   case Status.LOADING:
@@ -77,7 +75,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 }
               }),
           BlocListener(
-              cubit: _detailProductBloc,
+              cubit: _detailSpendingBloc,
               listener: (_, state) {
                 switch (state.status) {
                   case Status.LOADING:
@@ -92,13 +90,12 @@ class _EditProductPageState extends State<EditProductPage> {
                     break;
                   case Status.SUCCESS:
                     {
-                      _productEntity = state.data;
+                      _spendingEntity = state.data;
 
-                      _conProductName.text = _productEntity.productName;
-                      _conNote.text = _productEntity.note;
-                      _conQty.text = _productEntity.qty.toString();
+                      _conName.text = _spendingEntity.name;
+                      _conNote.text = _spendingEntity.note;
                       _conPrice.text =
-                          _productEntity.price.toString().toCurrency();
+                          _spendingEntity.price.toString().toCurrency();
                     }
                     break;
                 }
@@ -109,31 +106,19 @@ class _EditProductPageState extends State<EditProductPage> {
           child: Column(
             children: [
               TextF(
-                hint: Strings.productName,
-                curFocusNode: _fnProductName,
+                hint: Strings.spendingName,
+                curFocusNode: _fnSpendingName,
                 nextFocusNode: _fnNote,
-                controller: _conProductName,
+                controller: _conName,
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.note,
                 curFocusNode: _fnNote,
-                nextFocusNode: _fnQty,
+                nextFocusNode: _fnPrice,
                 controller: _conNote,
                 textInputAction: TextInputAction.next,
-              ),
-              TextF(
-                hint: Strings.qty,
-                curFocusNode: _fnQty,
-                nextFocusNode: _fnPrice,
-                controller: _conQty,
-                keyboardType: TextInputType.number,
-                inputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.price,
@@ -161,13 +146,12 @@ class _EditProductPageState extends State<EditProductPage> {
                   if (_formKey.currentState.validate()) {
                     var _params = {
                       "id": widget.id,
-                      "productName": _conProductName.text,
+                      "name": _conName.text,
                       "note": _conNote.text,
-                      "qty": _conQty.text,
                       "price": _conPrice.text.toClearText()
                     };
                     logs("params $_params");
-                    _editProductBloc.editProduct(_params);
+                    _editSpendingBloc.editSpending(_params);
                   }
                 },
               )

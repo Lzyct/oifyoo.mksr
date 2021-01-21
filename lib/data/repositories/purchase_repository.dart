@@ -6,11 +6,11 @@ import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
 class PurchaseRepository {
-  var _patientDb = sl<ModelPurchase>();
+  var _purchaseTransaction = sl<PurchaseTransaction>();
 
   Future<Resources<String>> transactionNumber() async {
     try {
-      var _response = await _patientDb.transactionNumber();
+      var _response = await _purchaseTransaction.transactionNumber();
       return Resources.success(data: _response);
     } catch (e) {
       return Resources.error(e.toString());
@@ -19,7 +19,7 @@ class PurchaseRepository {
 
   Future<Resources<dynamic>> addPurchase(Map<String, dynamic> _params) async {
     try {
-      var _response = await _patientDb.addPurchase(_params);
+      var _response = await _purchaseTransaction.addPurchase(_params);
 
       logs("is bool ${_response is bool}");
       if (_response is bool) {
@@ -34,7 +34,8 @@ class PurchaseRepository {
 
   Future<Resources<dynamic>> deletePurchase(String _transactionNumber) async {
     try {
-      var _response = await _patientDb.deletePurchase(_transactionNumber);
+      var _response =
+          await _purchaseTransaction.deletePurchase(_transactionNumber);
       logs("is bool ${_response is bool}");
       if (_response is bool) {
         return Resources.success(data: true);
@@ -48,7 +49,7 @@ class PurchaseRepository {
 
   Future<Resources<dynamic>> editPurchase(Map<String, dynamic> _params) async {
     try {
-      await _patientDb.editPurchase(_params);
+      await _purchaseTransaction.editPurchase(_params);
       return Resources.success(data: true);
     } catch (e) {
       return Resources.error(e.toString());
@@ -58,7 +59,8 @@ class PurchaseRepository {
   Future<Resources<List<TransactionEntity>>> getDetailPurchase(
       String _transactionNumber) async {
     try {
-      var _response = await _patientDb.getDetailPurchase(_transactionNumber);
+      var _response =
+          await _purchaseTransaction.getDetailPurchase(_transactionNumber);
       return Resources.success(data: _response);
     } catch (e) {
       return Resources.error(e.toString());
@@ -68,7 +70,7 @@ class PurchaseRepository {
   Future<Resources<List<TransactionEntity>>> getListPurchase(
       String _searchText) async {
     try {
-      var _response = await _patientDb.getListPurchase(_searchText);
+      var _response = await _purchaseTransaction.getListPurchase(_searchText);
 
       logs("is bool ${_response is bool}");
       if (_response.isEmpty) {

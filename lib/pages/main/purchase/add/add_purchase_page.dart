@@ -262,7 +262,7 @@ class _AddPurchasePageState extends State<AddPurchasePage> {
                   style: TextStyles.textBold,
                 )),
             Text(
-              "@${_listSelectedProduct[index].sellingPrice.toString().toCurrency()}",
+              "@${_listSelectedProduct[index].price.toString().toCurrency()}",
               style: TextStyles.text,
             ),
             QuantityPicker(
@@ -285,7 +285,7 @@ class _AddPurchasePageState extends State<AddPurchasePage> {
     _totalPrice = 0;
     for (var item in _listSelectedProduct) {
       int _qty = item.textEditingController.text.toInt();
-      int _totalPerProduct = _qty * item.sellingPrice;
+      int _totalPerProduct = _qty * item.price;
       setState(() {
         _totalPrice += _totalPerProduct;
       });
@@ -363,7 +363,7 @@ class _AddPurchasePageState extends State<AddPurchasePage> {
   }
 
   _plus(String value, int index) {
-   /* var _qty = value.toInt();
+    /* var _qty = value.toInt();
     if (_qty > _listSelectedProduct[index].qty) {
       _listSelectedProduct[index].textEditingController.text =
           _listSelectedProduct[index].qty.toString();

@@ -35,8 +35,7 @@ class DbHelper {
         productName TEXT,
         note TEXT, 
         qty INTEGER, 
-        capitalPrice INTEGER,
-        sellingPrice INTEGER,
+        price INTEGER,
         createdAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
@@ -48,13 +47,23 @@ class DbHelper {
         transactionNumber TEXT,
         idProduct INTEGER,
         qty INTEGER,
-        capitalPrice INTEGER,
-        sellingPrice INTEGER,
+        price INTEGER,
         productName TEXT,
         type TEXT,
         status TEXT,
         note TEXT,
         buyer TEXT,
+        createdAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''');
+    //create table transaction
+    await db.execute('''
+    CREATE TABLE spending (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        price INTEGER,
+        note TEXT,
         createdAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )

@@ -1,7 +1,6 @@
-import 'package:oifyoo_mksr/resources/resources.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
-import 'package:oifyoo_mksr/widgets/color_loaders.dart';
 import 'package:flutter/material.dart';
+import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/widgets/color_loaders.dart';
 
 ///*********************************************
 /// Created by ukietux on 25/06/20 with ♥

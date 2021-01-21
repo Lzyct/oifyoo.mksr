@@ -149,7 +149,7 @@ class ProductPickerState extends State<ProductPicker> {
                                 ),
                                 SizedBox(height: context.dp8()),
                                 Text(
-                                  "${_listDataFilter[index].sellingPrice.toString().toIDR()}",
+                                  "${_listDataFilter[index].price.toString().toIDR()}",
                                   style: TextStyles.textHint,
                                 ),
                                 Divider()

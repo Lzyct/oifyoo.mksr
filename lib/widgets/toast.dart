@@ -1,6 +1,6 @@
-import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/size_extension.dart';
+import 'package:oifyoo_mksr/resources/resources.dart';
 
 ///*********************************************
 /// Created by ukietux on 11/09/20 with ♥

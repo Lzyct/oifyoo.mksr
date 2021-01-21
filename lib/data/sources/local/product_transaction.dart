@@ -3,7 +3,7 @@ import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
-class ModelProduct {
+class ProductTransaction {
   Future<dynamic> addProduct(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
@@ -12,16 +12,14 @@ class ModelProduct {
         productName,
         note,
         qty,
-        capitalPrice,
-        sellingPrice,
+        price,
         createdAt,
         updatedAt
       ) VALUES (
         '${_params['productName']}',
         '${_params['note']}',
         0,
-        '${_params['capitalPrice']}',
-        '${_params['sellingPrice']}',
+        '${_params['price']}',
         '${DateTime.now()}',
         '${DateTime.now()}'
       )
@@ -42,8 +40,7 @@ class ModelProduct {
           productName = '${_params['productName']}',
           note = '${_params['note']}',
           qty = ${_params['qty']},
-          capitalPrice = ${_params['capitalPrice']},
-          sellingPrice = ${_params['sellingPrice']},
+          price = ${_params['price']},
           updatedAt='${DateTime.now()}'
       WHERE id=${_params['id']}
     ''';
@@ -89,8 +86,7 @@ class ModelProduct {
           productName: element["productName"],
           note: element["note"],
           qty: element["qty"],
-          capitalPrice: element["capitalPrice"],
-          sellingPrice: element["sellingPrice"],
+          price: element["price"],
           createdAt: element["createdAt"],
           updatedAt: element["updatedAt"]));
     });
@@ -111,8 +107,7 @@ class ModelProduct {
           productName: element["productName"],
           note: element["note"],
           qty: element["qty"],
-          capitalPrice: element["capitalPrice"],
-          sellingPrice: element["sellingPrice"],
+          price: element["price"],
           createdAt: element["createdAt"],
           updatedAt: element["updatedAt"]));
     });

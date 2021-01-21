@@ -12,36 +12,36 @@ import 'package:oifyoo_mksr/widgets/widgets.dart';
 /// github : https://www.github.com/ukieTux <(’_’<)
 ///*********************************************
 /// © 2021 | All Right Reserved
-class AddProductPage extends StatefulWidget {
+class AddSpendingPage extends StatefulWidget {
   @override
-  _AddProductPageState createState() => _AddProductPageState();
+  _AddSpendingPageState createState() => _AddSpendingPageState();
 }
 
-class _AddProductPageState extends State<AddProductPage> {
-  AddProductBloc _addProductBloc;
+class _AddSpendingPageState extends State<AddSpendingPage> {
+  AddSpendingBloc _addSpendingBloc;
   var _formKey = GlobalKey<FormState>();
 
-  var _conProductName = TextEditingController();
+  var _conName = TextEditingController();
   var _conNote = TextEditingController();
   var _conPrice = TextEditingController();
 
-  var _fnProductName = FocusNode();
+  var _fnSpendingName = FocusNode();
   var _fnNote = FocusNode();
   var _fnPrice = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _addProductBloc = BlocProvider.of(context);
+    _addSpendingBloc = BlocProvider.of(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Parent(
-      appBar: context.appBar(title: Strings.addProduct),
+      appBar: context.appBar(title: Strings.addSpending),
       avoidBottomInset: true,
       child: BlocListener(
-        cubit: _addProductBloc,
+        cubit: _addSpendingBloc,
         listener: (_, state) {
           switch (state.status) {
             case Status.LOADING:
@@ -67,10 +67,10 @@ class _AddProductPageState extends State<AddProductPage> {
           child: Column(
             children: [
               TextF(
-                hint: Strings.productName,
-                curFocusNode: _fnProductName,
+                hint: Strings.spendingName,
+                curFocusNode: _fnSpendingName,
                 nextFocusNode: _fnNote,
-                controller: _conProductName,
+                controller: _conName,
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
@@ -106,11 +106,11 @@ class _AddProductPageState extends State<AddProductPage> {
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     var _params = {
-                      "productName": _conProductName.text,
+                      "name": _conName.text,
                       "note": _conNote.text,
                       "price": _conPrice.text.toClearText()
                     };
-                    _addProductBloc.addProduct(_params);
+                    _addSpendingBloc.addSpending(_params);
                   }
                 },
               )

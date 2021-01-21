@@ -5,8 +5,7 @@ class ProductEntity {
   String productName;
   String note;
   int qty;
-  int capitalPrice;
-  int sellingPrice;
+  int price;
   String createdAt;
   String updatedAt;
   bool isSelected = false;
@@ -18,8 +17,7 @@ class ProductEntity {
     this.productName,
     this.note,
     this.qty = 0,
-    this.capitalPrice,
-    this.sellingPrice,
+    this.price,
     this.createdAt,
     this.updatedAt,
   });
@@ -29,8 +27,7 @@ class ProductEntity {
     this.productName = source.productName;
     this.note = source.note;
     this.qty = source.qty;
-    this.capitalPrice = source.capitalPrice;
-    this.sellingPrice = source.sellingPrice;
+    this.price = source.price;
     this.createdAt = source.createdAt;
     this.updatedAt = source.updatedAt;
   }

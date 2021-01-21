@@ -221,8 +221,8 @@ class _ListPurchasePageState extends State<ListPurchasePage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deletePurchaseBloc
-                          .deletePurchase(_listPurchase[index].transactionNumber);
+                      _deletePurchaseBloc.deletePurchase(
+                          _listPurchase[index].transactionNumber);
 
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog

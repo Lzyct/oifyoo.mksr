@@ -12,38 +12,37 @@ import 'package:oifyoo_mksr/widgets/widgets.dart';
 /// github : https://www.github.com/ukieTux <(’_’<)
 ///*********************************************
 /// © 2021 | All Right Reserved
-class DetailProductPage extends StatefulWidget {
+class DetailSpendingPage extends StatefulWidget {
   final int id;
 
-  const DetailProductPage({Key key, this.id}) : super(key: key);
+  const DetailSpendingPage({Key key, this.id}) : super(key: key);
 
   @override
-  _DetailProductPageState createState() => _DetailProductPageState();
+  _DetailSpendingPageState createState() => _DetailSpendingPageState();
 }
 
-class _DetailProductPageState extends State<DetailProductPage> {
-  DetailProductBloc _detailProductBloc;
+class _DetailSpendingPageState extends State<DetailSpendingPage> {
+  DetailSpendingBloc _detailSpendingBloc;
 
-  var _conProductName = TextEditingController();
+  var _conName = TextEditingController();
   var _conNote = TextEditingController();
-  var _conQty = TextEditingController();
   var _conPrice = TextEditingController();
 
-  ProductEntity _productEntity;
+  SpendingEntity _spendingEntity;
 
   @override
   void initState() {
     super.initState();
-    _detailProductBloc = BlocProvider.of(context);
-    _detailProductBloc.detailProduct(widget.id);
+    _detailSpendingBloc = BlocProvider.of(context);
+    _detailSpendingBloc.detailSpending(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Parent(
-        appBar: context.appBar(title: Strings.detailProduct),
+        appBar: context.appBar(title: Strings.detailSpending),
         child: BlocListener(
-          cubit: _detailProductBloc,
+          cubit: _detailSpendingBloc,
           listener: (_, state) {
             switch (state.status) {
               case Status.LOADING:
@@ -58,12 +57,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 break;
               case Status.SUCCESS:
                 {
-                  _productEntity = state.data;
+                  _spendingEntity = state.data;
 
-                  _conProductName.text = _productEntity.productName;
-                  _conNote.text = _productEntity.note;
-                  _conQty.text = _productEntity.qty.toString();
-                  _conPrice.text = _productEntity.price.toString().toCurrency();
+                  _conName.text = _spendingEntity.name;
+                  _conNote.text = _spendingEntity.note;
+                  _conPrice.text =
+                      _spendingEntity.price.toString().toCurrency();
                 }
                 break;
             }
@@ -71,19 +70,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
           child: Column(
             children: [
               TextF(
-                hint: Strings.productName,
+                hint: Strings.spendingName,
                 curFocusNode: DisableFocusNode(),
-                controller: _conProductName,
+                controller: _conName,
               ),
               TextF(
                 hint: Strings.note,
                 curFocusNode: DisableFocusNode(),
                 controller: _conNote,
-              ),
-              TextF(
-                hint: Strings.qty,
-                curFocusNode: DisableFocusNode(),
-                controller: _conQty,
               ),
               TextF(
                 hint: Strings.price,

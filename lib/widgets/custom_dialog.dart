@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:oifyoo_mksr/resources/colors.dart';
 import 'package:oifyoo_mksr/resources/dimens.dart';
 import 'package:oifyoo_mksr/resources/styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 ///*********************************************
 /// Created by ukietux on 19/06/20 with ♥
@@ -35,6 +35,7 @@ class CustomDialog extends StatefulWidget {
 
 class _CustomDialogState extends State<CustomDialog> {
   final radius = 5.0;
+
   @override
   Widget build(BuildContext context) {
     return CupertinoDialogAction(

@@ -5,21 +5,12 @@ import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
-class SaleRepository {
-  var _saleTransaction = sl<SaleTransaction>();
+class SpendingRepository {
+  var _spendingTransaction = sl<SpendingTransaction>();
 
-  Future<Resources<String>> transactionNumber() async {
+  Future<Resources<dynamic>> addSpending(Map<String, dynamic> _params) async {
     try {
-      var _response = await _saleTransaction.transactionNumber();
-      return Resources.success(data: _response);
-    } catch (e) {
-      return Resources.error(e.toString());
-    }
-  }
-
-  Future<Resources<dynamic>> addSale(Map<String, dynamic> _params) async {
-    try {
-      var _response = await _saleTransaction.addSale(_params);
+      var _response = await _spendingTransaction.addSpending(_params);
 
       logs("is bool ${_response is bool}");
       if (_response is bool) {
@@ -32,9 +23,9 @@ class SaleRepository {
     }
   }
 
-  Future<Resources<dynamic>> deleteSale(String _transactionNumber) async {
+  Future<Resources<dynamic>> deleteSpending(int _id) async {
     try {
-      var _response = await _saleTransaction.deleteSale(_transactionNumber);
+      var _response = await _spendingTransaction.deleteSpending(_id);
       logs("is bool ${_response is bool}");
       if (_response is bool) {
         return Resources.success(data: true);
@@ -46,33 +37,32 @@ class SaleRepository {
     }
   }
 
-  Future<Resources<dynamic>> editSale(Map<String, dynamic> _params) async {
+  Future<Resources<dynamic>> editSpending(Map<String, dynamic> _params) async {
     try {
-      await _saleTransaction.editSale(_params);
+      await _spendingTransaction.editSpending(_params);
       return Resources.success(data: true);
     } catch (e) {
       return Resources.error(e.toString());
     }
   }
 
-  Future<Resources<List<TransactionEntity>>> getDetailSale(
-      String _transactionNumber) async {
+  Future<Resources<SpendingEntity>> getDetailSpending(int _id) async {
     try {
-      var _response = await _saleTransaction.getDetailSale(_transactionNumber);
+      var _response = await _spendingTransaction.getDetailSpending(_id);
       return Resources.success(data: _response);
     } catch (e) {
       return Resources.error(e.toString());
     }
   }
 
-  Future<Resources<List<TransactionEntity>>> getListSale(
-      String _searchText) async {
+  Future<Resources<List<SpendingEntity>>> getListSpending(
+      String spendingName) async {
     try {
-      var _response = await _saleTransaction.getListSale(_searchText);
+      var _response = await _spendingTransaction.getListSpending(spendingName);
 
       logs("is bool ${_response is bool}");
       if (_response.isEmpty) {
-        return Resources.empty(Strings.errorNoSale);
+        return Resources.empty(Strings.errorNoSpending);
       } else {
         return Resources.success(data: _response);
       }

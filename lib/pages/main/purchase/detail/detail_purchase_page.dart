@@ -188,7 +188,7 @@ class _DetailPurchasePageState extends State<DetailPurchasePage> {
 
   _listItem(int index) {
     int _qty = _listSelectedProduct[index].qty;
-    int _price = _listSelectedProduct[index].sellingPrice;
+    int _price = _listSelectedProduct[index].price;
     return Column(
       children: [
         Row(

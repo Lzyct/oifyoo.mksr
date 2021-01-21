@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
 
 ///*********************************************
