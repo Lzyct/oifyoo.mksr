@@ -84,54 +84,77 @@ class _ListProductPageState extends State<ListProductPage> {
           ).margin(
               edgeInsets: EdgeInsets.symmetric(horizontal: context.dp16())),
           Expanded(
-              child: BlocBuilder(
-            cubit: _listProductBloc,
-            builder: (_, state) {
+              child: BlocListener(
+            cubit: _deleteProductBloc,
+            listener: (_, state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
-                    return Center(child: Loading());
-                  }
-                  break;
-                case Status.EMPTY:
-                  {
-                    return Center(
-                      child: Empty(
-                        errorMessage: state.message.toString(),
-                      ),
-                    );
+                    Strings.pleaseWait.toToastLoading();
                   }
                   break;
                 case Status.ERROR:
                   {
-                    return Center(
-                      child: Empty(
-                        errorMessage: state.message.toString(),
-                      ),
-                    );
+                    state.message.toString().toToastError();
                   }
                   break;
                 case Status.SUCCESS:
                   {
-                    _listProduct = state.data;
-                    return RefreshIndicator(
-                      onRefresh: () async {
-                        _getListProduct();
-                      },
-                      child: ListView.builder(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: _listProduct.length,
-                          shrinkWrap: true,
-                          itemBuilder: (_, index) {
-                            return _listItem(index);
-                          }),
-                    );
+                    Strings.successVoidData.toToastSuccess();
+                    _getListProduct();
                   }
                   break;
-                default:
-                  return Container();
               }
             },
+            child: BlocBuilder(
+              cubit: _listProductBloc,
+              builder: (_, state) {
+                switch (state.status) {
+                  case Status.LOADING:
+                    {
+                      return Center(child: Loading());
+                    }
+                    break;
+                  case Status.EMPTY:
+                    {
+                      return Center(
+                        child: Empty(
+                          errorMessage: state.message.toString(),
+                        ),
+                      );
+                    }
+                    break;
+                  case Status.ERROR:
+                    {
+                      return Center(
+                        child: Empty(
+                          errorMessage: state.message.toString(),
+                        ),
+                      );
+                    }
+                    break;
+                  case Status.SUCCESS:
+                    {
+                      _listProduct = state.data;
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          _getListProduct();
+                        },
+                        child: ListView.builder(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: _listProduct.length,
+                            shrinkWrap: true,
+                            itemBuilder: (_, index) {
+                              return _listItem(index);
+                            }),
+                      );
+                    }
+                    break;
+                  default:
+                    return Container();
+                }
+              },
+            ),
           )),
         ],
       ),
@@ -188,7 +211,6 @@ class _ListProductPageState extends State<ListProductPage> {
                     ),
                     onPressed: () {
                       _deleteProductBloc.deleteProduct(_listProduct[index].id);
-                      _getListProduct();
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -225,16 +247,13 @@ class _ListProductPageState extends State<ListProductPage> {
                           .copyWith(fontSize: Dimens.fontLarge),
                     ),
                   ),
-                  Text(
-                    "${Strings.qtyDot} ${_listProduct[index].qty}",
-                    style: TextStyles.textBold
-
-                  )
+                  Text("${Strings.qtyDot} ${_listProduct[index].qty}",
+                      style: TextStyles.textBold)
                 ],
               ),
               SizedBox(height: context.dp8()),
               Text(
-                _listProduct[index].sellingPrice.toString().toIDR(),
+                _listProduct[index].price.toString().toIDR(),
                 style: TextStyles.text,
               ),
               SizedBox(height: context.dp8()),
