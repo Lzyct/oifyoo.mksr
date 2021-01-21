@@ -264,7 +264,12 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                 "${Strings.note} : ${_listSpending[index].note}",
                 style: TextStyles.textHint.copyWith(
                     fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
-              )
+              ),
+              Text(
+                _listSpending[index].updatedAt.toDateTime(),
+                style: TextStyles.textHint.copyWith(
+                    fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
+              ),
             ],
           ).padding(edgeInsets: EdgeInsets.all(context.dp16())),
           onTap: () {
