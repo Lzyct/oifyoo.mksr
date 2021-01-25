@@ -80,4 +80,7 @@ class Strings {
 
   static const String sellingPrice = "Harga Jual";
   static const String purchasePrice = "Harga Beli";
+
+  static const String totalIncomeMonth = "Total Pemasukan Bulan Ini : ";
+  static const String totalSpendingMonth = "Total Pengeluaran Bulan Ini :";
 }

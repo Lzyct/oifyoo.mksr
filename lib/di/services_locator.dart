@@ -16,12 +16,14 @@ Future<void> serviceLocator() async {
   sl.registerLazySingleton(() => SaleTransaction());
   sl.registerLazySingleton(() => PurchaseTransaction());
   sl.registerLazySingleton(() => SpendingTransaction());
+  sl.registerLazySingleton(() => HomeTransaction());
 
   // register  Repositories
   sl.registerLazySingleton(() => ProductRepository());
   sl.registerLazySingleton(() => SaleRepository());
   sl.registerLazySingleton(() => PurchaseRepository());
   sl.registerLazySingleton(() => SpendingRepository());
+  sl.registerLazySingleton(() => HomeRepository());
 }
 
 //register prefManager

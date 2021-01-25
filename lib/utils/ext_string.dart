@@ -26,9 +26,18 @@ extension StringExtension on String {
     return DateFormat("MMyy").format(object);
   }
 
-  String toDateTime() {
+  String toMonthYearText() {
     var object = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(this);
-    return DateFormat("dd MMM yyyy HH:mm").format(object);
+    return DateFormat("MMMM yyyy").format(object);
+  }
+
+  String toDateTime() {
+    try {
+      var object = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(this);
+      return DateFormat("dd MMM yyyy HH:mm").format(object);
+    } catch (e) {
+      return "";
+    }
   }
 
   String toClock() {
