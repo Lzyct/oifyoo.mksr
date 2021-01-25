@@ -1,5 +1,3 @@
-
-
 class SpendingEntity {
   int id;
   String name;

@@ -27,7 +27,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
   var _conQty = TextEditingController();
-  var _conPrice = TextEditingController();
+  var _conSellingPrice = TextEditingController();
+  var _conPurchasePrice = TextEditingController();
 
   ProductEntity _productEntity;
 
@@ -63,7 +64,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   _conProductName.text = _productEntity.productName;
                   _conNote.text = _productEntity.note;
                   _conQty.text = _productEntity.qty.toString();
-                  _conPrice.text = _productEntity.sellingPrice.toString().toCurrency();
+                  _conSellingPrice.text =
+                      _productEntity.sellingPrice.toString().toCurrency();
+                  _conPurchasePrice.text =
+                      _productEntity.purchasePrice.toString().toCurrency();
                 }
                 break;
             }
@@ -86,9 +90,15 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 controller: _conQty,
               ),
               TextF(
-                hint: Strings.price,
+                hint: Strings.sellingPrice,
                 curFocusNode: DisableFocusNode(),
-                controller: _conPrice,
+                controller: _conSellingPrice,
+                prefixText: Strings.prefixRupiah,
+              ),
+              TextF(
+                hint: Strings.purchasePrice,
+                curFocusNode: DisableFocusNode(),
+                controller: _conPurchasePrice,
                 prefixText: Strings.prefixRupiah,
               ),
             ],
