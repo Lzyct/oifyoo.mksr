@@ -91,6 +91,16 @@ class ProductPickerState extends State<ProductPicker> {
                       shrinkWrap: true,
                       itemCount: _listDataFilter.length,
                       itemBuilder: (context, index) {
+                        var _price = widget.isSale
+                            ? _listDataFilter[index]
+                                .sellingPrice
+                                .toString()
+                                .toIDR()
+                            : _listDataFilter[index]
+                                .purchasePrice
+                                .toString()
+                                .toIDR();
+                        logs("price $_price");
                         return Visibility(
                           visible: !_listDataFilter[index].isSelected,
                           child: InkWell(
@@ -149,7 +159,7 @@ class ProductPickerState extends State<ProductPicker> {
                                 ),
                                 SizedBox(height: context.dp8()),
                                 Text(
-                                  "${_listDataFilter[index].price.toString().toIDR()}",
+                                  _price,
                                   style: TextStyles.textHint,
                                 ),
                                 Divider()

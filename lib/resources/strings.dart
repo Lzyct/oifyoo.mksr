@@ -77,4 +77,7 @@ class Strings {
   static const String errorNoSpending =
       "Pengeluaran tidak ditemukan\nSilahkan tambahkan pengeluaran";
   static const String detailSpending = "Detail Pengeluaran";
+
+  static const String sellingPrice = "Harga Jual";
+  static const String purchasePrice = "Harga Beli";
 }

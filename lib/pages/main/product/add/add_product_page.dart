@@ -23,11 +23,13 @@ class _AddProductPageState extends State<AddProductPage> {
 
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
-  var _conPrice = TextEditingController();
+  var _conSellingPrice = TextEditingController();
+  var _conPurchasePrice = TextEditingController();
 
   var _fnProductName = FocusNode();
   var _fnNote = FocusNode();
-  var _fnPrice = FocusNode();
+  var _fnSellingPrice = FocusNode();
+  var _fnPurchasePrice = FocusNode();
 
   @override
   void initState() {
@@ -77,23 +79,41 @@ class _AddProductPageState extends State<AddProductPage> {
               TextF(
                 hint: Strings.note,
                 curFocusNode: _fnNote,
-                nextFocusNode: _fnPrice,
+                nextFocusNode: _fnSellingPrice,
                 controller: _conNote,
                 textInputAction: TextInputAction.next,
               ),
               TextF(
-                hint: Strings.price,
-                curFocusNode: _fnPrice,
-                controller: _conPrice,
+                hint: Strings.sellingPrice,
+                curFocusNode: _fnSellingPrice,
+                nextFocusNode: _fnPurchasePrice,
+                controller: _conSellingPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 onChanged: (value) {
-                  _conPrice.text = _conPrice.text.toCurrency();
-                  _conPrice.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conPrice.text.length));
+                  _conSellingPrice.text = _conSellingPrice.text.toCurrency();
+                  _conSellingPrice.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _conSellingPrice.text.length));
+                },
+                textInputAction: TextInputAction.next,
+                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+              ),
+              TextF(
+                hint: Strings.purchasePrice,
+                curFocusNode: _fnPurchasePrice,
+                controller: _conPurchasePrice,
+                prefixText: Strings.prefixRupiah,
+                keyboardType: TextInputType.number,
+                inputFormatter: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                onChanged: (value) {
+                  _conPurchasePrice.text = _conPurchasePrice.text.toCurrency();
+                  _conPurchasePrice.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _conPurchasePrice.text.length));
                 },
                 textInputAction: TextInputAction.done,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
@@ -108,7 +128,8 @@ class _AddProductPageState extends State<AddProductPage> {
                     var _params = {
                       "productName": _conProductName.text,
                       "note": _conNote.text,
-                      "price": _conPrice.text.toClearText()
+                      "sellingPrice": _conSellingPrice.text.toClearText(),
+                      "purchasePrice": _conPurchasePrice.text.toClearText()
                     };
                     _addProductBloc.addProduct(_params);
                   }

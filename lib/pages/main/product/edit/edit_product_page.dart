@@ -30,12 +30,14 @@ class _EditProductPageState extends State<EditProductPage> {
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
   var _conQty = TextEditingController();
-  var _conPrice = TextEditingController();
+  var _conSellingPrice = TextEditingController();
+  var _conPurchasePrice = TextEditingController();
 
   var _fnProductName = FocusNode();
   var _fnNote = FocusNode();
   var _fnQty = FocusNode();
-  var _fnPrice = FocusNode();
+  var _fnSellingPrice = FocusNode();
+  var _fnPurchasePrice = FocusNode();
 
   ProductEntity _productEntity;
 
@@ -97,8 +99,10 @@ class _EditProductPageState extends State<EditProductPage> {
                       _conProductName.text = _productEntity.productName;
                       _conNote.text = _productEntity.note;
                       _conQty.text = _productEntity.qty.toString();
-                      _conPrice.text =
-                          _productEntity.price.toString().toCurrency();
+                      _conSellingPrice.text =
+                          _productEntity.sellingPrice.toString().toCurrency();
+                      _conPurchasePrice.text =
+                          _productEntity.purchasePrice.toString().toCurrency();
                     }
                     break;
                 }
@@ -124,30 +128,36 @@ class _EditProductPageState extends State<EditProductPage> {
                 textInputAction: TextInputAction.next,
               ),
               TextF(
-                hint: Strings.qty,
-                curFocusNode: _fnQty,
-                nextFocusNode: _fnPrice,
-                controller: _conQty,
-                keyboardType: TextInputType.number,
-                inputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
-              ),
-              TextF(
-                hint: Strings.price,
-                curFocusNode: _fnPrice,
-                controller: _conPrice,
+                hint: Strings.sellingPrice,
+                curFocusNode: _fnSellingPrice,
+                nextFocusNode: _fnPurchasePrice,
+                controller: _conSellingPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 onChanged: (value) {
-                  _conPrice.text = _conPrice.text.toCurrency();
-                  _conPrice.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conPrice.text.length));
+                  _conSellingPrice.text = _conSellingPrice.text.toCurrency();
+                  _conSellingPrice.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _conSellingPrice.text.length));
+                },
+                textInputAction: TextInputAction.next,
+                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+              ),
+              TextF(
+                hint: Strings.purchasePrice,
+                curFocusNode: _fnPurchasePrice,
+                controller: _conPurchasePrice,
+                prefixText: Strings.prefixRupiah,
+                keyboardType: TextInputType.number,
+                inputFormatter: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                onChanged: (value) {
+                  _conPurchasePrice.text = _conPurchasePrice.text.toCurrency();
+                  _conPurchasePrice.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _conPurchasePrice.text.length));
                 },
                 textInputAction: TextInputAction.done,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
@@ -163,8 +173,8 @@ class _EditProductPageState extends State<EditProductPage> {
                       "id": widget.id,
                       "productName": _conProductName.text,
                       "note": _conNote.text,
-                      "qty": _conQty.text,
-                      "price": _conPrice.text.toClearText()
+                      "sellingPrice": _conSellingPrice.text.toClearText(),
+                      "purchasePrice": _conPurchasePrice.text.toClearText()
                     };
                     logs("params $_params");
                     _editProductBloc.editProduct(_params);

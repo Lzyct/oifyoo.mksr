@@ -35,7 +35,8 @@ class DbHelper {
         productName TEXT,
         note TEXT, 
         qty INTEGER, 
-        price INTEGER,
+        sellingPrice INTEGER,
+        purchasePrice INTEGER,
         createdAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
         updatedAt Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )

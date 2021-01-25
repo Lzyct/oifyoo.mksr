@@ -35,7 +35,7 @@ class PurchaseTransaction {
              '$_transactionNumber',
              ${item.id},
              $_qty,
-             ${item.price},
+             ${item.purchasePrice},
              '${item.productName}',
              '${Strings.purchase}',
              '$_status',

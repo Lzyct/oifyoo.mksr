@@ -63,7 +63,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                   _conProductName.text = _productEntity.productName;
                   _conNote.text = _productEntity.note;
                   _conQty.text = _productEntity.qty.toString();
-                  _conPrice.text = _productEntity.price.toString().toCurrency();
+                  _conPrice.text = _productEntity.sellingPrice.toString().toCurrency();
                 }
                 break;
             }

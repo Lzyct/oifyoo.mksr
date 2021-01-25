@@ -253,7 +253,7 @@ class _ListProductPageState extends State<ListProductPage> {
               ),
               SizedBox(height: context.dp8()),
               Text(
-                _listProduct[index].price.toString().toIDR(),
+                _listProduct[index].sellingPrice.toString().toIDR(),
                 style: TextStyles.text,
               ),
               SizedBox(height: context.dp8()),

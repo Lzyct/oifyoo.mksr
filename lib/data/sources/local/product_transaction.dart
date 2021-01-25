@@ -12,14 +12,16 @@ class ProductTransaction {
         productName,
         note,
         qty,
-        price,
+        sellingPrice,
+        purchasePrice,
         createdAt,
         updatedAt
       ) VALUES (
         '${_params['productName']}',
         '${_params['note']}',
         0,
-        '${_params['price']}',
+        '${_params['sellingPrice']}',
+        '${_params['purchasePrice']}',
         '${DateTime.now()}',
         '${DateTime.now()}'
       )
@@ -39,8 +41,8 @@ class ProductTransaction {
       UPDATE product SET 
           productName = '${_params['productName']}',
           note = '${_params['note']}',
-          qty = ${_params['qty']},
-          price = ${_params['price']},
+          sellingPrice = ${_params['sellingPrice']},
+          purchasePrice= ${_params['purchasePrice']},
           updatedAt='${DateTime.now()}'
       WHERE id=${_params['id']}
     ''';
@@ -86,10 +88,12 @@ class ProductTransaction {
           productName: element["productName"],
           note: element["note"],
           qty: element["qty"],
-          price: element["price"],
+          sellingPrice: element["sellingPrice"],
+          purchasePrice: element["purchasePrice"],
           createdAt: element["createdAt"],
           updatedAt: element["updatedAt"]));
     });
+    logs(_listProduct[0].purchasePrice);
     _dbClient.close();
     return _listProduct;
   }
@@ -107,7 +111,8 @@ class ProductTransaction {
           productName: element["productName"],
           note: element["note"],
           qty: element["qty"],
-          price: element["price"],
+          sellingPrice: element["sellingPrice"],
+          purchasePrice: element["purchasePrice"],
           createdAt: element["createdAt"],
           updatedAt: element["updatedAt"]));
     });
