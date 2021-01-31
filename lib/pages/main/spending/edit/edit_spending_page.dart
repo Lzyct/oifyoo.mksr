@@ -108,21 +108,15 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
               TextF(
                 hint: Strings.spendingName,
                 curFocusNode: _fnSpendingName,
-                nextFocusNode: _fnNote,
+                nextFocusNode: _fnPrice,
                 controller: _conName,
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
-                hint: Strings.note,
-                curFocusNode: _fnNote,
-                nextFocusNode: _fnPrice,
-                controller: _conNote,
-                textInputAction: TextInputAction.next,
-              ),
-              TextF(
                 hint: Strings.price,
                 curFocusNode: _fnPrice,
+                nextFocusNode: _fnNote,
                 controller: _conPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
@@ -137,8 +131,15 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                 textInputAction: TextInputAction.done,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
+              TextF(
+                hint: Strings.note,
+                curFocusNode: _fnNote,
+                controller: _conNote,
+                textInputAction: TextInputAction.done,
+                minLine: 6,
+              ),
               SizedBox(
-                height: context.dp30(),
+                height: context.dp16(),
               ),
               Button(
                 title: Strings.save,

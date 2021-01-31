@@ -256,17 +256,12 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
               ),
               SizedBox(height: context.dp8()),
               Text(
-                _listSpending[index].price.toString().toIDR(),
-                style: TextStyles.text,
+                _listSpending[index].updatedAt.toString().toDateTime(),
+                style: TextStyles.text.copyWith(fontSize: Dimens.fontSmall),
               ),
               SizedBox(height: context.dp8()),
               Text(
                 "${Strings.note} : ${_listSpending[index].note}",
-                style: TextStyles.textHint.copyWith(
-                    fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
-              ),
-              Text(
-                _listSpending[index].updatedAt.toDateTime(),
                 style: TextStyles.textHint.copyWith(
                     fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
               ),

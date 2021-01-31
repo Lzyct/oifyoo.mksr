@@ -19,9 +19,9 @@ class ProductTransaction {
       ) VALUES (
         '${_params['productName']}',
         '${_params['note']}',
-        0,
+        '${_params['qty']}',
         '${_params['sellingPrice']}',
-        '${_params['purchasePrice']}',
+        0,
         '${DateTime.now()}',
         '${DateTime.now()}'
       )
@@ -42,7 +42,7 @@ class ProductTransaction {
           productName = '${_params['productName']}',
           note = '${_params['note']}',
           sellingPrice = ${_params['sellingPrice']},
-          purchasePrice= ${_params['purchasePrice']},
+          qty= ${_params['qty']},
           updatedAt='${DateTime.now()}'
       WHERE id=${_params['id']}
     ''';
@@ -93,7 +93,6 @@ class ProductTransaction {
           createdAt: element["createdAt"],
           updatedAt: element["updatedAt"]));
     });
-    logs(_listProduct[0].purchasePrice);
     _dbClient.close();
     return _listProduct;
   }

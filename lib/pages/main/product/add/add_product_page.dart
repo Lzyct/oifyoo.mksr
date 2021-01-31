@@ -24,12 +24,12 @@ class _AddProductPageState extends State<AddProductPage> {
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
   var _conSellingPrice = TextEditingController();
-  var _conPurchasePrice = TextEditingController();
+  var _conQty = TextEditingController();
 
   var _fnProductName = FocusNode();
   var _fnNote = FocusNode();
   var _fnSellingPrice = FocusNode();
-  var _fnPurchasePrice = FocusNode();
+  var _fnQty = FocusNode();
 
   @override
   void initState() {
@@ -71,22 +71,32 @@ class _AddProductPageState extends State<AddProductPage> {
               TextF(
                 hint: Strings.productName,
                 curFocusNode: _fnProductName,
-                nextFocusNode: _fnNote,
+                nextFocusNode: _fnQty,
                 controller: _conProductName,
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
-                hint: Strings.note,
-                curFocusNode: _fnNote,
+                hint: Strings.qty,
+                curFocusNode: _fnQty,
                 nextFocusNode: _fnSellingPrice,
-                controller: _conNote,
+                controller: _conQty,
+                keyboardType: TextInputType.number,
+                inputFormatter: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                onChanged: (value) {
+                  _conQty.text = _conQty.text.toCurrency();
+                  _conQty.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _conQty.text.length));
+                },
                 textInputAction: TextInputAction.next,
+                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.sellingPrice,
                 curFocusNode: _fnSellingPrice,
-                nextFocusNode: _fnPurchasePrice,
+                nextFocusNode: _fnNote,
                 controller: _conSellingPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
@@ -102,21 +112,11 @@ class _AddProductPageState extends State<AddProductPage> {
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
-                hint: Strings.purchasePrice,
-                curFocusNode: _fnPurchasePrice,
-                controller: _conPurchasePrice,
-                prefixText: Strings.prefixRupiah,
-                keyboardType: TextInputType.number,
-                inputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                onChanged: (value) {
-                  _conPurchasePrice.text = _conPurchasePrice.text.toCurrency();
-                  _conPurchasePrice.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conPurchasePrice.text.length));
-                },
+                hint: Strings.note,
+                curFocusNode: _fnNote,
+                controller: _conNote,
+                minLine: 8,
                 textInputAction: TextInputAction.done,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               SizedBox(
                 height: context.dp16(),
@@ -129,7 +129,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       "productName": _conProductName.text,
                       "note": _conNote.text,
                       "sellingPrice": _conSellingPrice.text.toClearText(),
-                      "purchasePrice": _conPurchasePrice.text.toClearText()
+                      "qty": _conQty.text.toClearText()
                     };
                     _addProductBloc.addProduct(_params);
                   }

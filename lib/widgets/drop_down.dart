@@ -47,8 +47,7 @@ class _DropDownState extends State<DropDown> {
             child: DropdownButtonFormField(
               decoration: InputDecoration(
                   alignLabelWithHint: true,
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: 0, horizontal: context.dp12()),
+                  contentPadding: EdgeInsets.zero,
                   enabledBorder: OutlineInputBorder(
                     gapPadding: 0,
                     borderRadius: BorderRadius.circular(context.dp4()),

@@ -31,13 +31,11 @@ class _EditProductPageState extends State<EditProductPage> {
   var _conNote = TextEditingController();
   var _conQty = TextEditingController();
   var _conSellingPrice = TextEditingController();
-  var _conPurchasePrice = TextEditingController();
 
   var _fnProductName = FocusNode();
   var _fnNote = FocusNode();
   var _fnQty = FocusNode();
   var _fnSellingPrice = FocusNode();
-  var _fnPurchasePrice = FocusNode();
 
   ProductEntity _productEntity;
 
@@ -101,8 +99,6 @@ class _EditProductPageState extends State<EditProductPage> {
                       _conQty.text = _productEntity.qty.toString();
                       _conSellingPrice.text =
                           _productEntity.sellingPrice.toString().toCurrency();
-                      _conPurchasePrice.text =
-                          _productEntity.purchasePrice.toString().toCurrency();
                     }
                     break;
                 }
@@ -115,22 +111,32 @@ class _EditProductPageState extends State<EditProductPage> {
               TextF(
                 hint: Strings.productName,
                 curFocusNode: _fnProductName,
-                nextFocusNode: _fnNote,
+                nextFocusNode: _fnQty,
                 controller: _conProductName,
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
-                hint: Strings.note,
-                curFocusNode: _fnNote,
-                nextFocusNode: _fnQty,
-                controller: _conNote,
+                hint: Strings.qty,
+                curFocusNode: _fnQty,
+                nextFocusNode: _fnSellingPrice,
+                controller: _conQty,
+                keyboardType: TextInputType.number,
+                inputFormatter: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                onChanged: (value) {
+                  _conQty.text = _conQty.text.toCurrency();
+                  _conQty.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _conQty.text.length));
+                },
                 textInputAction: TextInputAction.next,
+                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.sellingPrice,
                 curFocusNode: _fnSellingPrice,
-                nextFocusNode: _fnPurchasePrice,
+                nextFocusNode: _fnNote,
                 controller: _conSellingPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
@@ -146,24 +152,14 @@ class _EditProductPageState extends State<EditProductPage> {
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
-                hint: Strings.purchasePrice,
-                curFocusNode: _fnPurchasePrice,
-                controller: _conPurchasePrice,
-                prefixText: Strings.prefixRupiah,
-                keyboardType: TextInputType.number,
-                inputFormatter: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                onChanged: (value) {
-                  _conPurchasePrice.text = _conPurchasePrice.text.toCurrency();
-                  _conPurchasePrice.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conPurchasePrice.text.length));
-                },
+                hint: Strings.note,
+                curFocusNode: _fnNote,
+                controller: _conNote,
+                minLine: 8,
                 textInputAction: TextInputAction.done,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               SizedBox(
-                height: context.dp30(),
+                height: context.dp16(),
               ),
               Button(
                 title: Strings.save,
@@ -174,7 +170,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       "productName": _conProductName.text,
                       "note": _conNote.text,
                       "sellingPrice": _conSellingPrice.text.toClearText(),
-                      "purchasePrice": _conPurchasePrice.text.toClearText()
+                      "qty": _conQty.text.toClearText()
                     };
                     logs("params $_params");
                     _editProductBloc.editProduct(_params);

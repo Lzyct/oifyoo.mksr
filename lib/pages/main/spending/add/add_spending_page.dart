@@ -69,21 +69,15 @@ class _AddSpendingPageState extends State<AddSpendingPage> {
               TextF(
                 hint: Strings.spendingName,
                 curFocusNode: _fnSpendingName,
-                nextFocusNode: _fnNote,
+                nextFocusNode: _fnPrice,
                 controller: _conName,
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
-                hint: Strings.note,
-                curFocusNode: _fnNote,
-                nextFocusNode: _fnPrice,
-                controller: _conNote,
-                textInputAction: TextInputAction.next,
-              ),
-              TextF(
                 hint: Strings.price,
                 curFocusNode: _fnPrice,
+                nextFocusNode: _fnNote,
                 controller: _conPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
@@ -95,8 +89,15 @@ class _AddSpendingPageState extends State<AddSpendingPage> {
                   _conPrice.selection = TextSelection.fromPosition(
                       TextPosition(offset: _conPrice.text.length));
                 },
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+              ),
+              TextF(
+                hint: Strings.note,
+                curFocusNode: _fnNote,
+                controller: _conNote,
+                minLine: 6,
+                textInputAction: TextInputAction.done,
               ),
               SizedBox(
                 height: context.dp16(),
