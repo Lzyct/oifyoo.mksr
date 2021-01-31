@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: null),
             SizedBox(height: context.dp16()),
             Text(
-              "${Strings.lastUpdate} ${_totalPurchaseEntity.updatedAt.toString().toDateTime()}",
+              "${Strings.lastUpdate} ${_totalSpendingEntity.updatedAt.toString().toDateTime()}",
               style: TextStyles.textHint.copyWith(
                   fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
             ),
