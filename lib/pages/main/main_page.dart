@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
     _dataMenus = [
       DataSelected(title: Strings.home, isSelected: true),
       DataSelected(title: Strings.sale, isSelected: false),
-      DataSelected(title: Strings.purchase, isSelected: false),
+      // DataSelected(title: Strings.purchase, isSelected: false),
       DataSelected(title: Strings.spending, isSelected: false),
       DataSelected(title: Strings.product, isSelected: false),
     ];
@@ -167,12 +167,12 @@ class _MainPageState extends State<MainPage> {
                                     .openDrawer(NavigationEvents.SalePage);
                               }
                               break;
-                            case Strings.purchase:
-                              {
-                                _drawerBloc
-                                    .openDrawer(NavigationEvents.PurchasePage);
-                              }
-                              break;
+                            // case Strings.purchase:
+                            //   {
+                            //     _drawerBloc
+                            //         .openDrawer(NavigationEvents.PurchasePage);
+                            //   }
+                            //   break;
                             case Strings.spending:
                               {
                                 _drawerBloc

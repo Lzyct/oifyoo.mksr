@@ -7,7 +7,7 @@ import 'package:oifyoo_mksr/pages/main/main.dart';
 enum NavigationEvents {
   HomePage,
   SalePage,
-  PurchasePage,
+  // PurchasePage,
   SpendingPage,
   Product,
 }
@@ -35,12 +35,12 @@ class NavDrawerBloc extends Cubit<Widget> {
           BlocProvider(create: (_) => DeleteSaleBloc())
         ], child: ListSalePage()));
         break;
-      case NavigationEvents.PurchasePage:
-        emit(MultiBlocProvider(providers: [
-          BlocProvider(create: (_) => ListPurchaseBloc()),
-          BlocProvider(create: (_) => DeletePurchaseBloc())
-        ], child: ListPurchasePage()));
-        break;
+      // case NavigationEvents.PurchasePage:
+      //   emit(MultiBlocProvider(providers: [
+      //     BlocProvider(create: (_) => ListPurchaseBloc()),
+      //     BlocProvider(create: (_) => DeletePurchaseBloc())
+      //   ], child: ListPurchasePage()));
+      //   break;
       case NavigationEvents.Product:
         emit(MultiBlocProvider(
           providers: [

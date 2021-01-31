@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.8.0+9
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -40,7 +40,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
 
   # Use for Dependencies Injection
-  get_it: ^5.0.4
+  get_it: ^5.0.6
 
   # Use for State Management with BLoC patter
   flutter_bloc: ^6.1.1
@@ -52,7 +52,7 @@ dependencies:
   oktoast: ^2.3.2
 
   # Use for responsive UI, set default size base on Mock Up
-  flutter_screenutil: ^4.0.2+5
+  flutter_screenutil: ^4.0.2+8
 
   # Use as path reader for Android and iOS
   path_provider: ^1.6.27

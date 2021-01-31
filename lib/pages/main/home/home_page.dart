@@ -125,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                     dismissAllToast();
                     setState(() {
                       _totalSaleEntity = state.data;
+                      logs("total ${_totalSaleEntity.total}");
                       _totalIncoming += _totalSaleEntity.total;
                       _total = _totalIncoming - _totalSpending;
                     });
