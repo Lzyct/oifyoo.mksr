@@ -85,11 +85,6 @@ class _AddProductPageState extends State<AddProductPage> {
                 inputFormatter: [
                   FilteringTextInputFormatter.digitsOnly,
                 ],
-                onChanged: (value) {
-                  _conQty.text = _conQty.text.toCurrency();
-                  _conQty.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conQty.text.length));
-                },
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),
@@ -102,12 +97,8 @@ class _AddProductPageState extends State<AddProductPage> {
                 keyboardType: TextInputType.number,
                 inputFormatter: [
                   FilteringTextInputFormatter.digitsOnly,
+                  CurrencyFormatter(),
                 ],
-                onChanged: (value) {
-                  _conSellingPrice.text = _conSellingPrice.text.toCurrency();
-                  _conSellingPrice.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conSellingPrice.text.length));
-                },
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),

@@ -11,6 +11,7 @@ class PurchaseTransaction {
     var _buyer = _params["buyer"];
     var _status = _params["status"];
     var _transactionNumber = _params["transactionNumber"];
+    var _discount = _params['discount'];
 
     List<ProductEntity> _listProduct = _params["listProduct"];
 
@@ -24,6 +25,7 @@ class PurchaseTransaction {
              idProduct,
              qty,
              price,
+             discount,
              productName,
              type,
              status,
@@ -36,6 +38,7 @@ class PurchaseTransaction {
              ${item.id},
              $_qty,
              ${item.purchasePrice},
+             $_discount,
              '${item.productName}',
              '${Strings.purchase}',
              '$_status',
@@ -110,6 +113,7 @@ class PurchaseTransaction {
             idProduct: element['idProduct'],
             qty: element['qty'],
             price: element['price'],
+            discount: element['discount'],
             type: element['type'],
             status: element['status'],
             note: element['note'],

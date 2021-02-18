@@ -83,12 +83,8 @@ class _AddSpendingPageState extends State<AddSpendingPage> {
                 keyboardType: TextInputType.number,
                 inputFormatter: [
                   FilteringTextInputFormatter.digitsOnly,
+                  CurrencyFormatter(),
                 ],
-                onChanged: (value) {
-                  _conPrice.text = _conPrice.text.toCurrency();
-                  _conPrice.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conPrice.text.length));
-                },
                 textInputAction: TextInputAction.next,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),

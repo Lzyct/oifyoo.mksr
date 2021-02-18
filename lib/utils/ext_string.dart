@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -109,12 +110,10 @@ extension StringExtension on String {
     if (this.isNotEmpty) {
       //clean string before format
       var value = this.replaceAll(".", "");
-      return NumberFormat.currency(
-        symbol: "",
-        decimalDigits: 0,
-      ).format(int.parse(value)).replaceAll(",", ".");
-    }
-    return "0";
+      return NumberFormat.currency(symbol: "", decimalDigits: 0, locale: 'id')
+          .format(int.parse(value));
+    } else
+      return "0";
   }
 
   String toClearText() {

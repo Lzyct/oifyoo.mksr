@@ -27,17 +27,21 @@ class _AddSalePageState extends State<AddSalePage> {
 
   var _conNote = TextEditingController();
   var _conBuyer = TextEditingController();
+  var _conDiscount = TextEditingController(text: "0");
 
   var _fnNote = FocusNode();
   var _fnBuyer = FocusNode();
+  var _fnDiscount = FocusNode();
 
   var _selectedStatus = "";
+
   List<ProductEntity> _listProduct = [];
   List<ProductEntity> _listProductFilter = [];
   List<ProductEntity> _listSelectedProduct = [];
 
   String _transactionNumber = "";
   int _totalPrice = 0;
+  int _totalPriceTmp = 0;
 
   @override
   void initState() {
@@ -167,6 +171,26 @@ class _AddSalePageState extends State<AddSalePage> {
                         return _listItem(index);
                       })
                   : Empty(errorMessage: Strings.errorNoProduct),
+              TextF(
+                hint: Strings.discount,
+                curFocusNode: _fnDiscount,
+                nextFocusNode: _fnNote,
+                controller: _conDiscount,
+                prefixText: Strings.prefixRupiah,
+                keyboardType: TextInputType.number,
+                inputFormatter: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  CurrencyFormatter(),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    _totalPriceTmp =
+                        _totalPrice - _conDiscount.text.toClearText().toInt();
+                  });
+                },
+                textInputAction: TextInputAction.next,
+                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+              ),
               Visibility(
                   visible: _listSelectedProduct.isNotEmpty,
                   child: Row(
@@ -178,7 +202,7 @@ class _AddSalePageState extends State<AddSalePage> {
                             .copyWith(fontSize: Dimens.fontLarge),
                       ),
                       Text(
-                        _totalPrice.toString().toIDR(),
+                        _totalPriceTmp.toString().toIDR(),
                         style: TextStyles.textBold
                             .copyWith(fontSize: Dimens.fontLarge),
                       )
@@ -229,7 +253,8 @@ class _AddSalePageState extends State<AddSalePage> {
                         "note": _conNote.text,
                         "buyer": _conBuyer.text,
                         "status": _selectedStatus,
-                        "listProduct": _listSelectedProduct
+                        "listProduct": _listSelectedProduct,
+                        "discount": _conDiscount.text.toClearText()
                       };
                       _addSaleBloc.addSale(_params);
                     } else {

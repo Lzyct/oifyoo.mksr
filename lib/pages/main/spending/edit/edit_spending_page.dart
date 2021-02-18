@@ -122,12 +122,8 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                 keyboardType: TextInputType.number,
                 inputFormatter: [
                   FilteringTextInputFormatter.digitsOnly,
+                  CurrencyFormatter(),
                 ],
-                onChanged: (value) {
-                  _conPrice.text = _conPrice.text.toCurrency();
-                  _conPrice.selection = TextSelection.fromPosition(
-                      TextPosition(offset: _conPrice.text.length));
-                },
                 textInputAction: TextInputAction.done,
                 validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
               ),

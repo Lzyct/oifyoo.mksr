@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: Size(375, 667),
         allowFontScaling: false,
-        child: MaterialApp(
+        builder: () => MaterialApp(
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,

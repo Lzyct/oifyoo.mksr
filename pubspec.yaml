@@ -28,10 +28,10 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.0
 
   # Use as default SVG image loader, prefer use SVG as image asset
-  flutter_svg: ^0.19.2+1
+  flutter_svg: ^0.19.0
 
   # Use as Network Client
   dio: 3.0.9
@@ -43,22 +43,22 @@ dependencies:
   get_it: ^5.0.6
 
   # Use for State Management with BLoC patter
-  flutter_bloc: ^6.1.1
+  flutter_bloc: ^6.1.2
 
   # Use for Time/Date Format
-  intl: ^0.17.0-nullsafety.2
+  intl: ^0.16.1
 
   # Use for custom toast with Status, ex : Loading,Success,Failed
   oktoast: ^2.3.2
 
   # Use for responsive UI, set default size base on Mock Up
-  flutter_screenutil: ^4.0.2+8
+  flutter_screenutil: ^4.0.3+1
 
   # Use as path reader for Android and iOS
   path_provider: ^1.6.27
 
   # Use for request permission
-  permission_handler: ^5.0.1+1
+  permission_handler: ^5.1.0+2
 
   # search
   animated_search_bar: ^1.3.0
