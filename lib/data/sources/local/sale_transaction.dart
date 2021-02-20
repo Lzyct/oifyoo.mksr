@@ -10,6 +10,7 @@ class SaleTransaction {
     var _note = _params["note"];
     var _buyer = _params["buyer"];
     var _status = _params["status"];
+    var _discount = _params["discount"];
     var _transactionNumber = _params["transactionNumber"];
 
     List<ProductEntity> _listProduct = _params["listProduct"];
@@ -24,6 +25,7 @@ class SaleTransaction {
              idProduct,
              qty,
              price,
+             discount,
              productName,
              type,
              status,
@@ -36,6 +38,7 @@ class SaleTransaction {
              ${item.id},
              $_qty,
              ${item.sellingPrice},
+             $_discount,
              '${item.productName}',
              '${Strings.sale}',
              '$_status',
@@ -110,6 +113,7 @@ class SaleTransaction {
             idProduct: element['idProduct'],
             qty: element['qty'],
             price: element['price'],
+            discount: element['discount'],
             type: element['type'],
             status: element['status'],
             note: element['note'],
@@ -192,6 +196,7 @@ class SaleTransaction {
           idProduct: element['idProduct'],
           qty: element['qty'],
           price: element['price'],
+          discount: element['discount'],
           type: element['type'],
           status: element['status'],
           note: element['note'],
@@ -220,6 +225,7 @@ class SaleTransaction {
           idProduct: element['idProduct'],
           qty: element['qty'],
           price: element['price'],
+          discount: element['discount'],
           productName: element['productName'],
           type: element['type'],
           status: element['status'],

@@ -83,6 +83,7 @@ class Strings {
 
   static const String totalIncomeMonth = "Total Pemasukan Bulan Ini : ";
   static const String totalSpendingMonth = "Total Pengeluaran Bulan Ini :";
-
   static const String discount = "Potongan";
+  static const String subTotalDot = "Sub Total : ";
+  static const String discountDot = "Potongan : ";
 }

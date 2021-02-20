@@ -15,8 +15,10 @@ import 'package:oifyoo_mksr/widgets/widgets.dart';
 class EditSalePage extends StatefulWidget {
   final String transactionNumber;
   final String total;
+  final String discount;
 
-  const EditSalePage({Key key, this.transactionNumber, this.total})
+  const EditSalePage(
+      {Key key, this.transactionNumber, this.total, this.discount})
       : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class EditSalePage extends StatefulWidget {
 class _EditSalePageState extends State<EditSalePage> {
   EditSaleBloc _editSaleBloc;
   DetailSaleBloc _detailSaleBloc;
+  var _total = "";
 
   var _selectedStatus = Strings.listStatus[0];
   var _note = "";
@@ -39,6 +42,11 @@ class _EditSalePageState extends State<EditSalePage> {
     _editSaleBloc = BlocProvider.of(context);
     _detailSaleBloc = BlocProvider.of(context);
     _detailSaleBloc.detailSale(widget.transactionNumber);
+
+    _total = (widget.total.toClearText().toInt() -
+            widget.discount.toClearText().toInt())
+        .toString()
+        .toIDR();
   }
 
   @override
@@ -123,12 +131,44 @@ class _EditSalePageState extends State<EditSalePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${Strings.totalDot}",
+                  "${Strings.subTotalDot}",
                   style:
                       TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 ),
                 Text(
                   widget.total,
+                  style:
+                      TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
+                )
+              ],
+            ),
+            SizedBox(height: context.dp8()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "${Strings.discountDot}",
+                  style:
+                      TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
+                ),
+                Text(
+                  widget.discount,
+                  style:
+                      TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
+                )
+              ],
+            ),
+            SizedBox(height: context.dp8()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "${Strings.totalDot}",
+                  style:
+                      TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
+                ),
+                Text(
+                  _total,
                   style:
                       TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 )

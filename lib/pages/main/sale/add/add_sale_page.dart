@@ -171,6 +171,24 @@ class _AddSalePageState extends State<AddSalePage> {
                         return _listItem(index);
                       })
                   : Empty(errorMessage: Strings.errorNoProduct),
+              Visibility(
+                  visible: _listSelectedProduct.isNotEmpty,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${Strings.subTotalDot}",
+                        style: TextStyles.textBold
+                            .copyWith(fontSize: Dimens.fontLarge),
+                      ),
+                      Text(
+                        _totalPrice.toString().toIDR(),
+                        style: TextStyles.textBold
+                            .copyWith(fontSize: Dimens.fontLarge),
+                      )
+                    ],
+                  )),
+              SizedBox(height: context.dp16()),
               TextF(
                 hint: Strings.discount,
                 curFocusNode: _fnDiscount,
@@ -311,6 +329,7 @@ class _AddSalePageState extends State<AddSalePage> {
       int _totalPerProduct = _qty * item.sellingPrice;
       setState(() {
         _totalPrice += _totalPerProduct;
+        _totalPriceTmp = _totalPrice - _conDiscount.text.toClearText().toInt();
       });
     }
   }

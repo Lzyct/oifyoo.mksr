@@ -173,6 +173,8 @@ class _ListSalePageState extends State<ListSalePage> {
   }
 
   _listItem(int index) {
+    var _total =
+        (_listSale[index].total - _listSale[index].discount).toString().toIDR();
     return Dismissible(
       key: UniqueKey(),
       background: Delete(),
@@ -238,9 +240,9 @@ class _ListSalePageState extends State<ListSalePage> {
                 BlocProvider(create: (_) => DetailSaleBloc()),
               ],
               child: EditSalePage(
-                transactionNumber: _listSale[index].transactionNumber,
-                total: _listSale[index].total.toString().toIDR(),
-              )));
+                  transactionNumber: _listSale[index].transactionNumber,
+                  total: _listSale[index].total.toString().toIDR(),
+                  discount: _listSale[index].discount.toString().toIDR())));
           _getListSale();
         }
         return false;
@@ -265,7 +267,7 @@ class _ListSalePageState extends State<ListSalePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${_listSale[index].total.toString().toIDR()}",
+                    _total,
                     style: TextStyles.text,
                   ),
                   Container(
@@ -292,6 +294,7 @@ class _ListSalePageState extends State<ListSalePage> {
               child: DetailSalePage(
                 transactionNumber: _listSale[index].transactionNumber,
                 total: _listSale[index].total.toString().toIDR(),
+                discount: _listSale[index].discount.toString().toIDR(),
               ),
             ));
           }),

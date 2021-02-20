@@ -22,8 +22,10 @@ import 'package:share/share.dart';
 class DetailSalePage extends StatefulWidget {
   final String transactionNumber;
   final String total;
+  final String discount;
 
-  const DetailSalePage({Key key, this.transactionNumber, this.total})
+  const DetailSalePage(
+      {Key key, this.transactionNumber, this.total, this.discount})
       : super(key: key);
 
   @override
@@ -37,6 +39,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
   var _selectedStatus = Strings.listStatus[0];
   var _note = "";
   var _buyer = "";
+  var _total;
   List<TransactionEntity> _listSelectedProduct = [];
 
   @override
@@ -46,6 +49,11 @@ class _DetailSalePageState extends State<DetailSalePage> {
     _detailSaleBloc = BlocProvider.of(context);
     _detailSaleBloc = BlocProvider.of(context);
     _detailSaleBloc.detailSale(widget.transactionNumber);
+
+    _total = (widget.total.toClearText().toInt() -
+            widget.discount.toClearText().toInt())
+        .toString()
+        .toIDR();
   }
 
   @override
@@ -152,12 +160,44 @@ class _DetailSalePageState extends State<DetailSalePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${Strings.totalDot}",
+                          "${Strings.subTotalDot}",
                           style: TextStyles.textBold
                               .copyWith(fontSize: Dimens.fontLarge),
                         ),
                         Text(
                           widget.total,
+                          style: TextStyles.textBold
+                              .copyWith(fontSize: Dimens.fontLarge),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: context.dp8()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${Strings.discountDot}",
+                          style: TextStyles.textBold
+                              .copyWith(fontSize: Dimens.fontLarge),
+                        ),
+                        Text(
+                          widget.discount,
+                          style: TextStyles.textBold
+                              .copyWith(fontSize: Dimens.fontLarge),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: context.dp8()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${Strings.totalDot}",
+                          style: TextStyles.textBold
+                              .copyWith(fontSize: Dimens.fontLarge),
+                        ),
+                        Text(
+                          _total,
                           style: TextStyles.textBold
                               .copyWith(fontSize: Dimens.fontLarge),
                         )
@@ -209,7 +249,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
             )),
             Text(
               "${(_qty * _price).toString().toIDR()}",
-              style: TextStyles.text,
+              style: TextStyles.text.copyWith(fontSize: Dimens.fontLarge),
             )
           ],
         ),
