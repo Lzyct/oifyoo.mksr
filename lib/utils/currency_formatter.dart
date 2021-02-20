@@ -8,15 +8,7 @@ class CurrencyFormatter extends TextInputFormatter {
 
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.selection.baseOffset == 0) {
-      return newValue;
-    }
-
-    if (maxDigits != null && newValue.selection.baseOffset > maxDigits) {
-      return oldValue;
-    }
-
-    double value = double.parse(newValue.text);
+    double value = double.parse(newValue.text.isEmpty ? "0" : newValue.text);
     String newText =
         NumberFormat.currency(symbol: "", decimalDigits: 0, locale: 'id')
             .format(value);
