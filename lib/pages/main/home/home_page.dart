@@ -97,10 +97,14 @@ class _HomePageState extends State<HomePage> {
                 case Status.SUCCESS:
                   {
                     dismissAllToast();
-                    setState(() {
-                      _totalSpendingEntity = state.data;
-                      _totalSpending += _totalSpendingEntity.total;
-                    });
+                    try {
+                      setState(() {
+                        _totalSpendingEntity = state.data;
+                        _totalSpending += _totalSpendingEntity.total;
+                      });
+                    } catch (e) {
+                      logs("error $e");
+                    }
                   }
                   break;
               }

@@ -2,6 +2,7 @@ import 'package:oifyoo_mksr/blocs/blocs.dart';
 import 'package:oifyoo_mksr/data/models/models.dart';
 import 'package:oifyoo_mksr/data/sources/sources.dart';
 import 'package:oifyoo_mksr/di/di.dart';
+import 'package:oifyoo_mksr/utils/utils.dart';
 
 class HomeRepository {
   var _homeTransaction = sl<HomeTransaction>();
@@ -11,6 +12,7 @@ class HomeRepository {
       var _response = await _homeTransaction.totalSell();
       return Resources.success(data: _response);
     } catch (e) {
+      logs("error $e");
       return Resources.error(e.toString());
     }
   }
