@@ -29,6 +29,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
   var _conQty = TextEditingController();
   var _conSellingPrice = TextEditingController();
   var _conPurchasePrice = TextEditingController();
+  var _conPurchaseDate = TextEditingController();
 
   ProductEntity _productEntity;
 
@@ -68,6 +69,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       _productEntity.sellingPrice.toString().toCurrency();
                   _conPurchasePrice.text =
                       _productEntity.purchasePrice.toString().toCurrency();
+                  _conPurchaseDate.text = _productEntity.createdAt.toDateTime();
                 }
                 break;
             }
