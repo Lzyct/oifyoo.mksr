@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +7,6 @@ import 'package:oifyoo_mksr/pages/main/main.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 import 'package:oifyoo_mksr/widgets/widgets.dart';
-import 'package:path_provider/path_provider.dart';
 
 ///*********************************************
 /// Created by Mudassir (ukietux) on 1/12/21 with ♥
@@ -30,6 +27,12 @@ class _ListSalePageState extends State<ListSalePage> {
 
   List<TransactionEntity> _listSale;
   String _productName = "";
+  SearchType _searchType = SearchType.All;
+  var _listLabelTab = [
+    DataSelected(title: Strings.all, isSelected: true),
+    DataSelected(title: Strings.thisMonth, isSelected: false),
+    DataSelected(title: Strings.today, isSelected: false),
+  ];
 
   @override
   void initState() {
@@ -40,9 +43,7 @@ class _ListSalePageState extends State<ListSalePage> {
   }
 
   _getListSale() async {
-    _listSaleBloc.listSale(_productName);
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    logs("path $documentsDirectory");
+    _listSaleBloc.listSale(searchText: _productName, type: _searchType);
   }
 
   @override
@@ -90,10 +91,27 @@ class _ListSalePageState extends State<ListSalePage> {
             cursorColor: Palette.colorPrimary,
             onChanged: (value) {
               _productName = value;
-              _listSaleBloc.listSale(_productName);
+              _getListSale();
             },
           ).margin(
               edgeInsets: EdgeInsets.symmetric(horizontal: context.dp16())),
+          CustomTab(
+            listData: _listLabelTab,
+            selected: (index) {
+              switch (index) {
+                case 0:
+                  _searchType = SearchType.All;
+                  break;
+                case 1:
+                  _searchType = SearchType.Month;
+                  break;
+                case 2:
+                  _searchType = SearchType.Day;
+                  break;
+              }
+              _getListSale();
+            },
+          ),
           Expanded(
               child: BlocListener(
             cubit: _deleteSaleBloc,

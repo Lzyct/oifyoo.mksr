@@ -40,6 +40,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
   var _note = "";
   var _buyer = "";
   var _total;
+  var _purchaseDate = "";
   List<TransactionEntity> _listSelectedProduct = [];
 
   @override
@@ -51,7 +52,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
     _detailSaleBloc.detailSale(widget.transactionNumber);
 
     _total = (widget.total.toClearText().toInt() -
-            widget.discount.toClearText().toInt())
+        widget.discount.toClearText().toInt())
         .toString()
         .toIDR();
   }
@@ -112,6 +113,8 @@ class _DetailSalePageState extends State<DetailSalePage> {
                   _note = _listSelectedProduct[0].note;
                   _buyer = _listSelectedProduct[0].buyer;
                   _selectedStatus = _listSelectedProduct[0].status;
+                  _purchaseDate =
+                      _listSelectedProduct[0].createdAt.toDateTime();
                   logs("data ${_listSelectedProduct[0]}");
                 });
               }
@@ -216,6 +219,10 @@ class _DetailSalePageState extends State<DetailSalePage> {
                       hint: Strings.status,
                       content: _selectedStatus,
                     ),
+                    TextD(
+                      hint: Strings.purchaseDate,
+                      content: _purchaseDate,
+                    ),
                   ],
                 ).padding(edgeInsets: EdgeInsets.all(context.dp16()))
               ],
@@ -236,17 +243,17 @@ class _DetailSalePageState extends State<DetailSalePage> {
           children: [
             Expanded(
                 child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(_listSelectedProduct[index].productName,
-                    style: TextStyles.textBold),
-                SizedBox(height: context.dp8()),
-                Text(
-                  "$_qty@${_price.toString().toCurrency()}",
-                  style: TextStyles.text,
-                ),
-              ],
-            )),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(_listSelectedProduct[index].productName,
+                        style: TextStyles.textBold),
+                    SizedBox(height: context.dp8()),
+                    Text(
+                      "$_qty@${_price.toString().toCurrency()}",
+                      style: TextStyles.text,
+                    ),
+                  ],
+                )),
             Text(
               "${(_qty * _price).toString().toIDR()}",
               style: TextStyles.text.copyWith(fontSize: Dimens.fontLarge),
@@ -260,7 +267,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
 
   Future<void> _shareStruck() async {
     RenderRepaintBoundary boundary =
-        _globalKey.currentContext.findRenderObject();
+    _globalKey.currentContext.findRenderObject();
     ui.Image image = await boundary.toImage();
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();

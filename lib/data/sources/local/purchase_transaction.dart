@@ -152,7 +152,7 @@ class PurchaseTransaction {
       var _query =
           await _dbClient.transaction((select) async => select.rawQuery('''
         SELECT COUNT(DISTINCT transactionNumber) FROM transaksi 
-          WHERE createdAt like '%${DateTime.now().toString().toDateAlt()}%'
+          WHERE createdAt like '%${DateTime.now().toString().toYearMonth()}%'
           AND transactionNumber like'%PRCHS%'
       '''));
 

@@ -10,7 +10,7 @@ class HomeTransaction {
       SELECT SUM(price*qty) AS total,SUM(distinct discount) as sumDiscount,updatedAt FROM transaksi 
         WHERE type="Penjualan" 
         AND status="Lunas" 
-        AND createdAt like '%${DateTime.now().toString().toDateAlt()}%'
+        AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
         ORDER BY updatedAt DESC
     ''';
 
@@ -36,7 +36,7 @@ class HomeTransaction {
       SELECT SUM(price*qty) AS total,updatedAt FROM transaksi 
         WHERE type="Pembelian" 
         AND status="Lunas" 
-        AND createdAt like '%${DateTime.now().toString().toDateAlt()}%'
+        AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
         ORDER BY updatedAt DESC
     ''';
 
@@ -53,7 +53,7 @@ class HomeTransaction {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query = '''
       SELECT SUM(price) as total,updatedAt FROM spending WHERE
-        createdAt like '%${DateTime.now().toString().toDateAlt()}%'
+        createdAt like '%${DateTime.now().toString().toYearMonth()}%'
        ORDER BY updatedAt DESC
     ''';
 

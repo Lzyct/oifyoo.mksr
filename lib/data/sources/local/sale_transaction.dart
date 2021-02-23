@@ -152,7 +152,7 @@ class SaleTransaction {
       var _query =
           await _dbClient.transaction((select) async => select.rawQuery('''
         SELECT COUNT(DISTINCT transactionNumber) FROM transaksi 
-            WHERE createdAt like '%${DateTime.now().toString().toDateAlt()}%'
+            WHERE createdAt like '%${DateTime.now().toString().toYearMonth()}%'
             AND transactionNumber like'%SL%'
       '''));
 
@@ -169,21 +169,72 @@ class SaleTransaction {
     }
   }
 
-  Future<List<TransactionEntity>> getListSale(String searchText) async {
+  Future<List<TransactionEntity>> getListSale({
+    String searchText,
+    SearchType type = SearchType.All,
+  }) async {
     //connect db
+    logs("SearchType $type");
+
     var _dbClient = await sl.get<DbHelper>().dataBase;
-    var _query = '''
-    SELECT *,SUM(qty*price) as total FROM transaksi 
-      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
-      AND type='${Strings.sale}'
-      GROUP BY transactionNumber ORDER BY transactionNumber DESC
-    ''';
-    if (searchText.isEmpty) {
-      _query = '''
-      SELECT *,SUM(qty*price) as total FROM transaksi 
-        WHERE type='${Strings.sale}'
-        GROUP BY transactionNumber ORDER BY transactionNumber DESC 
-      ''';
+    var _query = "";
+    switch (type) {
+      case SearchType.All:
+        {
+          _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     GROUP BY transactionNumber ORDER BY transactionNumber DESC
+                   ''';
+          if (searchText.isEmpty) {
+            _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       GROUP BY transactionNumber ORDER BY transactionNumber DESC 
+                     ''';
+          }
+        }
+        break;
+      case SearchType.Month:
+        {
+          _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
+                     GROUP BY transactionNumber ORDER BY transactionNumber DESC
+                   ''';
+          if (searchText.isEmpty) {
+            _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
+                       GROUP BY transactionNumber ORDER BY transactionNumber DESC 
+                     ''';
+          }
+        }
+        break;
+      case SearchType.Day:
+        {
+          _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND createdAt like '%${DateTime.now().toString().toDate()}%'
+                     GROUP BY transactionNumber ORDER BY transactionNumber DESC
+                   ''';
+          if (searchText.isEmpty) {
+            _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND createdAt like '%${DateTime.now().toString().toDate()}%'
+                       GROUP BY transactionNumber ORDER BY transactionNumber DESC 
+                     ''';
+          }
+        }
+        break;
+      default:
     }
 
     logs("Query -> $_query");

@@ -65,10 +65,13 @@ class SaleRepository {
     }
   }
 
-  Future<Resources<List<TransactionEntity>>> getListSale(
-      String _searchText) async {
+  Future<Resources<List<TransactionEntity>>> getListSale({
+    String searchText,
+    SearchType type,
+  }) async {
     try {
-      var _response = await _saleTransaction.getListSale(_searchText);
+      var _response = await _saleTransaction.getListSale(
+          searchText: searchText, type: type);
 
       logs("is bool ${_response is bool}");
       if (_response.isEmpty) {
