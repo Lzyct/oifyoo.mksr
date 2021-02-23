@@ -13,10 +13,10 @@ extension StringExtension on String {
 
   String toDate() {
     var object = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(this);
-    return DateFormat("dd MMMM yyyy").format(object);
+    return DateFormat("yyyy-MM-dd").format(object);
   }
 
-  String toDateAlt() {
+  String toYearMonth() {
     var object = new DateFormat("yyyy-MM-dd HH:mm:ss").parse(this);
     return DateFormat("yyyy-MM").format(object);
   }

@@ -1,3 +1,5 @@
+enum SearchType { All, Month, Day }
+
 class Strings {
   static const String appName = "Oifyoo Makassar";
   static const String home = "Beranda";
@@ -86,4 +88,10 @@ class Strings {
   static const String discount = "Potongan";
   static const String subTotalDot = "Sub Total : ";
   static const String discountDot = "Potongan : ";
+
+  static const String all = "Semua";
+  static const String thisMonth = "Bulan ini";
+  static const String today = "Hari ini";
+
+  static const String purchaseDate = "Tanggal Pembelian";
 }

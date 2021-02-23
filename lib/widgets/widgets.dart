@@ -15,3 +15,4 @@ export 'search_bar.dart';
 export 'text_d.dart';
 export 'text_f.dart';
 export 'toast.dart';
+export 'custom_tab.dart';
