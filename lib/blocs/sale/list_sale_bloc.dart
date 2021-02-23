@@ -5,7 +5,7 @@ import 'package:oifyoo_mksr/data/repositories/repositories.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/resources/resources.dart';
 
-class ListSaleBloc extends Cubit<Resources<List<TransactionEntity>>> {
+class ListSaleBloc extends Cubit<Resources<Map<String,Map<String,List<TransactionEntity>>>>> {
   ListSaleBloc() : super(Resources.loading());
 
   var _saleRepo = sl<SaleRepository>();

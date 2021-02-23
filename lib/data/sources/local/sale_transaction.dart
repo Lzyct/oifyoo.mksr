@@ -169,12 +169,13 @@ class SaleTransaction {
     }
   }
 
-  Future<List<TransactionEntity>> getListSale({
+  Future<Map<String, Map<String, List<TransactionEntity>>>> getListSale({
     String searchText,
     SearchType type = SearchType.All,
   }) async {
     //connect db
     logs("SearchType $type");
+    var _mapListSale = Map<String, Map<String, List<TransactionEntity>>>();
 
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query = "";
@@ -185,13 +186,14 @@ class SaleTransaction {
                    SELECT *,SUM(qty*price) as total FROM transaksi 
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
-                     GROUP BY transactionNumber ORDER BY transactionNumber DESC
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
           if (searchText.isEmpty) {
             _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
-                       GROUP BY transactionNumber ORDER BY transactionNumber DESC 
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
+                      
                      ''';
           }
         }
@@ -203,14 +205,14 @@ class SaleTransaction {
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
-                     GROUP BY transactionNumber ORDER BY transactionNumber DESC
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
           if (searchText.isEmpty) {
             _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
-                       GROUP BY transactionNumber ORDER BY transactionNumber DESC 
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
                      ''';
           }
         }
@@ -222,14 +224,14 @@ class SaleTransaction {
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      AND createdAt like '%${DateTime.now().toString().toDate()}%'
-                     GROUP BY transactionNumber ORDER BY transactionNumber DESC
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
           if (searchText.isEmpty) {
             _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        AND createdAt like '%${DateTime.now().toString().toDate()}%'
-                       GROUP BY transactionNumber ORDER BY transactionNumber DESC 
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
                      ''';
           }
         }
@@ -257,7 +259,18 @@ class SaleTransaction {
           total: element['total']));
     });
     _dbClient.close();
-    return _listSale;
+
+    // distinct date to group
+    var _distinctDate = _listSale.map((e) => e.createdAt.toDate()).toSet();
+    // loop to show all distinct date
+    // then add to map using date as key
+    // for second map using total for that day as key
+    // and add list transaction by date
+    _distinctDate.forEach((element) {
+      logs("print date $element");
+    });
+
+    return _mapListSale;
   }
 
   Future<List<TransactionEntity>> getDetailSale(

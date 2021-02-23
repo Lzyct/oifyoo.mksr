@@ -65,7 +65,7 @@ class SaleRepository {
     }
   }
 
-  Future<Resources<List<TransactionEntity>>> getListSale({
+  Future<Resources<Map<String,Map<String,List<TransactionEntity>>>>> getListSale({
     String searchText,
     SearchType type,
   }) async {

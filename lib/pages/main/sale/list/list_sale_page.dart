@@ -25,9 +25,10 @@ class _ListSalePageState extends State<ListSalePage> {
   ListSaleBloc _listSaleBloc;
   DeleteSaleBloc _deleteSaleBloc;
 
-  List<TransactionEntity> _listSale;
+  Map<String,Map<String,List<TransactionEntity>>> _listSale;
   String _productName = "";
   SearchType _searchType = SearchType.All;
+
   var _listLabelTab = [
     DataSelected(title: Strings.all, isSelected: true),
     DataSelected(title: Strings.thisMonth, isSelected: false),
@@ -174,7 +175,8 @@ class _ListSalePageState extends State<ListSalePage> {
                             itemCount: _listSale.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
-                              return _listItem(index);
+                              return Container();
+                              // return _listItem(index);
                             }),
                       );
                     }
@@ -189,7 +191,7 @@ class _ListSalePageState extends State<ListSalePage> {
       ),
     );
   }
-
+/*
   _listItem(int index) {
     var _total =
         (_listSale[index].total - _listSale[index].discount).toString().toIDR();
@@ -317,5 +319,5 @@ class _ListSalePageState extends State<ListSalePage> {
             ));
           }),
     );
-  }
+  }*/
 }
