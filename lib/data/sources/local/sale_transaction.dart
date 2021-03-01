@@ -179,97 +179,126 @@ class SaleTransaction {
 
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query = "";
-    switch (type) {
-      case SearchType.All:
-        {
-          _query = '''
+    try {
+      switch (type) {
+        case SearchType.All:
+          {
+            _query = '''
                    SELECT *,SUM(qty*price) as total FROM transaksi 
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-          if (searchText.isEmpty) {
-            _query = '''
+            if (searchText.isEmpty) {
+              _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        GROUP BY transactionNumber ORDER BY createdAt DESC 
                       
                      ''';
+            }
           }
-        }
-        break;
-      case SearchType.Month:
-        {
-          _query = '''
+          break;
+        case SearchType.Month:
+          {
+            _query = '''
                    SELECT *,SUM(qty*price) as total FROM transaksi 
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-          if (searchText.isEmpty) {
-            _query = '''
+            if (searchText.isEmpty) {
+              _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
                        GROUP BY transactionNumber ORDER BY createdAt DESC 
                      ''';
+            }
           }
-        }
-        break;
-      case SearchType.Day:
-        {
-          _query = '''
+          break;
+        case SearchType.Day:
+          {
+            _query = '''
                    SELECT *,SUM(qty*price) as total FROM transaksi 
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      AND createdAt like '%${DateTime.now().toString().toDate()}%'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-          if (searchText.isEmpty) {
-            _query = '''
+            if (searchText.isEmpty) {
+              _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        AND createdAt like '%${DateTime.now().toString().toDate()}%'
                        GROUP BY transactionNumber ORDER BY createdAt DESC 
                      ''';
+            }
           }
-        }
-        break;
-      default:
+          break;
+        default:
+      }
+
+      logs("Query -> $_query");
+      List<Map> _queryMap = await _dbClient.rawQuery(_query);
+      List<TransactionEntity> _listSale = [];
+      _queryMap.forEach((element) {
+        _listSale.add(TransactionEntity(
+            id: element['id'],
+            transactionNumber: element['transactionNumber'],
+            idProduct: element['idProduct'],
+            qty: element['qty'],
+            price: element['price'],
+            discount: element['discount'],
+            type: element['type'],
+            status: element['status'],
+            note: element['note'],
+            buyer: element['buyer'],
+            createdAt: element['createdAt'],
+            updatedAt: element['updatedAt'],
+            total: element['total']));
+      });
+      _dbClient.close();
+
+      // distinct date to group
+      var _distinctDate = _listSale.map((e) => e.createdAt.toDate()).toSet();
+      // loop to show all distinct date
+      // then add to map using date as key
+      // for second map using total for that day as key
+      // and add list transaction by date
+      _distinctDate.forEach((element) {
+        logs("print date $element");
+        // filter transaction by date
+        String _date = element;
+        int _total = 0;
+        List<TransactionEntity> _listSaleOfDate = [];
+        var _mapTotal = Map<String, List<TransactionEntity>>();
+        _listSaleOfDate = _listSale
+            .where((element) => element.createdAt.toDate() == _date)
+            .toList();
+        _listSaleOfDate.forEach((elementSaleOfDate) {
+          logs("qty ${elementSaleOfDate.qty}");
+          logs("price ${elementSaleOfDate.price}");
+          logs("discount ${elementSaleOfDate.discount}");
+          logs("id ${elementSaleOfDate.idProduct}");
+          _total += elementSaleOfDate.total - elementSaleOfDate.discount;
+          logs(
+              "Total of transaction id ${elementSaleOfDate.transactionNumber} $_total");
+        });
+        _mapTotal["$_total"] = _listSaleOfDate;
+        _mapListSale["$element"] = _mapTotal;
+
+        logs("mapListSale for date $element -> $_mapListSale");
+      });
+    } catch (e) {
+      logs("error $e");
     }
 
-    logs("Query -> $_query");
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
-    List<TransactionEntity> _listSale = [];
-    _queryMap.forEach((element) {
-      _listSale.add(TransactionEntity(
-          id: element['id'],
-          transactionNumber: element['transactionNumber'],
-          idProduct: element['idProduct'],
-          qty: element['qty'],
-          price: element['price'],
-          discount: element['discount'],
-          type: element['type'],
-          status: element['status'],
-          note: element['note'],
-          buyer: element['buyer'],
-          createdAt: element['createdAt'],
-          updatedAt: element['updatedAt'],
-          total: element['total']));
+    _mapListSale.forEach((key, value) {
+      logs("key -> $key");
+      logs("value -> $value");
     });
-    _dbClient.close();
-
-    // distinct date to group
-    var _distinctDate = _listSale.map((e) => e.createdAt.toDate()).toSet();
-    // loop to show all distinct date
-    // then add to map using date as key
-    // for second map using total for that day as key
-    // and add list transaction by date
-    _distinctDate.forEach((element) {
-      logs("print date $element");
-    });
-
     return _mapListSale;
   }
 

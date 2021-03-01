@@ -25,7 +25,7 @@ class _ListSalePageState extends State<ListSalePage> {
   ListSaleBloc _listSaleBloc;
   DeleteSaleBloc _deleteSaleBloc;
 
-  Map<String,Map<String,List<TransactionEntity>>> _listSale;
+  Map<String, Map<String, List<TransactionEntity>>> _listSale;
   String _productName = "";
   SearchType _searchType = SearchType.All;
 
@@ -166,6 +166,7 @@ class _ListSalePageState extends State<ListSalePage> {
                   case Status.SUCCESS:
                     {
                       _listSale = state.data;
+                      logs("_listSale length ${_listSale.length}");
                       return RefreshIndicator(
                         onRefresh: () async {
                           _getListSale();
@@ -175,7 +176,11 @@ class _ListSalePageState extends State<ListSalePage> {
                             itemCount: _listSale.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
-                              return Container();
+                              // create nested listView
+                              // first list is for generate date label
+                              return _listHeader(
+                                  _listSale.keys.elementAt(index),
+                                  _listSale.values.elementAt(index));
                               // return _listItem(index);
                             }),
                       );
@@ -191,10 +196,48 @@ class _ListSalePageState extends State<ListSalePage> {
       ),
     );
   }
-/*
-  _listItem(int index) {
-    var _total =
-        (_listSale[index].total - _listSale[index].discount).toString().toIDR();
+
+  _listHeader(
+    String date,
+    Map<String, List<TransactionEntity>> totalPerDay,
+  ) {
+    List<TransactionEntity> _listTransactionEntity =
+        totalPerDay.values.elementAt(0);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          color: Palette.colorBackgroundAlt,
+          padding: EdgeInsets.all(context.dp16()),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                date,
+                style: TextStyles.textBold,
+              ),
+              Text(
+                "${Strings.totalDot} ${totalPerDay.keys.elementAt(0).toIDR()}",
+                style: TextStyles.primaryBold.copyWith(color: Palette.green),
+              )
+            ],
+          ),
+        ),
+        ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _listTransactionEntity.length,
+            itemBuilder: (_, index) {
+              return _listItem(_listTransactionEntity[index]);
+            }),
+      ],
+    );
+  }
+
+  _listItem(TransactionEntity transactionEntity) {
+    var _total = (transactionEntity.total - transactionEntity.discount)
+        .toString()
+        .toIDR();
     return Dismissible(
       key: UniqueKey(),
       background: Delete(),
@@ -218,7 +261,7 @@ class _ListSalePageState extends State<ListSalePage> {
                       style: TextStyles.text,
                     ),
                     TextSpan(
-                        text: " ${_listSale[index].transactionNumber} ",
+                        text: " ${transactionEntity.transactionNumber} ",
                         style: TextStyles.textBold),
                     TextSpan(
                       text: Strings.questionMark,
@@ -244,7 +287,7 @@ class _ListSalePageState extends State<ListSalePage> {
                     ),
                     onPressed: () {
                       _deleteSaleBloc
-                          .deleteSale(_listSale[index].transactionNumber);
+                          .deleteSale(transactionEntity.transactionNumber);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -260,9 +303,9 @@ class _ListSalePageState extends State<ListSalePage> {
                 BlocProvider(create: (_) => DetailSaleBloc()),
               ],
               child: EditSalePage(
-                  transactionNumber: _listSale[index].transactionNumber,
-                  total: _listSale[index].total.toString().toIDR(),
-                  discount: _listSale[index].discount.toString().toIDR())));
+                  transactionNumber: transactionEntity.transactionNumber,
+                  total: transactionEntity.total.toString().toIDR(),
+                  discount: transactionEntity.discount.toString().toIDR())));
           _getListSale();
         }
         return false;
@@ -276,11 +319,11 @@ class _ListSalePageState extends State<ListSalePage> {
               TextD(
                 isFirst: true,
                 hint: Strings.transactionNumber,
-                content: _listSale[index].transactionNumber,
+                content: transactionEntity.transactionNumber,
               ),
               SizedBox(height: context.dp8()),
               Text(
-                _listSale[index].buyer,
+                transactionEntity.buyer,
                 style: TextStyles.text,
               ),
               Row(
@@ -292,7 +335,7 @@ class _ListSalePageState extends State<ListSalePage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: _listSale[index].status == Strings.listStatus[0]
+                      color: transactionEntity.status == Strings.listStatus[0]
                           ? Palette.red
                           : Palette.green,
                       borderRadius:
@@ -300,7 +343,7 @@ class _ListSalePageState extends State<ListSalePage> {
                     ),
                     padding: EdgeInsets.all(context.dp8()),
                     child: Text(
-                      _listSale[index].status,
+                      transactionEntity.status,
                       style: TextStyles.white,
                     ),
                   ),
@@ -312,12 +355,12 @@ class _ListSalePageState extends State<ListSalePage> {
             context.goTo(BlocProvider(
               create: (_) => DetailSaleBloc(),
               child: DetailSalePage(
-                transactionNumber: _listSale[index].transactionNumber,
-                total: _listSale[index].total.toString().toIDR(),
-                discount: _listSale[index].discount.toString().toIDR(),
+                transactionNumber: transactionEntity.transactionNumber,
+                total: transactionEntity.total.toString().toIDR(),
+                discount: transactionEntity.discount.toString().toIDR(),
               ),
             ));
           }),
     );
-  }*/
+  }
 }
