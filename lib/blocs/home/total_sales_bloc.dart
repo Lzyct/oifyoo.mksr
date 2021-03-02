@@ -4,23 +4,23 @@ import 'package:oifyoo_mksr/data/models/entities/home_entity.dart';
 import 'package:oifyoo_mksr/data/repositories/repositories.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 
-class TotalSpendingBloc extends Cubit<Resources<HomeEntity>> {
-  TotalSpendingBloc() : super(Resources.loading());
+class TotalSalesBloc extends Cubit<Resources<HomeEntity>> {
+  TotalSalesBloc() : super(Resources.loading());
 
   var _homeRepo = sl<HomeRepository>();
 
-  totalSpendingAll() async {
+  totalSaleAll() async {
     emit(Resources.loading());
-    emit(await _homeRepo.totalSpendingAll());
+    emit(await _homeRepo.totalSalesAll());
   }
 
-  totalSpendingCurMonth() async {
+  totalSaleCurMonth() async {
     emit(Resources.loading());
-    emit(await _homeRepo.totalSpendingCurMonth());
+    emit(await _homeRepo.totalSalesCurMonth());
   }
 
-  totalSpendingLastMonth() async {
+  totalSaleLastMonth() async {
     emit(Resources.loading());
-    emit(await _homeRepo.totalSpendingLastMonth());
+    emit(await _homeRepo.totalSalesLastMonth());
   }
 }

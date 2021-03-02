@@ -23,12 +23,12 @@ class _AddProductPageState extends State<AddProductPage> {
 
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
-  var _conSellingPrice = TextEditingController();
+  var _conSalesingPrice = TextEditingController();
   var _conQty = TextEditingController();
 
   var _fnProductName = FocusNode();
   var _fnNote = FocusNode();
-  var _fnSellingPrice = FocusNode();
+  var _fnSalesingPrice = FocusNode();
   var _fnQty = FocusNode();
 
   @override
@@ -79,7 +79,7 @@ class _AddProductPageState extends State<AddProductPage> {
               TextF(
                 hint: Strings.qty,
                 curFocusNode: _fnQty,
-                nextFocusNode: _fnSellingPrice,
+                nextFocusNode: _fnSalesingPrice,
                 controller: _conQty,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
@@ -90,9 +90,9 @@ class _AddProductPageState extends State<AddProductPage> {
               ),
               TextF(
                 hint: Strings.sellingPrice,
-                curFocusNode: _fnSellingPrice,
+                curFocusNode: _fnSalesingPrice,
                 nextFocusNode: _fnNote,
-                controller: _conSellingPrice,
+                controller: _conSalesingPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
@@ -119,7 +119,7 @@ class _AddProductPageState extends State<AddProductPage> {
                     var _params = {
                       "productName": _conProductName.text,
                       "note": _conNote.text,
-                      "sellingPrice": _conSellingPrice.text.toClearText(),
+                      "sellingPrice": _conSalesingPrice.text.toClearText(),
                       "qty": _conQty.text.toClearText()
                     };
                     _addProductBloc.addProduct(_params);

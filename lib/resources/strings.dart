@@ -83,15 +83,26 @@ class Strings {
   static const String sellingPrice = "Harga Jual";
   static const String purchasePrice = "Harga Beli";
 
-  static const String totalIncomeMonth = "Total Pemasukan Bulan Ini : ";
-  static const String totalSpendingMonth = "Total Pengeluaran Bulan Ini :";
+  static const String totalIncomeCurMonthDot = "Total Pemasukan Bulan Ini : ";
+  static const String totalIncomeLastMonthDot = "Total Pemasukan Bulan Lalu : ";
+  static const String totalSpendingCurMonthDot =
+      "Total Pengeluaran Bulan Ini :";
+  static const String totalSpendingLastMonthDot =
+      "Total Pengeluaran Bulan Lalu :";
   static const String discount = "Potongan";
   static const String subTotalDot = "Sub Total : ";
   static const String discountDot = "Potongan : ";
 
   static const String all = "Semua";
   static const String thisMonth = "Bulan ini";
+  static const String lastMonth = "Bulan lalu";
   static const String today = "Hari ini";
 
   static const String purchaseDate = "Tanggal Pembelian";
+
+  static const String curMonthTag = "curMonth";
+  static const String lastMonthTag = "lastMonth";
+
+  static const String totalIncomeAll = "Total Semua Pemasukan";
+  static const String totalSpendingAll = "Total Semua Pengeluaran";
 }

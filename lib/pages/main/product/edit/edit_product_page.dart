@@ -30,12 +30,12 @@ class _EditProductPageState extends State<EditProductPage> {
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
   var _conQty = TextEditingController();
-  var _conSellingPrice = TextEditingController();
+  var _conSalesingPrice = TextEditingController();
 
   var _fnProductName = FocusNode();
   var _fnNote = FocusNode();
   var _fnQty = FocusNode();
-  var _fnSellingPrice = FocusNode();
+  var _fnSalesingPrice = FocusNode();
 
   ProductEntity _productEntity;
 
@@ -97,7 +97,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       _conProductName.text = _productEntity.productName;
                       _conNote.text = _productEntity.note;
                       _conQty.text = _productEntity.qty.toString();
-                      _conSellingPrice.text =
+                      _conSalesingPrice.text =
                           _productEntity.sellingPrice.toString().toCurrency();
                     }
                     break;
@@ -119,7 +119,7 @@ class _EditProductPageState extends State<EditProductPage> {
               TextF(
                 hint: Strings.qty,
                 curFocusNode: _fnQty,
-                nextFocusNode: _fnSellingPrice,
+                nextFocusNode: _fnSalesingPrice,
                 controller: _conQty,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
@@ -130,9 +130,9 @@ class _EditProductPageState extends State<EditProductPage> {
               ),
               TextF(
                 hint: Strings.sellingPrice,
-                curFocusNode: _fnSellingPrice,
+                curFocusNode: _fnSalesingPrice,
                 nextFocusNode: _fnNote,
-                controller: _conSellingPrice,
+                controller: _conSalesingPrice,
                 prefixText: Strings.prefixRupiah,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
@@ -160,7 +160,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       "id": widget.id,
                       "productName": _conProductName.text,
                       "note": _conNote.text,
-                      "sellingPrice": _conSellingPrice.text.toClearText(),
+                      "sellingPrice": _conSalesingPrice.text.toClearText(),
                       "qty": _conQty.text.toClearText()
                     };
                     logs("params $_params");

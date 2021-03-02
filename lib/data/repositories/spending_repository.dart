@@ -55,10 +55,14 @@ class SpendingRepository {
     }
   }
 
-  Future<Resources<List<SpendingEntity>>> getListSpending(
-      String spendingName) async {
+  Future<Resources<Map<String, Map<String, List<SpendingEntity>>>>>
+      getListSpending({
+    String searchText,
+    SearchType type,
+  }) async {
     try {
-      var _response = await _spendingTransaction.getListSpending(spendingName);
+      var _response = await _spendingTransaction.getListSpending(
+          searchText: searchText, type: type);
 
       logs("is bool ${_response is bool}");
       if (_response.isEmpty) {

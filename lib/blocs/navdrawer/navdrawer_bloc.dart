@@ -15,8 +15,7 @@ enum NavigationEvents {
 class NavDrawerBloc extends Cubit<Widget> {
   NavDrawerBloc()
       : super(MultiBlocProvider(providers: [
-          BlocProvider(create: (_) => TotalPurchaseBloc()),
-          BlocProvider(create: (_) => TotalSaleBloc()),
+          BlocProvider(create: (_) => TotalSalesBloc()),
           BlocProvider(create: (_) => TotalSpendingBloc()),
         ], child: HomePage()));
 
@@ -24,8 +23,7 @@ class NavDrawerBloc extends Cubit<Widget> {
     switch (event) {
       case NavigationEvents.HomePage:
         emit(MultiBlocProvider(providers: [
-          BlocProvider(create: (_) => TotalPurchaseBloc()),
-          BlocProvider(create: (_) => TotalSaleBloc()),
+          BlocProvider(create: (_) => TotalSalesBloc()),
           BlocProvider(create: (_) => TotalSpendingBloc()),
         ], child: HomePage()));
         break;

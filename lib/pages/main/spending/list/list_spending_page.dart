@@ -25,8 +25,16 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
   ListSpendingBloc _listSpendingBloc;
   DeleteSpendingBloc _deleteSpendingBloc;
 
-  List<SpendingEntity> _listSpending;
+  Map<String, Map<String, List<SpendingEntity>>> _listSpending;
   String _spendingName = "";
+
+  SearchType _searchType = SearchType.All;
+
+  var _listLabelTab = [
+    DataSelected(title: Strings.all, isSelected: true),
+    DataSelected(title: Strings.thisMonth, isSelected: false),
+    DataSelected(title: Strings.today, isSelected: false),
+  ];
 
   @override
   void initState() {
@@ -37,7 +45,8 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
   }
 
   _getListSpending() {
-    _listSpendingBloc.listSpending(_spendingName);
+    _listSpendingBloc.listSpending(
+        searchText: _spendingName, type: _searchType);
   }
 
   @override
@@ -79,10 +88,27 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
             cursorColor: Palette.colorPrimary,
             onChanged: (value) {
               _spendingName = value;
-              _listSpendingBloc.listSpending(_spendingName);
+              _getListSpending();
             },
           ).margin(
               edgeInsets: EdgeInsets.symmetric(horizontal: context.dp16())),
+          CustomTab(
+            listData: _listLabelTab,
+            selected: (index) {
+              switch (index) {
+                case 0:
+                  _searchType = SearchType.All;
+                  break;
+                case 1:
+                  _searchType = SearchType.Month;
+                  break;
+                case 2:
+                  _searchType = SearchType.Day;
+                  break;
+              }
+              _getListSpending();
+            },
+          ),
           Expanded(
               child: BlocListener(
             cubit: _deleteSpendingBloc,
@@ -145,7 +171,18 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                             itemCount: _listSpending.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
-                              return _listItem(index);
+                              // create nested listView
+                              // first list is for generate date label
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: index == _listSpending.length - 1
+                                        ? kToolbarHeight + context.dp16()
+                                        : 0),
+                                child: _listHeader(
+                                    _listSpending.keys.elementAt(index),
+                                    _listSpending.values.elementAt(index)),
+                              );
+                              // return _listItem(index);
                             }),
                       );
                     }
@@ -161,7 +198,43 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
     );
   }
 
-  _listItem(int index) {
+  Widget _listHeader(
+    String date,
+    Map<String, List<SpendingEntity>> totalPerDay,
+  ) {
+    List<SpendingEntity> _listSpending = totalPerDay.values.elementAt(0);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          color: Palette.colorBackgroundAlt,
+          padding: EdgeInsets.all(context.dp16()),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                date,
+                style: TextStyles.textBold,
+              ),
+              Text(
+                "${Strings.totalDot} ${totalPerDay.keys.elementAt(0).toIDR()}",
+                style: TextStyles.primaryBold.copyWith(color: Palette.green),
+              )
+            ],
+          ),
+        ),
+        ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _listSpending.length,
+            itemBuilder: (_, index) {
+              return _listItem(_listSpending[index]);
+            }),
+      ],
+    );
+  }
+
+  _listItem(SpendingEntity spendingEntity) {
     return Dismissible(
       key: UniqueKey(),
       background: Delete(),
@@ -185,7 +258,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                       style: TextStyles.text,
                     ),
                     TextSpan(
-                        text: " ${_listSpending[index].name} ",
+                        text: " ${spendingEntity.name} ",
                         style: TextStyles.textBold),
                     TextSpan(
                       text: Strings.questionMark,
@@ -210,8 +283,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteSpendingBloc
-                          .deleteSpending(_listSpending[index].id);
+                      _deleteSpendingBloc.deleteSpending(spendingEntity.id);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -227,7 +299,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                 BlocProvider(create: (_) => DetailSpendingBloc()),
               ],
               child: EditSpendingPage(
-                id: _listSpending[index].id,
+                id: spendingEntity.id,
               )));
           _getListSpending();
         }
@@ -243,25 +315,25 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      _listSpending[index].name,
+                      spendingEntity.name,
                       style: TextStyles.textBold
                           .copyWith(fontSize: Dimens.fontLarge),
                     ),
                   ),
                   Text(
-                    _listSpending[index].price.toString().toIDR(),
+                    spendingEntity.price.toString().toIDR(),
                     style: TextStyles.textBold,
                   )
                 ],
               ),
               SizedBox(height: context.dp8()),
               Text(
-                _listSpending[index].updatedAt.toString().toDateTime(),
+                spendingEntity.updatedAt.toString().toDateTime(),
                 style: TextStyles.text.copyWith(fontSize: Dimens.fontSmall),
               ),
               SizedBox(height: context.dp8()),
               Text(
-                "${Strings.note} : ${_listSpending[index].note}",
+                "${Strings.note} : ${spendingEntity.note}",
                 style: TextStyles.textHint.copyWith(
                     fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
               ),
@@ -271,7 +343,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
             context.goTo(BlocProvider(
               create: (_) => DetailSpendingBloc(),
               child: DetailSpendingPage(
-                id: _listSpending[index].id,
+                id: spendingEntity.id,
               ),
             ));
           }),

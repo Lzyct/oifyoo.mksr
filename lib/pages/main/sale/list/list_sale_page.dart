@@ -178,9 +178,15 @@ class _ListSalePageState extends State<ListSalePage> {
                             itemBuilder: (_, index) {
                               // create nested listView
                               // first list is for generate date label
-                              return _listHeader(
-                                  _listSale.keys.elementAt(index),
-                                  _listSale.values.elementAt(index));
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: index == _listSale.length - 1
+                                        ? kToolbarHeight + context.dp16()
+                                        : 0),
+                                child: _listHeader(
+                                    _listSale.keys.elementAt(index),
+                                    _listSale.values.elementAt(index)),
+                              );
                               // return _listItem(index);
                             }),
                       );
@@ -197,7 +203,7 @@ class _ListSalePageState extends State<ListSalePage> {
     );
   }
 
-  _listHeader(
+  Widget _listHeader(
     String date,
     Map<String, List<TransactionEntity>> totalPerDay,
   ) {
