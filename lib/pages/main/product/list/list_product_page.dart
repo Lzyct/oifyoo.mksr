@@ -194,7 +194,7 @@ class _ListProductPageState extends State<ListProductPage> {
                   ]),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       Strings.cancel,
                       style: TextStyles.textHint,
@@ -204,7 +204,7 @@ class _ListProductPageState extends State<ListProductPage> {
                           dialogContext, false); // Dismiss alert dialog
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       Strings.delete,
                       style: TextStyles.text.copyWith(color: Palette.red),

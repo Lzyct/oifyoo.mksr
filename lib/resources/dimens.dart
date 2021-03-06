@@ -25,4 +25,5 @@ class Dimens {
   static double tabHeight = 30.w;
   static double defaultLabel = 120.w;
   static const double radius = 5;
+  static double roundedButton = 4.w;
 }

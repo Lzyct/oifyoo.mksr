@@ -362,7 +362,7 @@ class _AddSalePageState extends State<AddSalePage> {
                 ]),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text(
                     Strings.cancel,
                     style: TextStyles.textHint,
@@ -371,7 +371,7 @@ class _AddSalePageState extends State<AddSalePage> {
                     Navigator.pop(dialogContext, false); // Dismiss alert dialog
                   },
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     Strings.delete,
                     style: TextStyles.text.copyWith(color: Palette.red),

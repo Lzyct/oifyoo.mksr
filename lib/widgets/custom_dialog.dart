@@ -70,10 +70,8 @@ class _CustomDialogState extends State<CustomDialog> {
                         right: context.dp16(),
                         child: SizedBox(
                           width: context.dp24(),
-                          child: FlatButton(
-                            splashColor: Colors.white38,
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.zero,
+                          child: TextButton(
+                            style: ButtonStyles.primary,
                             child: Icon(
                               Icons.close,
                               color: Colors.white,

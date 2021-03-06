@@ -40,13 +40,9 @@ class Button extends StatelessWidget {
       height: height ?? 40.w,
       decoration:
           BoxDecorations.button.copyWith(color: color ?? Palette.colorPrimary),
-      child: FlatButton(
+      child: TextButton(
           onPressed: onPressed,
-          splashColor: splashColor,
-          highlightColor: splashColor,
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(context.dp4())),
-          padding: EdgeInsets.all(0.0),
+          style: ButtonStyles.primary,
           child: Text(
             title,
             style: TextStyle(

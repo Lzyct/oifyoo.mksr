@@ -115,100 +115,98 @@ class _ListSalePageState extends State<ListSalePage> {
           ),
           Expanded(
               child: BlocListener(
-            cubit: _deleteSaleBloc,
-            listener: (_, state) {
-              switch (state.status) {
-                case Status.LOADING:
-                  {
-                    Strings.pleaseWait.toToastLoading();
+                cubit: _deleteSaleBloc,
+                listener: (_, state) {
+                  switch (state.status) {
+                    case Status.LOADING:
+                      {
+                        Strings.pleaseWait.toToastLoading();
+                      }
+                      break;
+                    case Status.ERROR:
+                      {
+                        state.message.toString().toToastError();
+                      }
+                      break;
+                    case Status.SUCCESS:
+                      {
+                        Strings.successVoidData.toToastSuccess();
+                        _getListSale();
+                      }
+                      break;
                   }
-                  break;
-                case Status.ERROR:
-                  {
-                    state.message.toString().toToastError();
-                  }
-                  break;
-                case Status.SUCCESS:
-                  {
-                    Strings.successVoidData.toToastSuccess();
-                    _getListSale();
-                  }
-                  break;
-              }
-            },
-            child: BlocBuilder(
-              cubit: _listSaleBloc,
-              builder: (_, state) {
-                switch (state.status) {
-                  case Status.LOADING:
-                    {
-                      return Center(child: Loading());
+                },
+                child: BlocBuilder(
+                  cubit: _listSaleBloc,
+                  builder: (_, state) {
+                    switch (state.status) {
+                      case Status.LOADING:
+                        {
+                          return Center(child: Loading());
+                        }
+                        break;
+                      case Status.EMPTY:
+                        {
+                          return Center(
+                            child: Empty(
+                              errorMessage: state.message.toString(),
+                            ),
+                          );
+                        }
+                        break;
+                      case Status.ERROR:
+                        {
+                          return Center(
+                            child: Empty(
+                              errorMessage: state.message.toString(),
+                            ),
+                          );
+                        }
+                        break;
+                      case Status.SUCCESS:
+                        {
+                          _listSale = state.data;
+                          logs("_listSale length ${_listSale.length}");
+                          return RefreshIndicator(
+                            onRefresh: () async {
+                              _getListSale();
+                            },
+                            child: ListView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: _listSale.length,
+                                shrinkWrap: true,
+                                itemBuilder: (_, index) {
+                                  // create nested listView
+                                  // first list is for generate date label
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: index == _listSale.length - 1
+                                            ? kToolbarHeight + context.dp16()
+                                            : 0),
+                                    child: _listHeader(
+                                        _listSale.keys.elementAt(index),
+                                        _listSale.values.elementAt(index)),
+                                  );
+                                  // return _listItem(index);
+                                }),
+                          );
+                        }
+                        break;
+                      default:
+                        return Container();
                     }
-                    break;
-                  case Status.EMPTY:
-                    {
-                      return Center(
-                        child: Empty(
-                          errorMessage: state.message.toString(),
-                        ),
-                      );
-                    }
-                    break;
-                  case Status.ERROR:
-                    {
-                      return Center(
-                        child: Empty(
-                          errorMessage: state.message.toString(),
-                        ),
-                      );
-                    }
-                    break;
-                  case Status.SUCCESS:
-                    {
-                      _listSale = state.data;
-                      logs("_listSale length ${_listSale.length}");
-                      return RefreshIndicator(
-                        onRefresh: () async {
-                          _getListSale();
-                        },
-                        child: ListView.builder(
-                            physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: _listSale.length,
-                            shrinkWrap: true,
-                            itemBuilder: (_, index) {
-                              // create nested listView
-                              // first list is for generate date label
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: index == _listSale.length - 1
-                                        ? kToolbarHeight + context.dp16()
-                                        : 0),
-                                child: _listHeader(
-                                    _listSale.keys.elementAt(index),
-                                    _listSale.values.elementAt(index)),
-                              );
-                              // return _listItem(index);
-                            }),
-                      );
-                    }
-                    break;
-                  default:
-                    return Container();
-                }
-              },
-            ),
-          )),
+                  },
+                ),
+              )),
         ],
       ),
     );
   }
 
-  Widget _listHeader(
-    String date,
-    Map<String, List<TransactionEntity>> totalPerDay,
-  ) {
+  Widget _listHeader(String date,
+      Map<String, List<TransactionEntity>> totalPerDay,) {
     List<TransactionEntity> _listTransactionEntity =
-        totalPerDay.values.elementAt(0);
+    totalPerDay.values.elementAt(0);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -276,7 +274,7 @@ class _ListSalePageState extends State<ListSalePage> {
                   ]),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       Strings.cancel,
                       style: TextStyles.textHint,
@@ -286,7 +284,7 @@ class _ListSalePageState extends State<ListSalePage> {
                           dialogContext, false); // Dismiss alert dialog
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       Strings.delete,
                       style: TextStyles.text.copyWith(color: Palette.red),
@@ -345,7 +343,7 @@ class _ListSalePageState extends State<ListSalePage> {
                           ? Palette.red
                           : Palette.green,
                       borderRadius:
-                          BorderRadius.all(Radius.circular(Dimens.radius)),
+                      BorderRadius.all(Radius.circular(Dimens.radius)),
                     ),
                     padding: EdgeInsets.all(context.dp8()),
                     child: Text(

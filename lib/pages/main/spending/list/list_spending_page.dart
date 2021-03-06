@@ -267,7 +267,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                   ]),
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       Strings.cancel,
                       style: TextStyles.textHint,
@@ -277,7 +277,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                           dialogContext, false); // Dismiss alert dialog
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       Strings.delete,
                       style: TextStyles.text.copyWith(color: Palette.red),

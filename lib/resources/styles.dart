@@ -61,6 +61,15 @@ class TextStyles {
   );*/
 }
 
+class ButtonStyles {
+  static ButtonStyle primary = ButtonStyle(
+      padding: MaterialStateProperty.all(EdgeInsets.zero),
+      shape: MaterialStateProperty.all(
+        new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(Dimens.roundedButton)),
+      ));
+}
+
 class BoxDecorations {
   static const BoxDecoration white = BoxDecoration(
     color: Colors.white,

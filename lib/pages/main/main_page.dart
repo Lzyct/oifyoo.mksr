@@ -119,14 +119,14 @@ class _MainPageState extends State<MainPage> {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () {
                       //hide navigation drawer
                       Navigator.pop(context);
                     },
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.zero,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    style: ButtonStyles.primary.copyWith(
+                        shape: MaterialStateProperty.all(CircleBorder()),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                     child: Icon(
                       Icons.close,
                       color: Palette.colorText,

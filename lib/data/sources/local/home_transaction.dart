@@ -2,11 +2,16 @@ import 'package:oifyoo_mksr/data/models/models.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
+//TODO update dependencies style, create class abstract as contract then extends to class implement
+
+
 class HomeTransaction {
   // Total Sales Section
   Future<HomeEntity> totalSalesAll() async {
     //connect db
-    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl
+        .get<DbHelper>()
+        .dataBase;
     var _query = '''
       SELECT SUM(price*qty) AS total,SUM(distinct discount) as sumDiscount,updatedAt FROM transaksi 
         WHERE type="Penjualan" 
@@ -31,7 +36,9 @@ class HomeTransaction {
 
   Future<HomeEntity> totalSalesCurMonth() async {
     //connect db
-    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl
+        .get<DbHelper>()
+        .dataBase;
     var _query = '''
       SELECT SUM(price*qty) AS total,SUM(distinct discount) as sumDiscount,updatedAt FROM transaksi 
         WHERE type="Penjualan" 
@@ -57,12 +64,20 @@ class HomeTransaction {
 
   Future<HomeEntity> totalSalesLastMonth() async {
     //connect db
-    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl
+        .get<DbHelper>()
+        .dataBase;
     var _query = '''
       SELECT SUM(price*qty) AS total,SUM(distinct discount) as sumDiscount,updatedAt FROM transaksi 
         WHERE type="Penjualan" 
         AND status="Lunas" 
-        AND createdAt like '%${DateTime(DateTime.now().year, DateTime.now().month - 1, DateTime.now().day).toString().toYearMonth()}%'
+        AND createdAt like '%${DateTime(DateTime
+        .now()
+        .year, DateTime
+        .now()
+        .month - 1, DateTime
+        .now()
+        .day).toString().toYearMonth()}%'
         ORDER BY updatedAt DESC
     ''';
 
@@ -85,7 +100,9 @@ class HomeTransaction {
 
   Future<HomeEntity> totalSpendingAll() async {
     //connect db
-    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl
+        .get<DbHelper>()
+        .dataBase;
     var _query = '''
       SELECT SUM(price) as total,updatedAt FROM spending 
        ORDER BY updatedAt DESC
@@ -101,7 +118,9 @@ class HomeTransaction {
 
   Future<HomeEntity> totalSpendingCurMonth() async {
     //connect db
-    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl
+        .get<DbHelper>()
+        .dataBase;
     var _query = '''
       SELECT SUM(price) as total,updatedAt FROM spending WHERE
         createdAt like '%${DateTime.now().toString().toYearMonth()}%'
@@ -118,10 +137,18 @@ class HomeTransaction {
 
   Future<HomeEntity> totalSpendingLastMonth() async {
     //connect db
-    var _dbClient = await sl.get<DbHelper>().dataBase;
+    var _dbClient = await sl
+        .get<DbHelper>()
+        .dataBase;
     var _query = '''
       SELECT SUM(price) as total,updatedAt FROM spending WHERE
-        createdAt like '%${DateTime(DateTime.now().year, DateTime.now().month - 1, DateTime.now().day).toString().toYearMonth()}%'
+        createdAt like '%${DateTime(DateTime
+        .now()
+        .year, DateTime
+        .now()
+        .month - 1, DateTime
+        .now()
+        .day).toString().toYearMonth()}%'
        ORDER BY updatedAt DESC
     ''';
 

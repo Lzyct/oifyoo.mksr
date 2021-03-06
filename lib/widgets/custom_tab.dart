@@ -56,12 +56,15 @@ class _CustomTabState extends State<CustomTab> {
             }
             return Container(
                 margin: EdgeInsets.symmetric(horizontal: context.dp4()),
-                child: FlatButton(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(Dimens.radius))),
+                child: TextButton(
+                  style: ButtonStyles.primary.copyWith(
+                    backgroundColor: MaterialStateProperty.all(_isSelected
+                        ? Palette.colorPrimary
+                        : Palette.colorBackgroundAlt),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(Dimens.radius))))),
                   onPressed: () {
                     widget.selected(widget.listData.indexOf(_data));
                     for (var item in widget.listData) {
@@ -73,9 +76,6 @@ class _CustomTabState extends State<CustomTab> {
                       });
                     }
                   },
-                  color: _isSelected
-                      ? Palette.colorPrimary
-                      : Palette.colorBackgroundAlt,
                   child: Text(
                     _data.title,
                     style: TextStyles.white.copyWith(

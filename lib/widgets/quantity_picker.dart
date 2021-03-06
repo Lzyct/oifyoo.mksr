@@ -32,12 +32,12 @@ class _QuantityPickerState extends State<QuantityPicker> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        FlatButton(
-            shape: CircleBorder(),
-            color: Palette.red,
-            minWidth: 0,
-            height: context.dp20(),
-            padding: EdgeInsets.all(context.dp6()),
+        TextButton(
+            style: ButtonStyles.primary.copyWith(
+                shape: MaterialStateProperty.all(CircleBorder()),
+                backgroundColor: MaterialStateProperty.all(Palette.red),
+                minimumSize: MaterialStateProperty.all(Size(0, context.dp25())),
+                padding: MaterialStateProperty.all(context.dp6())),
             onPressed: () {
               logs("onPressed");
               var _count = widget.textEditingController.text.toInt();
@@ -72,12 +72,12 @@ class _QuantityPickerState extends State<QuantityPicker> {
                 logs("onChanged $value");
               },
             )),
-        FlatButton(
-            shape: CircleBorder(),
-            color: Palette.green,
-            minWidth: 0,
-            height: context.dp25(),
-            padding: EdgeInsets.all(context.dp6()),
+        TextButton(
+            style: ButtonStyles.primary.copyWith(
+                shape: MaterialStateProperty.all(CircleBorder()),
+                backgroundColor: MaterialStateProperty.all(Palette.green),
+                minimumSize: MaterialStateProperty.all(Size(0, context.dp25())),
+                padding: MaterialStateProperty.all(context.dp6())),
             onPressed: () {
               logs("onPressed");
               var _count = widget.textEditingController.text.toInt();
