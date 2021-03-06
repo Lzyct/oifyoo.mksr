@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:oifyoo_mksr/resources/resources.dart';
-import 'package:oifyoo_mksr/widgets/widgets.dart';
+import 'package:oifyoo_mksr/ui/resources/resources.dart';
+import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oktoast/oktoast.dart';
 
 extension StringExtension on String {

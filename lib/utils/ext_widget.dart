@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/ui/resources/resources.dart';
 
 extension WidgetExtensions on Widget {
   padding({EdgeInsets edgeInsets}) => Padding(padding: edgeInsets, child: this);

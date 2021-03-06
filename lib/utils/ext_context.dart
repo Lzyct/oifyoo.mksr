@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oifyoo_mksr/di/di.dart';
-import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/ui/resources/resources.dart';
 
 extension ContextExtensions on BuildContext {
   bool isMobile() {

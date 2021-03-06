@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:oifyoo_mksr/di/di.dart';
-import 'package:oifyoo_mksr/pages/splashscreen/splash_screen_page.dart';
-import 'package:oifyoo_mksr/resources/resources.dart';
+import 'package:oifyoo_mksr/ui/pages/splashscreen/splash_screen_page.dart';
+import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oktoast/oktoast.dart';
 
 void main() async {
