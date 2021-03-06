@@ -108,32 +108,34 @@ class _MainPageState extends State<MainPage> {
             color: Palette.colorPrimary,
             padding:
                 EdgeInsets.only(top: context.dp20(), bottom: context.dp8()),
-            child: Stack(
-              children: [
-                Center(
-                  child: Image.asset(
-                    Images.icLogo,
-                    height: Dimens.height30,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: TextButton(
-                    onPressed: () {
-                      //hide navigation drawer
-                      Navigator.pop(context);
-                    },
-                    style: ButtonStyles.primary.copyWith(
-                        shape: MaterialStateProperty.all(CircleBorder()),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                    child: Icon(
-                      Icons.close,
-                      color: Palette.colorText,
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Center(
+                    child: Image.asset(
+                      Images.icLogo,
+                      height: Dimens.height30,
                     ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: TextButton(
+                      onPressed: () {
+                        //hide navigation drawer
+                        Navigator.pop(context);
+                      },
+                      style: ButtonStyles.primary.copyWith(
+                          shape: MaterialStateProperty.all(CircleBorder()),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                      child: Icon(
+                        Icons.close,
+                        color: Palette.colorText,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Container(
