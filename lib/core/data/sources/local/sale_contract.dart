@@ -6,14 +6,14 @@ abstract class SaleContract {
 
   Future<dynamic> editSale(Map<String, dynamic> _params);
 
-  Future<dynamic> deleteSale(String _transactionNumber);
+  Future<dynamic> deleteSale(String? _transactionNumber);
 
   Future<String> transactionNumber();
 
   Future<Map<String, Map<String, List<TransactionEntity>>>> getListSale({
-    String searchText,
-    SearchType type = SearchType.All,
+    String? searchText,
+    SearchType? type = SearchType.All,
   });
 
-  Future<List<TransactionEntity>> getDetailSale(String _transactionNumber);
+  Future<List<TransactionEntity>> getDetailSale(String? _transactionNumber);
 }

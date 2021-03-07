@@ -12,7 +12,7 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 /// © 2020 | All Right Reserved
 class TextF extends StatefulWidget {
   const TextF(
-      {Key key,
+      {Key? key,
       this.curFocusNode,
       this.nextFocusNode,
       this.hint,
@@ -33,24 +33,24 @@ class TextF extends StatefulWidget {
       this.prefixText})
       : super(key: key);
 
-  final FocusNode curFocusNode;
-  final FocusNode nextFocusNode;
-  final String hint;
-  final Function(String) validator;
-  final Function(String) onChanged;
-  final Function onTap;
-  final TextInputType keyboardType;
-  final TextInputAction textInputAction;
-  final TextEditingController controller;
-  final bool obscureText;
-  final int minLine;
-  final int maxLine;
-  final Widget suffixIcon;
-  final TextAlign textAlign;
-  final bool enable;
-  final List<TextInputFormatter> inputFormatter;
+  final FocusNode? curFocusNode;
+  final FocusNode? nextFocusNode;
+  final String? hint;
+  final Function(String)? validator;
+  final Function(String)? onChanged;
+  final Function? onTap;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final TextEditingController? controller;
+  final bool? obscureText;
+  final int? minLine;
+  final int? maxLine;
+  final Widget? suffixIcon;
+  final TextAlign? textAlign;
+  final bool? enable;
+  final List<TextInputFormatter>? inputFormatter;
   final bool isHintVisible;
-  final String prefixText;
+  final String? prefixText;
 
   @override
   _TextFState createState() => _TextFState();
@@ -64,10 +64,10 @@ class _TextFState extends State<TextF> {
   @override
   void initState() {
     super.initState();
-    widget.curFocusNode.addListener(() {
+    widget.curFocusNode!.addListener(() {
       logs("message");
       setState(() {
-        if (widget.curFocusNode.hasFocus)
+        if (widget.curFocusNode!.hasFocus)
           _color = Palette.colorPrimary;
         else
           _color = Palette.colorHint;
@@ -145,13 +145,13 @@ class _TextFState extends State<TextF> {
                     width: 1.0,
                   ),
                 )),
-            validator: widget.validator,
+            validator: widget.validator as String? Function(String?)?,
             onChanged: widget.onChanged,
-            onTap: widget.onTap,
+            onTap: widget.onTap as void Function()?,
             onFieldSubmitted: (value) {
               setState(() {
                 fieldFocusChange(
-                    context, widget.curFocusNode, widget.nextFocusNode);
+                    context, widget.curFocusNode!, widget.nextFocusNode);
               });
             },
           ).margin(edgeInsets: EdgeInsets.symmetric(vertical: context.dp8()))
@@ -161,7 +161,7 @@ class _TextFState extends State<TextF> {
   }
 
   fieldFocusChange(
-      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+      BuildContext context, FocusNode currentFocus, FocusNode? nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }

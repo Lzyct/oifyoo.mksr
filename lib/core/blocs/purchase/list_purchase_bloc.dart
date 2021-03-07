@@ -7,10 +7,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class ListPurchaseBloc extends Cubit<Result<List<TransactionEntity>>> {
   ListPurchaseBloc() : super(Result.isLoading());
 
-  var _purchaseRepo = sl<PurchaseRepository>();
+  PurchaseRepository? _purchaseRepo = sl<PurchaseRepository>();
 
   listPurchase(String _searchText) async {
     emit(Result.isLoading());
-    emit(await _purchaseRepo.getListPurchase(_searchText));
+    emit(await _purchaseRepo!.getListPurchase(_searchText));
   }
 }

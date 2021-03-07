@@ -5,12 +5,12 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 
 class CustomTab extends StatefulWidget {
   CustomTab({
-    Key key,
+    Key? key,
     this.listData,
     this.selected,
   }) : super(key: key);
-  final List<DataSelected> listData;
-  final Function(int) selected;
+  final List<DataSelected>? listData;
+  final Function(int)? selected;
 
   @override
   _CustomTabState createState() => _CustomTabState();
@@ -27,13 +27,13 @@ class _CustomTabState extends State<CustomTab> {
         margin: EdgeInsets.symmetric(vertical: context.dp8()),
         alignment: Alignment.center,
         child: ListView.builder(
-          itemCount: widget.listData.length,
+          itemCount: widget.listData!.length,
           scrollDirection: Axis.horizontal,
           controller: _scrollController,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            var _data = widget.listData[index];
-            var _isSelected = _data.isSelected;
+            var _data = widget.listData![index];
+            var _isSelected = _data.isSelected!;
 
             //scroll to first / end
             try {
@@ -44,7 +44,7 @@ class _CustomTabState extends State<CustomTab> {
                   curve: Curves.easeOut,
                   duration: const Duration(milliseconds: 200),
                 );
-              } else if (_isSelected && index == widget.listData.length - 1) {
+              } else if (_isSelected && index == widget.listData!.length - 1) {
                 _scrollController.animateTo(
                   _scrollController.position.maxScrollExtent,
                   curve: Curves.easeOut,
@@ -66,8 +66,8 @@ class _CustomTabState extends State<CustomTab> {
                           borderRadius: BorderRadius.all(
                               Radius.circular(Dimens.radius))))),
                   onPressed: () {
-                    widget.selected(widget.listData.indexOf(_data));
-                    for (var item in widget.listData) {
+                    widget.selected!(widget.listData!.indexOf(_data));
+                    for (var item in widget.listData!) {
                       setState(() {
                         if (_data.title == item.title) {
                           item.isSelected = true;
@@ -77,7 +77,7 @@ class _CustomTabState extends State<CustomTab> {
                     }
                   },
                   child: Text(
-                    _data.title,
+                    _data.title!,
                     style: TextStyles.white.copyWith(
                         fontSize: Dimens.fontSmall,
                         color:

@@ -6,10 +6,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class AddSpendingBloc extends Cubit<Result<dynamic>> {
   AddSpendingBloc() : super(Result.isLoading());
 
-  var _spendingRepo = sl<SpendingRepository>();
+  SpendingRepository? _spendingRepo = sl<SpendingRepository>();
 
   addSpending(Map<String, dynamic> _params) async {
     emit(Result.isLoading());
-    emit(await _spendingRepo.addSpending(_params));
+    emit(await _spendingRepo!.addSpending(_params));
   }
 }

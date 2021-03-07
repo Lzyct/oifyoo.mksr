@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -20,12 +21,12 @@ import 'package:share/share.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class DetailSalePage extends StatefulWidget {
-  final String transactionNumber;
-  final String total;
-  final String discount;
+  final String? transactionNumber;
+  final String? total;
+  final String? discount;
 
   const DetailSalePage(
-      {Key key, this.transactionNumber, this.total, this.discount})
+      {Key? key, this.transactionNumber, this.total, this.discount})
       : super(key: key);
 
   @override
@@ -33,15 +34,15 @@ class DetailSalePage extends StatefulWidget {
 }
 
 class _DetailSalePageState extends State<DetailSalePage> {
-  DetailSaleBloc _detailSaleBloc;
+  late DetailSaleBloc _detailSaleBloc;
   GlobalKey _globalKey = new GlobalKey();
 
-  var _selectedStatus = Strings.listStatus[0];
-  var _note = "";
-  var _buyer = "";
-  var _total;
+  String? _selectedStatus = Strings.listStatus[0];
+  String? _note = "";
+  String? _buyer = "";
+  late var _total;
   var _purchaseDate = "";
-  List<TransactionEntity> _listSelectedProduct = [];
+  List<TransactionEntity>? _listSelectedProduct = [];
 
   @override
   void initState() {
@@ -51,10 +52,16 @@ class _DetailSalePageState extends State<DetailSalePage> {
     _detailSaleBloc = BlocProvider.of(context);
     _detailSaleBloc.detailSale(widget.transactionNumber);
 
-    _total = (widget.total.toClearText().toInt() -
-            widget.discount.toClearText().toInt())
+    _total = (widget.total!.toClearText().toInt() -
+            widget.discount!.toClearText().toInt())
         .toString()
         .toIDR();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _detailSaleBloc.close();
   }
 
   @override
@@ -93,8 +100,8 @@ class _DetailSalePageState extends State<DetailSalePage> {
         ],
       ),
       child: BlocListener(
-        cubit: _detailSaleBloc,
-        listener: (_, state) {
+        bloc: _detailSaleBloc,
+        listener: (_, dynamic state) {
           switch (state.status) {
             case Status.LOADING:
               {
@@ -110,12 +117,12 @@ class _DetailSalePageState extends State<DetailSalePage> {
               {
                 setState(() {
                   _listSelectedProduct = state.data;
-                  _note = _listSelectedProduct[0].note;
-                  _buyer = _listSelectedProduct[0].buyer;
-                  _selectedStatus = _listSelectedProduct[0].status;
+                  _note = _listSelectedProduct![0].note;
+                  _buyer = _listSelectedProduct![0].buyer;
+                  _selectedStatus = _listSelectedProduct![0].status;
                   _purchaseDate =
-                      _listSelectedProduct[0].createdAt.toDateTime();
-                  logs("data ${_listSelectedProduct[0]}");
+                      _listSelectedProduct![0].createdAt!.toDateTime();
+                  logs("data ${_listSelectedProduct![0]}");
                 });
               }
               break;
@@ -153,7 +160,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
                     ),
                     SizedBox(height: context.dp8()),
                     ListView.builder(
-                        itemCount: _listSelectedProduct.length,
+                        itemCount: _listSelectedProduct!.length,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (_, index) {
@@ -168,7 +175,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
                               .copyWith(fontSize: Dimens.fontLarge),
                         ),
                         Text(
-                          widget.total,
+                          widget.total!,
                           style: TextStyles.textBold
                               .copyWith(fontSize: Dimens.fontLarge),
                         )
@@ -184,7 +191,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
                               .copyWith(fontSize: Dimens.fontLarge),
                         ),
                         Text(
-                          widget.discount,
+                          widget.discount!,
                           style: TextStyles.textBold
                               .copyWith(fontSize: Dimens.fontLarge),
                         )
@@ -209,7 +216,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
                     SizedBox(height: context.dp16()),
                     TextD(
                       hint: Strings.note,
-                      content: _note.isEmpty ? "-" : _note,
+                      content: _note!.isEmpty ? "-" : _note,
                     ),
                     TextD(
                       hint: Strings.buyerName,
@@ -234,8 +241,8 @@ class _DetailSalePageState extends State<DetailSalePage> {
   }
 
   _listItem(int index) {
-    int _qty = _listSelectedProduct[index].qty;
-    int _price = _listSelectedProduct[index].price;
+    int _qty = _listSelectedProduct![index].qty!;
+    int _price = _listSelectedProduct![index].price!;
     return Column(
       children: [
         Row(
@@ -245,7 +252,7 @@ class _DetailSalePageState extends State<DetailSalePage> {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(_listSelectedProduct[index].productName,
+                Text(_listSelectedProduct![index].productName!,
                     style: TextStyles.textBold),
                 SizedBox(height: context.dp8()),
                 Text(
@@ -267,9 +274,10 @@ class _DetailSalePageState extends State<DetailSalePage> {
 
   Future<void> _shareStruck() async {
     RenderRepaintBoundary boundary =
-        _globalKey.currentContext.findRenderObject();
+        _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage();
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    ByteData byteData = await (image.toByteData(format: ui.ImageByteFormat.png)
+        as Future<ByteData>);
     Uint8List pngBytes = byteData.buffer.asUint8List();
 
     var _tempDir = await getTemporaryDirectory();

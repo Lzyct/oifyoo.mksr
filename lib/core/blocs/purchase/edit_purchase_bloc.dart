@@ -6,10 +6,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class EditPurchaseBloc extends Cubit<Result<dynamic>> {
   EditPurchaseBloc() : super(Result.isLoading());
 
-  var _purchaseRepo = sl<PurchaseRepository>();
+  PurchaseRepository? _purchaseRepo = sl<PurchaseRepository>();
 
   editPurchase(Map<String, dynamic> _params) async {
     emit(Result.isLoading());
-    emit(await _purchaseRepo.editPurchase(_params));
+    emit(await _purchaseRepo!.editPurchase(_params));
   }
 }

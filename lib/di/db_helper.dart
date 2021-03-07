@@ -11,9 +11,9 @@ import 'package:sqflite/sqflite.dart';
 ///*********************************************
 /// © 2019 | All Right Reserved
 class DbHelper {
-  Database db;
+  Database? db;
 
-  Future<Database> get dataBase async {
+  Future<Database?> get dataBase async {
     if (db != null) return db;
     db = await initDb();
     return db;

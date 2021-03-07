@@ -9,12 +9,12 @@ import 'package:oifyoo_mksr/ui/resources/resources.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class Toast extends StatelessWidget {
-  final IconData icon;
-  final Color bgColor;
-  final Color textColor;
-  final String message;
+  final IconData? icon;
+  final Color? bgColor;
+  final Color? textColor;
+  final String? message;
 
-  const Toast({Key key, this.icon, this.bgColor, this.message, this.textColor})
+  const Toast({Key? key, this.icon, this.bgColor, this.message, this.textColor})
       : super(key: key);
 
   @override
@@ -44,7 +44,7 @@ class Toast extends StatelessWidget {
               Container(
                 constraints: BoxConstraints(maxWidth: 250.w),
                 child: Text(
-                  message,
+                  message!,
                   style: TextStyles.text.copyWith(color: textColor),
                   textAlign: TextAlign.start,
                   maxLines: 5,

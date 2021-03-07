@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:oifyoo_mksr/core/data/models/models.dart';
 import 'package:oifyoo_mksr/core/data/sources/local/sale_contract.dart';
 import 'package:oifyoo_mksr/core/enums/enums.dart';
@@ -22,7 +24,7 @@ class SaleTransaction extends SaleContract {
       for (var item in _listProduct) {
         // insert transaction to db
         var _qty = item.textEditingController.text.toInt();
-        await _dbClient.transaction((insert) async => insert.rawInsert('''
+        await _dbClient!.transaction((insert) async => insert.rawInsert('''
            INSERT INTO transaksi(
              transactionNumber,
              idProduct,
@@ -62,7 +64,7 @@ class SaleTransaction extends SaleContract {
         await _dbClient.transaction((update) async => update.rawUpdate(_query));
       }
 
-      _dbClient.close();
+      _dbClient?.close();
       return true;
     } catch (e) {
       logs(e);
@@ -81,7 +83,7 @@ class SaleTransaction extends SaleContract {
       WHERE transactionNumber='${_params['transactionNumber']}'
     ''';
       logs("query $_query");
-      await _dbClient.transaction((update) async => update.rawUpdate(_query));
+      await _dbClient!.transaction((update) async => update.rawUpdate(_query));
       _dbClient.close();
       return true;
     } catch (e) {
@@ -91,7 +93,7 @@ class SaleTransaction extends SaleContract {
   }
 
   @override
-  Future<dynamic> deleteSale(String _transactionNumber) async {
+  Future<dynamic> deleteSale(String? _transactionNumber) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
       // set sale to void
@@ -102,7 +104,7 @@ class SaleTransaction extends SaleContract {
       WHERE transactionNumber='$_transactionNumber'
       ''';
       logs("query void $_queryVoid");
-      await _dbClient
+      await _dbClient!
           .transaction((update) async => update.rawUpdate(_queryVoid));
 
       //return stock to product
@@ -156,13 +158,13 @@ class SaleTransaction extends SaleContract {
     try {
       //Format transaction number
       var _query =
-          await _dbClient.transaction((select) async => select.rawQuery('''
+          await _dbClient!.transaction((select) async => select.rawQuery('''
         SELECT COUNT(DISTINCT transactionNumber) FROM transaksi 
             WHERE createdAt like '%${DateTime.now().toString().toYearMonth()}%'
             AND transactionNumber like'%SL%'
       '''));
 
-      int _count = Sqflite.firstIntValue(_query);
+      int _count = Sqflite.firstIntValue(_query)!;
       _count++;
       var _transactionNumber =
           "OIFYOO-MKSR/SL_${DateTime.now().toString().toMonthYear()}_${_count.toString().padLeft(4, "0")}";
@@ -171,14 +173,14 @@ class SaleTransaction extends SaleContract {
       return _transactionNumber;
     } catch (e) {
       logs(e);
-      return e;
+      return e.toString();
     }
   }
 
   @override
   Future<Map<String, Map<String, List<TransactionEntity>>>> getListSale({
-    String searchText,
-    SearchType type = SearchType.All,
+    String? searchText,
+    SearchType? type = SearchType.All,
   }) async {
     //connect db
     logs("SearchType $type");
@@ -196,7 +198,7 @@ class SaleTransaction extends SaleContract {
                      AND type='${Strings.sale}'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-            if (searchText.isEmpty) {
+            if (searchText!.isEmpty) {
               _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
@@ -215,7 +217,7 @@ class SaleTransaction extends SaleContract {
                      AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-            if (searchText.isEmpty) {
+            if (searchText!.isEmpty) {
               _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
@@ -234,7 +236,7 @@ class SaleTransaction extends SaleContract {
                      AND createdAt like '%${DateTime.now().toString().toDate()}%'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-            if (searchText.isEmpty) {
+            if (searchText!.isEmpty) {
               _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
@@ -248,7 +250,7 @@ class SaleTransaction extends SaleContract {
       }
 
       logs("Query -> $_query");
-      List<Map> _queryMap = await _dbClient.rawQuery(_query);
+      List<Map> _queryMap = await _dbClient!.rawQuery(_query);
       List<TransactionEntity> _listSale = [];
       _queryMap.forEach((element) {
         _listSale.add(TransactionEntity(
@@ -269,7 +271,7 @@ class SaleTransaction extends SaleContract {
       _dbClient.close();
 
       // distinct date to group
-      var _distinctDate = _listSale.map((e) => e.createdAt.toDate()).toSet();
+      var _distinctDate = _listSale.map((e) => e.createdAt!.toDate()).toSet();
       // loop to show all distinct date
       // then add to map using date as key
       // for second map using total for that day as key
@@ -282,14 +284,14 @@ class SaleTransaction extends SaleContract {
         List<TransactionEntity> _listSaleOfDate = [];
         var _mapTotal = Map<String, List<TransactionEntity>>();
         _listSaleOfDate = _listSale
-            .where((element) => element.createdAt.toDate() == _date)
+            .where((element) => element.createdAt!.toDate() == _date)
             .toList();
         _listSaleOfDate.forEach((elementSaleOfDate) {
           logs("qty ${elementSaleOfDate.qty}");
           logs("price ${elementSaleOfDate.price}");
           logs("discount ${elementSaleOfDate.discount}");
           logs("id ${elementSaleOfDate.idProduct}");
-          _total += elementSaleOfDate.total - elementSaleOfDate.discount;
+          _total += elementSaleOfDate.total! - elementSaleOfDate.discount!;
           logs(
               "Total of transaction id ${elementSaleOfDate.transactionNumber} $_total");
         });
@@ -311,13 +313,13 @@ class SaleTransaction extends SaleContract {
 
   @override
   Future<List<TransactionEntity>> getDetailSale(
-      String _transactionNumber) async {
+      String? _transactionNumber) async {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query =
         "SELECT * FROM transaksi WHERE transactionNumber='$_transactionNumber'";
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
     List<TransactionEntity> _listSale = [];
     _queryMap.forEach((element) {
       _listSale.add(TransactionEntity(

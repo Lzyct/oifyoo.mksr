@@ -1,15 +1,18 @@
+import 'dart:async';
+
 import 'package:oifyoo_mksr/core/data/models/models.dart';
 import 'package:oifyoo_mksr/core/data/sources/local/product_contract.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
+import 'package:sqflite/sqflite.dart';
 
 class ProductTransaction extends ProductContract {
   @override
   Future<dynamic> addProduct(Map<String, dynamic> _params) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
-      await _dbClient.transaction((insert) async => insert.rawInsert('''
+       await _dbClient!.transaction((insert) async => insert.rawInsert('''
       INSERT INTO product(
         productName,
         note,
@@ -50,7 +53,7 @@ class ProductTransaction extends ProductContract {
       WHERE id=${_params['id']}
     ''';
       logs("query editProduct $_query");
-      await _dbClient.transaction((update) async => update.rawUpdate(_query));
+       await _dbClient!.transaction((update) async => update.rawUpdate(_query));
       _dbClient.close();
       return true;
     } catch (e) {
@@ -60,10 +63,10 @@ class ProductTransaction extends ProductContract {
   }
 
   @override
-  Future<dynamic> deleteProduct(int id) async {
+  Future<dynamic> deleteProduct(int? id) async {
     var _dbClient = await sl.get<DbHelper>().dataBase;
     try {
-      await _dbClient.transaction((delete) async => delete.rawDelete('''
+       await _dbClient!.transaction((delete) async => delete.rawDelete('''
         DELETE FROM product WHERE id='$id'
       '''));
       _dbClient.close();
@@ -85,7 +88,7 @@ class ProductTransaction extends ProductContract {
     }
 
     logs("Query -> $_query");
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
     List<ProductEntity> _listProduct = [];
     _queryMap.forEach((element) {
       _listProduct.add(ProductEntity(
@@ -103,12 +106,12 @@ class ProductTransaction extends ProductContract {
   }
 
   @override
-  Future<ProductEntity> getDetailProduct(int id) async {
+  Future<ProductEntity> getDetailProduct(int? id) async {
     //connect db
     var _dbClient = await sl.get<DbHelper>().dataBase;
     var _query = "SELECT * FROM product WHERE id='$id'";
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
     List<ProductEntity> _listProduct = [];
     _queryMap.forEach((element) {
       _listProduct.add(ProductEntity(

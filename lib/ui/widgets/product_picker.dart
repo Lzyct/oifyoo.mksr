@@ -5,15 +5,15 @@ import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
 class ProductPicker extends StatefulWidget {
-  final String label;
-  final String labelButton;
-  final List<ProductEntity> listProduct;
-  final List<ProductEntity> listProductFilter;
-  final Function(List<ProductEntity>) selectedProduct;
+  final String? label;
+  final String? labelButton;
+  final List<ProductEntity>? listProduct;
+  final List<ProductEntity>? listProductFilter;
+  final Function(List<ProductEntity>)? selectedProduct;
   final bool isSale;
 
   const ProductPicker({
-    Key key,
+    Key? key,
     this.label,
     this.labelButton,
     this.listProduct,
@@ -27,8 +27,8 @@ class ProductPicker extends StatefulWidget {
 }
 
 class ProductPickerState extends State<ProductPicker> {
-  List<ProductEntity> _listDataFilter = [];
-  List<ProductEntity> _listData = [];
+  List<ProductEntity>? _listDataFilter = [];
+  List<ProductEntity>? _listData = [];
   List<ProductEntity> _listSelected = [];
 
   @override
@@ -37,7 +37,7 @@ class ProductPickerState extends State<ProductPicker> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.label,
+          widget.label!,
           style: TextStyles.textHint.copyWith(fontSize: Dimens.fontSmall),
         ),
         Button(
@@ -73,10 +73,10 @@ class ProductPickerState extends State<ProductPicker> {
                     _listDataFilter = _listData;
                   } else {
                     // Filter using Name or position
-                    _listDataFilter = _listData
+                    _listDataFilter = _listData!
                         .where((element) =>
                             !element.isSelected &&
-                            (element.productName
+                            (element.productName!
                                 .toLowerCase()
                                 .contains(value.toLowerCase())))
                         .toList();
@@ -86,50 +86,52 @@ class ProductPickerState extends State<ProductPicker> {
             ),
             SizedBox(height: context.dp16()),
             Expanded(
-              child: _listDataFilter.isNotEmpty
+              child: _listDataFilter!.isNotEmpty
                   ? ListView.builder(
                       shrinkWrap: true,
-                      itemCount: _listDataFilter.length,
+                      itemCount: _listDataFilter!.length,
                       itemBuilder: (context, index) {
                         var _price = widget.isSale
-                            ? _listDataFilter[index]
+                            ? _listDataFilter![index]
                                 .sellingPrice
                                 .toString()
                                 .toIDR()
-                            : _listDataFilter[index]
+                            : _listDataFilter![index]
                                 .purchasePrice
                                 .toString()
                                 .toIDR();
                         logs("price $_price");
                         return Visibility(
-                          visible: !_listDataFilter[index].isSelected,
+                          visible: !_listDataFilter![index].isSelected,
                           child: InkWell(
                             onTap: () {
                               this.setState(() {
                                 setState(() {
                                   if (widget.isSale &&
-                                      _listDataFilter[index].qty > 0) {
-                                    _listDataFilter[index].isSelected =
-                                        !_listDataFilter[index].isSelected;
+                                      _listDataFilter![index].qty! > 0) {
+                                    _listDataFilter![index].isSelected =
+                                        !_listDataFilter![index].isSelected;
                                     //update list product selected
-                                    if (_listDataFilter[index].isSelected)
-                                      _listSelected.add(_listDataFilter[index]);
+                                    if (_listDataFilter![index].isSelected)
+                                      _listSelected
+                                          .add(_listDataFilter![index]);
                                     else
                                       _listSelected.removeWhere((element) =>
-                                          element == _listDataFilter[index]);
+                                          element == _listDataFilter![index]);
 
-                                    widget.selectedProduct(_listSelected);
+                                    widget.selectedProduct!(_listSelected);
                                   } else if (!widget.isSale) {
-                                    _listDataFilter[index].isSelected =
-                                        !_listDataFilter[index].isSelected;
+                                    _listDataFilter![index].isSelected =
+                                        !_listDataFilter![index].isSelected;
                                     //update list product selected
-                                    if (_listDataFilter[index].isSelected)
-                                      _listSelected.add(_listDataFilter[index]);
+                                    if (_listDataFilter![index].isSelected)
+                                      _listSelected
+                                          .add(_listDataFilter![index]);
                                     else
                                       _listSelected.removeWhere((element) =>
-                                          element == _listDataFilter[index]);
+                                          element == _listDataFilter![index]);
 
-                                    widget.selectedProduct(_listSelected);
+                                    widget.selectedProduct!(_listSelected);
                                   } else {
                                     Strings.qtyEmpty.toToastError();
                                   }
@@ -145,13 +147,13 @@ class ProductPickerState extends State<ProductPicker> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        _listDataFilter[index].productName,
+                                        _listDataFilter![index].productName!,
                                         style: TextStyles.textBold.copyWith(
                                             fontSize: Dimens.fontLarge),
                                       ),
                                     ),
                                     Text(
-                                      "${Strings.qtyDot} ${_listDataFilter[index].qty}",
+                                      "${Strings.qtyDot} ${_listDataFilter![index].qty}",
                                       style: TextStyles.textBold
                                           .copyWith(fontSize: Dimens.fontLarge),
                                     ),

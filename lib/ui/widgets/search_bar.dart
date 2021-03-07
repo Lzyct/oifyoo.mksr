@@ -6,13 +6,13 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({
-    Key key,
+    Key? key,
     this.hint,
     this.onChanged,
   }) : super(key: key);
 
-  final String hint;
-  final Function(String) onChanged;
+  final String? hint;
+  final Function(String)? onChanged;
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -26,7 +26,7 @@ class _SearchBarState extends State<SearchBar> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      widget.onChanged(_controller.text);
+      widget.onChanged!(_controller.text);
       setState(() {
         _isEmpty = _controller.text.isEmpty;
       });

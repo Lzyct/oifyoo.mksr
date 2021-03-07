@@ -7,10 +7,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class ListProductBloc extends Cubit<Result<List<ProductEntity>>> {
   ListProductBloc() : super(Result.isLoading());
 
-  var _productRepo = sl<ProductRepository>();
+  ProductRepository? _productRepo = sl<ProductRepository>();
 
   listProduct(String _productName) async {
     emit(Result.isLoading());
-    emit(await _productRepo.getListProduct(_productName));
+    emit(await _productRepo!.getListProduct(_productName));
   }
 }

@@ -15,17 +15,17 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class ListProductPage extends StatefulWidget {
-  ListProductPage({Key key}) : super(key: key);
+  ListProductPage({Key? key}) : super(key: key);
 
   @override
   _ListProductPageState createState() => _ListProductPageState();
 }
 
 class _ListProductPageState extends State<ListProductPage> {
-  ListProductBloc _listProductBloc;
-  DeleteProductBloc _deleteProductBloc;
+  ListProductBloc? _listProductBloc;
+  DeleteProductBloc? _deleteProductBloc;
 
-  List<ProductEntity> _listProduct;
+  List<ProductEntity>? _listProduct;
   String _productName = "";
 
   @override
@@ -37,7 +37,7 @@ class _ListProductPageState extends State<ListProductPage> {
   }
 
   _getListProduct() {
-    _listProductBloc.listProduct(_productName);
+    _listProductBloc!.listProduct(_productName);
   }
 
   @override
@@ -79,14 +79,14 @@ class _ListProductPageState extends State<ListProductPage> {
             cursorColor: Palette.colorPrimary,
             onChanged: (value) {
               _productName = value;
-              _listProductBloc.listProduct(_productName);
+              _listProductBloc!.listProduct(_productName);
             },
           ).margin(
               edgeInsets: EdgeInsets.symmetric(horizontal: context.dp16())),
           Expanded(
               child: BlocListener(
-            cubit: _deleteProductBloc,
-            listener: (_, state) {
+            bloc: _deleteProductBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -107,8 +107,8 @@ class _ListProductPageState extends State<ListProductPage> {
               }
             },
             child: BlocBuilder(
-              cubit: _listProductBloc,
-              builder: (_, state) {
+              bloc: _listProductBloc,
+              builder: (_, dynamic state) {
                 switch (state.status) {
                   case Status.LOADING:
                     {
@@ -142,7 +142,7 @@ class _ListProductPageState extends State<ListProductPage> {
                         },
                         child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: _listProduct.length,
+                            itemCount: _listProduct!.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
                               return _listItem(index);
@@ -185,7 +185,7 @@ class _ListProductPageState extends State<ListProductPage> {
                       style: TextStyles.text,
                     ),
                     TextSpan(
-                        text: " ${_listProduct[index].productName} ",
+                        text: " ${_listProduct![index].productName} ",
                         style: TextStyles.textBold),
                     TextSpan(
                       text: Strings.questionMark,
@@ -210,7 +210,8 @@ class _ListProductPageState extends State<ListProductPage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteProductBloc.deleteProduct(_listProduct[index].id);
+                      _deleteProductBloc!
+                          .deleteProduct(_listProduct![index].id);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -226,7 +227,7 @@ class _ListProductPageState extends State<ListProductPage> {
                 BlocProvider(create: (_) => DetailProductBloc()),
               ],
               child: EditProductPage(
-                id: _listProduct[index].id,
+                id: _listProduct![index].id,
               )));
           _getListProduct();
         }
@@ -242,23 +243,23 @@ class _ListProductPageState extends State<ListProductPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      _listProduct[index].productName,
+                      _listProduct![index].productName!,
                       style: TextStyles.textBold
                           .copyWith(fontSize: Dimens.fontLarge),
                     ),
                   ),
-                  Text("${Strings.qtyDot} ${_listProduct[index].qty}",
+                  Text("${Strings.qtyDot} ${_listProduct![index].qty}",
                       style: TextStyles.textBold)
                 ],
               ),
               SizedBox(height: context.dp8()),
               Text(
-                _listProduct[index].sellingPrice.toString().toIDR(),
+                _listProduct![index].sellingPrice.toString().toIDR(),
                 style: TextStyles.text,
               ),
               SizedBox(height: context.dp8()),
               Text(
-                "${Strings.lastUpdate} ${_listProduct[index].updatedAt.toDateTime()}",
+                "${Strings.lastUpdate} ${_listProduct![index].updatedAt!.toDateTime()}",
                 style: TextStyles.textHint.copyWith(
                     fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
               )
@@ -268,7 +269,7 @@ class _ListProductPageState extends State<ListProductPage> {
             context.goTo(BlocProvider(
               create: (_) => DetailProductBloc(),
               child: DetailProductPage(
-                id: _listProduct[index].id,
+                id: _listProduct![index].id,
               ),
             ));
           }),

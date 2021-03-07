@@ -7,11 +7,11 @@ import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
 
 class SaleRepository {
-  var _saleTransaction = sl<SaleContract>();
+  SaleContract? _saleTransaction = sl<SaleContract>();
 
   Future<Result<String>> transactionNumber() async {
     try {
-      var _response = await _saleTransaction.transactionNumber();
+      var _response = await _saleTransaction!.transactionNumber();
       return Result.isSuccess(data: _response);
     } catch (e) {
       return Result.isError(e.toString());
@@ -20,7 +20,7 @@ class SaleRepository {
 
   Future<Result<dynamic>> addSale(Map<String, dynamic> _params) async {
     try {
-      var _response = await _saleTransaction.addSale(_params);
+      var _response = await _saleTransaction!.addSale(_params);
 
       logs("is bool ${_response is bool}");
       if (_response is bool) {
@@ -33,9 +33,9 @@ class SaleRepository {
     }
   }
 
-  Future<Result<dynamic>> deleteSale(String _transactionNumber) async {
+  Future<Result<dynamic>> deleteSale(String? _transactionNumber) async {
     try {
-      var _response = await _saleTransaction.deleteSale(_transactionNumber);
+      var _response = await _saleTransaction!.deleteSale(_transactionNumber);
       logs("is bool ${_response is bool}");
       if (_response is bool) {
         return Result.isSuccess(data: true);
@@ -49,7 +49,7 @@ class SaleRepository {
 
   Future<Result<dynamic>> editSale(Map<String, dynamic> _params) async {
     try {
-      await _saleTransaction.editSale(_params);
+      await _saleTransaction!.editSale(_params);
       return Result.isSuccess(data: true);
     } catch (e) {
       return Result.isError(e.toString());
@@ -57,9 +57,9 @@ class SaleRepository {
   }
 
   Future<Result<List<TransactionEntity>>> getDetailSale(
-      String _transactionNumber) async {
+      String? _transactionNumber) async {
     try {
-      var _response = await _saleTransaction.getDetailSale(_transactionNumber);
+      var _response = await _saleTransaction!.getDetailSale(_transactionNumber);
       return Result.isSuccess(data: _response);
     } catch (e) {
       return Result.isError(e.toString());
@@ -68,12 +68,12 @@ class SaleRepository {
 
   Future<Result<Map<String, Map<String, List<TransactionEntity>>>>>
       getListSale({
-    String searchText,
-    SearchType type,
+    String? searchText,
+    SearchType? type,
   }) async {
     try {
-      var _response = await _saleTransaction.getListSale(
-          searchText: searchText, type: type);
+      var _response = await _saleTransaction!
+          .getListSale(searchText: searchText, type: type);
 
       logs("is bool ${_response is bool}");
       if (_response.isEmpty) {

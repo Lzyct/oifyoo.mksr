@@ -6,10 +6,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class DeleteSpendingBloc extends Cubit<Result<dynamic>> {
   DeleteSpendingBloc() : super(Result.isLoading());
 
-  var _spendingRepo = sl<SpendingRepository>();
+  SpendingRepository? _spendingRepo = sl<SpendingRepository>();
 
-  deleteSpending(int _id) async {
+  deleteSpending(int? _id) async {
     emit(Result.isLoading());
-    emit(await _spendingRepo.deleteSpending(_id));
+    emit(await _spendingRepo!.deleteSpending(_id));
   }
 }

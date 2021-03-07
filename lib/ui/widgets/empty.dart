@@ -10,9 +10,9 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class Empty extends StatelessWidget {
-  final String errorMessage;
+  final String? errorMessage;
 
-  const Empty({Key key, this.errorMessage}) : super(key: key);
+  const Empty({Key? key, this.errorMessage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

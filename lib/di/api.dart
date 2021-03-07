@@ -5,7 +5,7 @@ import 'package:oifyoo_mksr/utils/dio_interceptor.dart';
 class API {
   static const BASE_URL = "https://oifyoo_mksr.id";
 
-  Dio getDio({String token}) {
+  Dio getDio({String? token}) {
     return Dio(BaseOptions(
         baseUrl: BASE_URL,
         headers: {
@@ -15,8 +15,8 @@ class API {
         },
         receiveTimeout: 60000,
         connectTimeout: 60000,
-        validateStatus: (int status) {
-          return status > 0;
+        validateStatus: (int? status) {
+          return status! > 0;
         }))
       ..interceptors.add(DioInterceptor());
   }

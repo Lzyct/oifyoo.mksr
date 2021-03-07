@@ -8,19 +8,19 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class Parent extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   final bool isPadding;
   final bool isScroll;
-  final AppBar appBar;
+  final AppBar? appBar;
   final bool avoidBottomInset;
-  final Widget floatingButton;
+  final Widget? floatingButton;
 
   const Parent({
-    Key key,
+    Key? key,
     this.child,
     this.isPadding = true,
     this.isScroll = true,
-    @required this.appBar,
+    required this.appBar,
     this.avoidBottomInset = false,
     this.floatingButton,
   }) : super(key: key);

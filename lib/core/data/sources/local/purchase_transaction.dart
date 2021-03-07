@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:oifyoo_mksr/core/data/models/models.dart';
 import 'package:oifyoo_mksr/core/data/sources/local/purchase_contract.dart';
 import 'package:oifyoo_mksr/di/di.dart';
@@ -21,7 +23,7 @@ class PurchaseTransaction extends PurchaseContract {
       for (var item in _listProduct) {
         // insert transaction to db
         var _qty = item.textEditingController.text.toInt();
-        await _dbClient.transaction((insert) async => insert.rawInsert('''
+        await _dbClient!.transaction((insert) async => insert.rawInsert('''
            INSERT INTO transaksi(
              transactionNumber,
              idProduct,
@@ -61,7 +63,7 @@ class PurchaseTransaction extends PurchaseContract {
         await _dbClient.transaction((update) async => update.rawUpdate(_query));
       }
 
-      _dbClient.close();
+      _dbClient?.close();
       return true;
     } catch (e) {
       logs(e);
@@ -80,7 +82,7 @@ class PurchaseTransaction extends PurchaseContract {
       WHERE transactionNumber='${_params['transactionNumber']}'
     ''';
       logs("query $_query");
-      await _dbClient.transaction((update) async => update.rawUpdate(_query));
+      await _dbClient!.transaction((update) async => update.rawUpdate(_query));
       _dbClient.close();
       return true;
     } catch (e) {
@@ -101,7 +103,7 @@ class PurchaseTransaction extends PurchaseContract {
       WHERE transactionNumber='$_transactionNumber'
       ''';
       logs("query void $_queryVoid");
-      await _dbClient
+      await _dbClient!
           .transaction((update) async => update.rawUpdate(_queryVoid));
 
       //return stock to product
@@ -155,13 +157,13 @@ class PurchaseTransaction extends PurchaseContract {
     try {
       //Format transaction number
       var _query =
-          await _dbClient.transaction((select) async => select.rawQuery('''
+          await _dbClient!.transaction((select) async => select.rawQuery('''
         SELECT COUNT(DISTINCT transactionNumber) FROM transaksi 
           WHERE createdAt like '%${DateTime.now().toString().toYearMonth()}%'
           AND transactionNumber like'%PRCHS%'
       '''));
 
-      int _count = Sqflite.firstIntValue(_query);
+      int _count = Sqflite.firstIntValue(_query)!;
       _count++;
       var _transactionNumber =
           "OIFYOO-MKSR/PRCHS_${DateTime.now().toString().toMonthYear()}_${_count.toString().padLeft(4, "0")}";
@@ -170,7 +172,7 @@ class PurchaseTransaction extends PurchaseContract {
       return _transactionNumber;
     } catch (e) {
       logs(e);
-      return e;
+      return e.toString();
     }
   }
 
@@ -193,7 +195,7 @@ class PurchaseTransaction extends PurchaseContract {
     }
 
     logs("Query -> $_query");
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
     List<TransactionEntity> _listPurchase = [];
     _queryMap.forEach((element) {
       _listPurchase.add(TransactionEntity(
@@ -222,7 +224,7 @@ class PurchaseTransaction extends PurchaseContract {
     var _query =
         "SELECT * FROM transaksi WHERE transactionNumber='$_transactionNumber'";
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
     List<TransactionEntity> _listPurchase = [];
     _queryMap.forEach((element) {
       _listPurchase.add(TransactionEntity(

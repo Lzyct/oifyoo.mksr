@@ -18,7 +18,7 @@ class AddSpendingPage extends StatefulWidget {
 }
 
 class _AddSpendingPageState extends State<AddSpendingPage> {
-  AddSpendingBloc _addSpendingBloc;
+  AddSpendingBloc? _addSpendingBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conName = TextEditingController();
@@ -41,8 +41,8 @@ class _AddSpendingPageState extends State<AddSpendingPage> {
       appBar: context.appBar(title: Strings.addSpending),
       avoidBottomInset: true,
       child: BlocListener(
-        cubit: _addSpendingBloc,
-        listener: (_, state) {
+        bloc: _addSpendingBloc,
+        listener: (_, dynamic state) {
           switch (state.status) {
             case Status.LOADING:
               {
@@ -101,13 +101,13 @@ class _AddSpendingPageState extends State<AddSpendingPage> {
               Button(
                 title: Strings.save,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     var _params = {
                       "name": _conName.text,
                       "note": _conNote.text,
                       "price": _conPrice.text.toClearText()
                     };
-                    _addSpendingBloc.addSpending(_params);
+                    _addSpendingBloc!.addSpending(_params);
                   }
                 },
               )

@@ -11,15 +11,15 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 /// © 2020 | All Right Reserved
 class CustomDialog extends StatefulWidget {
   final Widget content;
-  final bool showClose;
-  final double width;
-  final double height;
-  final Function onBackPressed;
-  final String title;
+  final bool? showClose;
+  final double? width;
+  final double? height;
+  final Function? onBackPressed;
+  final String? title;
 
   const CustomDialog(
-      {Key key,
-      @required this.content,
+      {Key? key,
+      required this.content,
       this.showClose,
       this.width,
       this.height,
@@ -74,10 +74,11 @@ class _CustomDialogState extends State<CustomDialog> {
                               Icons.close,
                               color: Colors.white,
                             ),
-                            onPressed: widget.onBackPressed ??
-                                () {
-                                  Navigator.pop(context);
-                                },
+                            onPressed:
+                                widget.onBackPressed as void Function()? ??
+                                    () {
+                                      Navigator.pop(context);
+                                    },
                           ),
                         ),
                       )

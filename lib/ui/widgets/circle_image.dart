@@ -9,9 +9,9 @@ import 'package:flutter_screenutil/size_extension.dart';
 /// © 2020 | All Right Reserved
 class CircleImage extends StatelessWidget {
   final String url;
-  final double size;
+  final double? size;
 
-  const CircleImage({Key key, @required this.url, this.size}) : super(key: key);
+  const CircleImage({Key? key, required this.url, this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CircleImage extends StatelessWidget {
               child: CircularProgressIndicator(
                 value: loadingProgress.expectedTotalBytes != null
                     ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
+                        loadingProgress.expectedTotalBytes!
                     : null,
               ),
             );

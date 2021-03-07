@@ -7,10 +7,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class DetailSpendingBloc extends Cubit<Result<SpendingEntity>> {
   DetailSpendingBloc() : super(Result.isLoading());
 
-  var _spendingRepo = sl<SpendingRepository>();
+  SpendingRepository? _spendingRepo = sl<SpendingRepository>();
 
-  detailSpending(int _id) async {
+  detailSpending(int? _id) async {
     emit(Result.isLoading());
-    emit(await _spendingRepo.getDetailSpending(_id));
+    emit(await _spendingRepo!.getDetailSpending(_id));
   }
 }

@@ -4,7 +4,7 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 
 class TextD extends StatefulWidget {
   TextD(
-      {Key key,
+      {Key? key,
       this.hint,
       this.content,
       this.contentColor,
@@ -13,13 +13,13 @@ class TextD extends StatefulWidget {
       this.hintColor,
       this.onTap})
       : super(key: key);
-  final String hint;
-  final String content;
-  final Color contentColor;
-  final Color hintColor;
-  final double contentSize;
+  final String? hint;
+  final String? content;
+  final Color? contentColor;
+  final Color? hintColor;
+  final double? contentSize;
   final bool isFirst;
-  final Function onTap;
+  final Function? onTap;
 
   @override
   _TextDState createState() => _TextDState();
@@ -47,9 +47,9 @@ class _TextDState extends State<TextD> {
             height: context.dp4(),
           ),
           InkWell(
-            onTap: widget.onTap,
+            onTap: widget.onTap as void Function()?,
             child: Text(
-              widget.content,
+              widget.content!,
               style: TextStyles.text.copyWith(
                   color: widget.contentColor ?? Palette.colorText,
                   fontSize: widget.contentSize ?? Dimens.fontNormal),

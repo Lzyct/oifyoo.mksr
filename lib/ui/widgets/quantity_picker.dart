@@ -11,12 +11,12 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class QuantityPicker extends StatefulWidget {
-  final TextEditingController textEditingController;
-  final FocusNode focusNode;
-  final Function(String) onChanged;
+  final TextEditingController? textEditingController;
+  final FocusNode? focusNode;
+  final Function(String)? onChanged;
 
   const QuantityPicker({
-    Key key,
+    Key? key,
     this.textEditingController,
     this.focusNode,
     this.onChanged,
@@ -40,10 +40,10 @@ class _QuantityPickerState extends State<QuantityPicker> {
                     MaterialStateProperty.all(EdgeInsets.all(context.dp6()))),
             onPressed: () {
               logs("onPressed");
-              var _count = widget.textEditingController.text.toInt();
+              var _count = widget.textEditingController!.text.toInt();
               _count--;
-              widget.textEditingController.text = _count.toString();
-              widget.onChanged(_count.toString());
+              widget.textEditingController!.text = _count.toString();
+              widget.onChanged!(_count.toString());
             },
             child: SvgPicture.asset(
               Images.icRemove,
@@ -81,11 +81,11 @@ class _QuantityPickerState extends State<QuantityPicker> {
                     MaterialStateProperty.all(EdgeInsets.all(context.dp6()))),
             onPressed: () {
               logs("onPressed");
-              var _count = widget.textEditingController.text.toInt();
+              var _count = widget.textEditingController!.text.toInt();
               _count++;
 
-              widget.textEditingController.text = _count.toString();
-              widget.onChanged(_count.toString());
+              widget.textEditingController!.text = _count.toString();
+              widget.onChanged!(_count.toString());
             },
             child: SvgPicture.asset(
               Images.icAdd,

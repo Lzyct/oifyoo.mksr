@@ -10,18 +10,18 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 /// © 2020 | All Right Reserved
 class DropDown<T> extends StatefulWidget {
   DropDown(
-      {Key key,
+      {Key? key,
       this.value,
       this.items,
       this.hint,
       this.onChanged,
       this.hintIsVisible = true})
       : super(key: key);
-  final String value;
-  final List<DropdownMenuItem<T>> items;
+  final String? value;
+  final List<DropdownMenuItem<T>>? items;
   final bool hintIsVisible;
-  final String hint;
-  final Function(T) onChanged;
+  final String? hint;
+  final Function(T)? onChanged;
 
   @override
   _DropDownState createState() => _DropDownState();

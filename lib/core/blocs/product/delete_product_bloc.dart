@@ -6,10 +6,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class DeleteProductBloc extends Cubit<Result<dynamic>> {
   DeleteProductBloc() : super(Result.isLoading());
 
-  var _productRepo = sl<ProductRepository>();
+  ProductRepository? _productRepo = sl<ProductRepository>();
 
-  deleteProduct(int _id) async {
+  deleteProduct(int? _id) async {
     emit(Result.isLoading());
-    emit(await _productRepo.deleteProduct(_id));
+    emit(await _productRepo!.deleteProduct(_id));
   }
 }

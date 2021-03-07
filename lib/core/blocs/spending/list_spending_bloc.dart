@@ -9,14 +9,14 @@ class ListSpendingBloc
     extends Cubit<Result<Map<String, Map<String, List<SpendingEntity>>>>> {
   ListSpendingBloc() : super(Result.isLoading());
 
-  var _spendingRepo = sl<SpendingRepository>();
+  SpendingRepository? _spendingRepo = sl<SpendingRepository>();
 
   listSpending({
-    String searchText,
-    SearchType type,
+    String? searchText,
+    SearchType? type,
   }) async {
     emit(Result.isLoading());
-    emit(await _spendingRepo.getListSpending(
-        searchText: searchText, type: type));
+    emit(await _spendingRepo!
+        .getListSpending(searchText: searchText, type: type));
   }
 }

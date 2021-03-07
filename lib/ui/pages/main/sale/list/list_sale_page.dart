@@ -16,17 +16,17 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class ListSalePage extends StatefulWidget {
-  ListSalePage({Key key}) : super(key: key);
+  ListSalePage({Key? key}) : super(key: key);
 
   @override
   _ListSalePageState createState() => _ListSalePageState();
 }
 
 class _ListSalePageState extends State<ListSalePage> {
-  ListSaleBloc _listSaleBloc;
-  DeleteSaleBloc _deleteSaleBloc;
+  ListSaleBloc? _listSaleBloc;
+  DeleteSaleBloc? _deleteSaleBloc;
 
-  Map<String, Map<String, List<TransactionEntity>>> _listSale;
+  Map<String, Map<String, List<TransactionEntity>>>? _listSale;
   String _productName = "";
   SearchType _searchType = SearchType.All;
 
@@ -45,7 +45,7 @@ class _ListSalePageState extends State<ListSalePage> {
   }
 
   _getListSale() async {
-    _listSaleBloc.listSale(searchText: _productName, type: _searchType);
+    _listSaleBloc!.listSale(searchText: _productName, type: _searchType);
   }
 
   @override
@@ -116,8 +116,8 @@ class _ListSalePageState extends State<ListSalePage> {
           ),
           Expanded(
               child: BlocListener(
-            cubit: _deleteSaleBloc,
-            listener: (_, state) {
+            bloc: _deleteSaleBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -138,8 +138,8 @@ class _ListSalePageState extends State<ListSalePage> {
               }
             },
             child: BlocBuilder(
-              cubit: _listSaleBloc,
-              builder: (_, state) {
+              bloc: _listSaleBloc,
+              builder: (_, dynamic state) {
                 switch (state.status) {
                   case Status.LOADING:
                     {
@@ -167,26 +167,26 @@ class _ListSalePageState extends State<ListSalePage> {
                   case Status.SUCCESS:
                     {
                       _listSale = state.data;
-                      logs("_listSale length ${_listSale.length}");
+                      logs("_listSale length ${_listSale!.length}");
                       return RefreshIndicator(
                         onRefresh: () async {
                           _getListSale();
                         },
                         child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: _listSale.length,
+                            itemCount: _listSale!.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
                               // create nested listView
                               // first list is for generate date label
                               return Padding(
                                 padding: EdgeInsets.only(
-                                    bottom: index == _listSale.length - 1
+                                    bottom: index == _listSale!.length - 1
                                         ? kToolbarHeight + context.dp16()
                                         : 0),
                                 child: _listHeader(
-                                    _listSale.keys.elementAt(index),
-                                    _listSale.values.elementAt(index)),
+                                    _listSale!.keys.elementAt(index),
+                                    _listSale!.values.elementAt(index)),
                               );
                               // return _listItem(index);
                             }),
@@ -242,7 +242,7 @@ class _ListSalePageState extends State<ListSalePage> {
   }
 
   _listItem(TransactionEntity transactionEntity) {
-    var _total = (transactionEntity.total - transactionEntity.discount)
+    var _total = (transactionEntity.total! - transactionEntity.discount!)
         .toString()
         .toIDR();
     return Dismissible(
@@ -293,7 +293,7 @@ class _ListSalePageState extends State<ListSalePage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteSaleBloc
+                      _deleteSaleBloc!
                           .deleteSale(transactionEntity.transactionNumber);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
@@ -330,7 +330,7 @@ class _ListSalePageState extends State<ListSalePage> {
               ),
               SizedBox(height: context.dp8()),
               Text(
-                transactionEntity.buyer,
+                transactionEntity.buyer!,
                 style: TextStyles.text,
               ),
               Row(
@@ -350,7 +350,7 @@ class _ListSalePageState extends State<ListSalePage> {
                     ),
                     padding: EdgeInsets.all(context.dp8()),
                     child: Text(
-                      transactionEntity.status,
+                      transactionEntity.status!,
                       style: TextStyles.white,
                     ),
                   ),

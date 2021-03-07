@@ -6,10 +6,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class EditSaleBloc extends Cubit<Result<dynamic>> {
   EditSaleBloc() : super(Result.isLoading());
 
-  var _saleRepo = sl<SaleRepository>();
+  SaleRepository? _saleRepo = sl<SaleRepository>();
 
   editSale(Map<String, dynamic> _params) async {
     emit(Result.isLoading());
-    emit(await _saleRepo.editSale(_params));
+    emit(await _saleRepo!.editSale(_params));
   }
 }

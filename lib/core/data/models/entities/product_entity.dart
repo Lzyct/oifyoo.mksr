@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
 class ProductEntity {
-  int id;
-  String productName;
-  String note;
-  int qty;
-  int sellingPrice;
-  int purchasePrice;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  String? productName;
+  String? note;
+  int? qty;
+  int? sellingPrice;
+  int? purchasePrice;
+  String? createdAt;
+  String? updatedAt;
   bool isSelected = false;
   TextEditingController textEditingController =
       new TextEditingController(text: "1");

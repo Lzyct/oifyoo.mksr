@@ -6,10 +6,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class DeletePurchaseBloc extends Cubit<Result<dynamic>> {
   DeletePurchaseBloc() : super(Result.isLoading());
 
-  var _purchaseRepo = sl<PurchaseRepository>();
+  PurchaseRepository? _purchaseRepo = sl<PurchaseRepository>();
 
   deletePurchase(String _transactionNumber) async {
     emit(Result.isLoading());
-    emit(await _purchaseRepo.deletePurchase(_transactionNumber));
+    emit(await _purchaseRepo!.deletePurchase(_transactionNumber));
   }
 }

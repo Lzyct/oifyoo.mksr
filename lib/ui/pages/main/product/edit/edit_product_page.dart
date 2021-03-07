@@ -14,17 +14,17 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class EditProductPage extends StatefulWidget {
-  final int id;
+  final int? id;
 
-  const EditProductPage({Key key, this.id}) : super(key: key);
+  const EditProductPage({Key? key, this.id}) : super(key: key);
 
   @override
   _EditProductPageState createState() => _EditProductPageState();
 }
 
 class _EditProductPageState extends State<EditProductPage> {
-  EditProductBloc _editProductBloc;
-  DetailProductBloc _detailProductBloc;
+  EditProductBloc? _editProductBloc;
+  DetailProductBloc? _detailProductBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conProductName = TextEditingController();
@@ -37,14 +37,14 @@ class _EditProductPageState extends State<EditProductPage> {
   var _fnQty = FocusNode();
   var _fnSalesingPrice = FocusNode();
 
-  ProductEntity _productEntity;
+  ProductEntity? _productEntity;
 
   @override
   void initState() {
     super.initState();
     _editProductBloc = BlocProvider.of(context);
     _detailProductBloc = BlocProvider.of(context);
-    _detailProductBloc.detailProduct(widget.id);
+    _detailProductBloc!.detailProduct(widget.id);
   }
 
   @override
@@ -55,8 +55,8 @@ class _EditProductPageState extends State<EditProductPage> {
       child: MultiBlocListener(
         listeners: [
           BlocListener(
-              cubit: _editProductBloc,
-              listener: (_, state) {
+              bloc: _editProductBloc,
+              listener: (_, dynamic state) {
                 switch (state.status) {
                   case Status.LOADING:
                     {
@@ -77,8 +77,8 @@ class _EditProductPageState extends State<EditProductPage> {
                 }
               }),
           BlocListener(
-              cubit: _detailProductBloc,
-              listener: (_, state) {
+              bloc: _detailProductBloc,
+              listener: (_, dynamic state) {
                 switch (state.status) {
                   case Status.LOADING:
                     {
@@ -94,11 +94,11 @@ class _EditProductPageState extends State<EditProductPage> {
                     {
                       _productEntity = state.data;
 
-                      _conProductName.text = _productEntity.productName;
-                      _conNote.text = _productEntity.note;
-                      _conQty.text = _productEntity.qty.toString();
+                      _conProductName.text = _productEntity!.productName!;
+                      _conNote.text = _productEntity!.note!;
+                      _conQty.text = _productEntity!.qty.toString();
                       _conSalesingPrice.text =
-                          _productEntity.sellingPrice.toString().toCurrency();
+                          _productEntity!.sellingPrice.toString().toCurrency();
                     }
                     break;
                 }
@@ -155,7 +155,7 @@ class _EditProductPageState extends State<EditProductPage> {
               Button(
                 title: Strings.save,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     var _params = {
                       "id": widget.id,
                       "productName": _conProductName.text,
@@ -164,7 +164,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       "qty": _conQty.text.toClearText()
                     };
                     logs("params $_params");
-                    _editProductBloc.editProduct(_params);
+                    _editProductBloc!.editProduct(_params);
                   }
                 },
               )

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:oifyoo_mksr/core/data/models/models.dart';
 import 'package:oifyoo_mksr/core/data/sources/local/home_contract.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
+import 'package:sqflite/sqflite.dart';
 
 //TODO update dependencies style, create class abstract as contract then extends to class implement
 
@@ -18,7 +21,7 @@ class HomeTransaction extends HomeContract {
         ORDER BY updatedAt DESC
     ''';
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
 
     int _sumTotal = _queryMap[0]["total"] ?? 0;
     int _sumDiscount = _queryMap[0]["sumDiscount"] ?? 0;
@@ -45,7 +48,7 @@ class HomeTransaction extends HomeContract {
         ORDER BY updatedAt DESC
     ''';
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
 
     int _sumTotal = _queryMap[0]["total"] ?? 0;
     int _sumDiscount = _queryMap[0]["sumDiscount"] ?? 0;
@@ -72,7 +75,7 @@ class HomeTransaction extends HomeContract {
         ORDER BY updatedAt DESC
     ''';
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
 
     int _sumTotal = _queryMap[0]["total"] ?? 0;
     int _sumDiscount = _queryMap[0]["sumDiscount"] ?? 0;
@@ -98,7 +101,7 @@ class HomeTransaction extends HomeContract {
        ORDER BY updatedAt DESC
     ''';
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
 
     _dbClient.close();
     var _home = HomeEntity(
@@ -116,7 +119,7 @@ class HomeTransaction extends HomeContract {
        ORDER BY updatedAt DESC
     ''';
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
 
     _dbClient.close();
     var _home = HomeEntity(
@@ -134,7 +137,7 @@ class HomeTransaction extends HomeContract {
        ORDER BY updatedAt DESC
     ''';
 
-    List<Map> _queryMap = await _dbClient.rawQuery(_query);
+    List<Map> _queryMap = await _dbClient!.rawQuery(_query);
 
     _dbClient.close();
     var _home = HomeEntity(

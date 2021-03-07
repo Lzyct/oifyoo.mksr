@@ -18,7 +18,7 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  AddProductBloc _addProductBloc;
+  AddProductBloc? _addProductBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conProductName = TextEditingController();
@@ -43,8 +43,8 @@ class _AddProductPageState extends State<AddProductPage> {
       appBar: context.appBar(title: Strings.addProduct),
       avoidBottomInset: true,
       child: BlocListener(
-        cubit: _addProductBloc,
-        listener: (_, state) {
+        bloc: _addProductBloc,
+        listener: (_, dynamic state) {
           switch (state.status) {
             case Status.LOADING:
               {
@@ -115,14 +115,14 @@ class _AddProductPageState extends State<AddProductPage> {
               Button(
                 title: Strings.save,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     var _params = {
                       "productName": _conProductName.text,
                       "note": _conNote.text,
                       "sellingPrice": _conSalesingPrice.text.toClearText(),
                       "qty": _conQty.text.toClearText()
                     };
-                    _addProductBloc.addProduct(_params);
+                    _addProductBloc!.addProduct(_params);
                   }
                 },
               )

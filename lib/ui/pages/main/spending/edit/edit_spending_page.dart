@@ -14,17 +14,17 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class EditSpendingPage extends StatefulWidget {
-  final int id;
+  final int? id;
 
-  const EditSpendingPage({Key key, this.id}) : super(key: key);
+  const EditSpendingPage({Key? key, this.id}) : super(key: key);
 
   @override
   _EditSpendingPageState createState() => _EditSpendingPageState();
 }
 
 class _EditSpendingPageState extends State<EditSpendingPage> {
-  EditSpendingBloc _editSpendingBloc;
-  DetailSpendingBloc _detailSpendingBloc;
+  EditSpendingBloc? _editSpendingBloc;
+  DetailSpendingBloc? _detailSpendingBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conName = TextEditingController();
@@ -35,14 +35,14 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
   var _fnNote = FocusNode();
   var _fnPrice = FocusNode();
 
-  SpendingEntity _spendingEntity;
+  SpendingEntity? _spendingEntity;
 
   @override
   void initState() {
     super.initState();
     _editSpendingBloc = BlocProvider.of(context);
     _detailSpendingBloc = BlocProvider.of(context);
-    _detailSpendingBloc.detailSpending(widget.id);
+    _detailSpendingBloc!.detailSpending(widget.id);
   }
 
   @override
@@ -53,8 +53,8 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
       child: MultiBlocListener(
         listeners: [
           BlocListener(
-              cubit: _editSpendingBloc,
-              listener: (_, state) {
+              bloc: _editSpendingBloc,
+              listener: (_, dynamic state) {
                 switch (state.status) {
                   case Status.LOADING:
                     {
@@ -75,8 +75,8 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                 }
               }),
           BlocListener(
-              cubit: _detailSpendingBloc,
-              listener: (_, state) {
+              bloc: _detailSpendingBloc,
+              listener: (_, dynamic state) {
                 switch (state.status) {
                   case Status.LOADING:
                     {
@@ -92,10 +92,10 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                     {
                       _spendingEntity = state.data;
 
-                      _conName.text = _spendingEntity.name;
-                      _conNote.text = _spendingEntity.note;
+                      _conName.text = _spendingEntity!.name!;
+                      _conNote.text = _spendingEntity!.note!;
                       _conPrice.text =
-                          _spendingEntity.price.toString().toCurrency();
+                          _spendingEntity!.price.toString().toCurrency();
                     }
                     break;
                 }
@@ -140,7 +140,7 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
               Button(
                 title: Strings.save,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     var _params = {
                       "id": widget.id,
                       "name": _conName.text,
@@ -148,7 +148,7 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                       "price": _conPrice.text.toClearText()
                     };
                     logs("params $_params");
-                    _editSpendingBloc.editSpending(_params);
+                    _editSpendingBloc!.editSpending(_params);
                   }
                 },
               )

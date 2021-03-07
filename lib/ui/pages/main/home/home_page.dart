@@ -15,15 +15,15 @@ import 'package:oktoast/oktoast.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  TotalSalesBloc _totalSaleBloc;
-  TotalSpendingBloc _totalSpendingBloc;
+  late TotalSalesBloc _totalSaleBloc;
+  late TotalSpendingBloc _totalSpendingBloc;
 
   SearchType _searchType = SearchType.All;
 
@@ -39,13 +39,13 @@ class _HomePageState extends State<HomePage> {
   int _totalSpendingLastMonth = 0;
   int _totalLastMonth = 0;
 
-  String _lastUpdateIncomingLastMonth;
-  String _lastUpdateIncomingCurMonth;
-  String _lastUpdateIncomingAll;
+  String? _lastUpdateIncomingLastMonth;
+  String? _lastUpdateIncomingCurMonth;
+  String? _lastUpdateIncomingAll;
 
-  String _lastUpdateSpendingLastMonth;
-  String _lastUpdateSpendingCurMonth;
-  String _lastUpdateSpendingAll;
+  String? _lastUpdateSpendingLastMonth;
+  String? _lastUpdateSpendingCurMonth;
+  String? _lastUpdateSpendingAll;
 
   var _listLabelTab = [
     DataSelected(title: Strings.all, isSelected: true),
@@ -59,6 +59,13 @@ class _HomePageState extends State<HomePage> {
     _totalSaleBloc = BlocProvider.of<TotalSalesBloc>(context);
     _totalSpendingBloc = BlocProvider.of<TotalSpendingBloc>(context);
     _initData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _totalSaleBloc.close();
+    _totalSpendingBloc.close();
   }
 
   _initData() async {
@@ -82,7 +89,7 @@ class _HomePageState extends State<HomePage> {
       child: MultiBlocListener(
         listeners: [
           BlocListener<TotalSpendingBloc, Result<HomeEntity>>(
-            cubit: _totalSpendingBloc,
+            bloc: _totalSpendingBloc,
             listener: (_, state) {
               switch (state.status) {
                 case Status.LOADING:
@@ -103,22 +110,22 @@ class _HomePageState extends State<HomePage> {
                         switch (state.tag) {
                           case Strings.all:
                             {
-                              _totalSpendingAll += state.data.total;
-                              _lastUpdateSpendingAll = state.data.updatedAt;
+                              _totalSpendingAll += state.data!.total!;
+                              _lastUpdateSpendingAll = state.data!.updatedAt;
                             }
                             break;
                           case Strings.curMonthTag:
                             {
-                              _totalSpendingCurMonth += state.data.total;
+                              _totalSpendingCurMonth += state.data!.total!;
                               _lastUpdateSpendingCurMonth =
-                                  state.data.updatedAt;
+                                  state.data!.updatedAt;
                             }
                             break;
                           case Strings.lastMonthTag:
                             {
-                              _totalSpendingLastMonth += state.data.total;
+                              _totalSpendingLastMonth += state.data!.total!;
                               _lastUpdateSpendingLastMonth =
-                                  state.data.updatedAt;
+                                  state.data!.updatedAt;
                             }
                         }
                       });
@@ -135,7 +142,7 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           BlocListener<TotalSalesBloc, Result<HomeEntity>>(
-            cubit: _totalSaleBloc,
+            bloc: _totalSaleBloc,
             listener: (_, state) {
               switch (state.status) {
                 case Status.LOADING:
@@ -155,20 +162,21 @@ class _HomePageState extends State<HomePage> {
                       switch (state.tag) {
                         case Strings.all:
                           {
-                            _totalIncomingAll += state.data.total;
-                            _lastUpdateIncomingAll = state.data.updatedAt;
+                            _totalIncomingAll += state.data!.total!;
+                            _lastUpdateIncomingAll = state.data!.updatedAt;
                           }
                           break;
                         case Strings.curMonthTag:
                           {
-                            _totalIncomingCurMonth += state.data.total;
-                            _lastUpdateIncomingCurMonth = state.data.updatedAt;
+                            _totalIncomingCurMonth += state.data!.total!;
+                            _lastUpdateIncomingCurMonth = state.data!.updatedAt;
                           }
                           break;
                         case Strings.lastMonthTag:
                           {
-                            _totalIncomingLastMonth += state.data.total;
-                            _lastUpdateIncomingLastMonth = state.data.updatedAt;
+                            _totalIncomingLastMonth += state.data!.total!;
+                            _lastUpdateIncomingLastMonth =
+                                state.data!.updatedAt;
                           }
                       }
                     });
@@ -246,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Divider(),
                           Text(
-                            "${Strings.lastUpdate} ${_lastUpdateIncomingAll.toDateTime()}",
+                            "${Strings.lastUpdate} ${_lastUpdateIncomingAll?.toDateTime()}",
                             style: TextStyles.textHint.copyWith(
                                 fontStyle: FontStyle.italic,
                                 fontSize: Dimens.fontSmall),
@@ -260,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Divider(),
                           Text(
-                            "${Strings.lastUpdate} ${_lastUpdateSpendingAll.toDateTime()}",
+                            "${Strings.lastUpdate} ${_lastUpdateSpendingAll?.toDateTime()}",
                             style: TextStyles.textHint.copyWith(
                                 fontStyle: FontStyle.italic,
                                 fontSize: Dimens.fontSmall),
@@ -315,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Divider(),
                               Text(
-                                "${Strings.lastUpdate} ${_lastUpdateIncomingCurMonth.toDateTime()}",
+                                "${Strings.lastUpdate} ${_lastUpdateIncomingCurMonth?.toDateTime()}",
                                 style: TextStyles.textHint.copyWith(
                                     fontStyle: FontStyle.italic,
                                     fontSize: Dimens.fontSmall),
@@ -329,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Divider(),
                               Text(
-                                "${Strings.lastUpdate} ${_lastUpdateSpendingCurMonth.toDateTime()}",
+                                "${Strings.lastUpdate} ${_lastUpdateSpendingCurMonth?.toDateTime()}",
                                 style: TextStyles.textHint.copyWith(
                                     fontStyle: FontStyle.italic,
                                     fontSize: Dimens.fontSmall),
@@ -388,7 +396,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Divider(),
                               Text(
-                                "${Strings.lastUpdate} ${_lastUpdateIncomingLastMonth.toDateTime()}",
+                                "${Strings.lastUpdate} ${_lastUpdateIncomingLastMonth?.toDateTime()}",
                                 style: TextStyles.textHint.copyWith(
                                     fontStyle: FontStyle.italic,
                                     fontSize: Dimens.fontSmall),
@@ -402,7 +410,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Divider(),
                               Text(
-                                "${Strings.lastUpdate} ${_lastUpdateSpendingLastMonth.toDateTime()}",
+                                "${Strings.lastUpdate} ${_lastUpdateSpendingLastMonth?.toDateTime()}",
                                 style: TextStyles.textHint.copyWith(
                                     fontStyle: FontStyle.italic,
                                     fontSize: Dimens.fontSmall),

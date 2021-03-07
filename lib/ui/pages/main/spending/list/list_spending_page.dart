@@ -16,17 +16,17 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class ListSpendingPage extends StatefulWidget {
-  ListSpendingPage({Key key}) : super(key: key);
+  ListSpendingPage({Key? key}) : super(key: key);
 
   @override
   _ListSpendingPageState createState() => _ListSpendingPageState();
 }
 
 class _ListSpendingPageState extends State<ListSpendingPage> {
-  ListSpendingBloc _listSpendingBloc;
-  DeleteSpendingBloc _deleteSpendingBloc;
+  ListSpendingBloc? _listSpendingBloc;
+  DeleteSpendingBloc? _deleteSpendingBloc;
 
-  Map<String, Map<String, List<SpendingEntity>>> _listSpending;
+  Map<String, Map<String, List<SpendingEntity>>>? _listSpending;
   String _spendingName = "";
 
   SearchType _searchType = SearchType.All;
@@ -46,8 +46,8 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
   }
 
   _getListSpending() {
-    _listSpendingBloc.listSpending(
-        searchText: _spendingName, type: _searchType);
+    _listSpendingBloc!
+        .listSpending(searchText: _spendingName, type: _searchType);
   }
 
   @override
@@ -112,8 +112,8 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
           ),
           Expanded(
               child: BlocListener(
-            cubit: _deleteSpendingBloc,
-            listener: (_, state) {
+            bloc: _deleteSpendingBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -134,8 +134,8 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
               }
             },
             child: BlocBuilder(
-              cubit: _listSpendingBloc,
-              builder: (_, state) {
+              bloc: _listSpendingBloc,
+              builder: (_, dynamic state) {
                 switch (state.status) {
                   case Status.LOADING:
                     {
@@ -169,19 +169,19 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                         },
                         child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: _listSpending.length,
+                            itemCount: _listSpending!.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
                               // create nested listView
                               // first list is for generate date label
                               return Padding(
                                 padding: EdgeInsets.only(
-                                    bottom: index == _listSpending.length - 1
+                                    bottom: index == _listSpending!.length - 1
                                         ? kToolbarHeight + context.dp16()
                                         : 0),
                                 child: _listHeader(
-                                    _listSpending.keys.elementAt(index),
-                                    _listSpending.values.elementAt(index)),
+                                    _listSpending!.keys.elementAt(index),
+                                    _listSpending!.values.elementAt(index)),
                               );
                               // return _listItem(index);
                             }),
@@ -284,7 +284,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteSpendingBloc.deleteSpending(spendingEntity.id);
+                      _deleteSpendingBloc!.deleteSpending(spendingEntity.id);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -316,7 +316,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      spendingEntity.name,
+                      spendingEntity.name!,
                       style: TextStyles.textBold
                           .copyWith(fontSize: Dimens.fontLarge),
                     ),

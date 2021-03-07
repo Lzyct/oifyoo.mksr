@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,9 +21,9 @@ class AddSalePage extends StatefulWidget {
 }
 
 class _AddSalePageState extends State<AddSalePage> {
-  AddSaleBloc _addSaleBloc;
-  TransactionNumberSaleBloc _transactionNumberSaleBloc;
-  ListProductBloc _listProductBloc;
+  late AddSaleBloc _addSaleBloc;
+  late TransactionNumberSaleBloc _transactionNumberSaleBloc;
+  late ListProductBloc _listProductBloc;
 
   var _formKey = GlobalKey<FormState>();
 
@@ -39,7 +41,7 @@ class _AddSalePageState extends State<AddSalePage> {
   List<ProductEntity> _listProductFilter = [];
   List<ProductEntity> _listSelectedProduct = [];
 
-  String _transactionNumber = "";
+  String? _transactionNumber = "";
   int _totalPrice = 0;
   int _totalPriceTmp = 0;
 
@@ -56,6 +58,14 @@ class _AddSalePageState extends State<AddSalePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _addSaleBloc.close();
+    _transactionNumberSaleBloc.close();
+    _listProductBloc.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Parent(
       appBar: context.appBar(title: Strings.addSale),
@@ -63,8 +73,8 @@ class _AddSalePageState extends State<AddSalePage> {
       child: MultiBlocListener(
         listeners: [
           BlocListener(
-            cubit: _addSaleBloc,
-            listener: (_, state) {
+            bloc: _addSaleBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -86,8 +96,8 @@ class _AddSalePageState extends State<AddSalePage> {
             },
           ),
           BlocListener(
-            cubit: _listProductBloc,
-            listener: (_, state) {
+            bloc: _listProductBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -110,8 +120,8 @@ class _AddSalePageState extends State<AddSalePage> {
             },
           ),
           BlocListener(
-            cubit: _transactionNumberSaleBloc,
-            listener: (_, state) {
+            bloc: _transactionNumberSaleBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -244,13 +254,13 @@ class _AddSalePageState extends State<AddSalePage> {
               DropDown(
                 hint: Strings.status,
                 value: _selectedStatus,
-                items: Strings.listStatus?.map((item) {
+                items: Strings.listStatus.map((item) {
                   return DropdownMenuItem(
                     child: Text(item, style: TextStyles.text),
                     value: item,
                   );
-                })?.toList(),
-                onChanged: (value) {
+                }).toList(),
+                onChanged: (dynamic value) {
                   _selectedStatus = value;
                 },
               ),
@@ -260,7 +270,7 @@ class _AddSalePageState extends State<AddSalePage> {
               Button(
                 title: Strings.save,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     if (_listSelectedProduct.isNotEmpty) {
                       for (var selected in _listSelectedProduct) {
                         logs(
@@ -299,7 +309,7 @@ class _AddSalePageState extends State<AddSalePage> {
             Expanded(
                 flex: 5,
                 child: Text(
-                  _listSelectedProduct[index].productName,
+                  _listSelectedProduct[index].productName!,
                   style: TextStyles.textBold,
                 )),
             Text(
@@ -326,7 +336,7 @@ class _AddSalePageState extends State<AddSalePage> {
     _totalPrice = 0;
     for (var item in _listSelectedProduct) {
       int _qty = item.textEditingController.text.toInt();
-      int _totalPerProduct = _qty * item.sellingPrice;
+      int _totalPerProduct = _qty * item.sellingPrice!;
       setState(() {
         _totalPrice += _totalPerProduct;
         _totalPriceTmp = _totalPrice - _conDiscount.text.toClearText().toInt();
@@ -336,7 +346,7 @@ class _AddSalePageState extends State<AddSalePage> {
 
   _minus(String value, int index) async {
     if (value == "0") {
-      var _isRemove = await showDialog<bool>(
+      var _isRemove = await (showDialog<bool>(
           context: context,
           barrierDismissible: false,
           // false = user must tap button, true = tap outside dialog
@@ -384,7 +394,7 @@ class _AddSalePageState extends State<AddSalePage> {
                 ),
               ],
             );
-          });
+          }) as Future<bool>);
       if (_isRemove) {
         // delete from list product
         setState(() {
@@ -406,7 +416,7 @@ class _AddSalePageState extends State<AddSalePage> {
 
   _plus(String value, int index) {
     var _qty = value.toInt();
-    if (_qty > _listSelectedProduct[index].qty) {
+    if (_qty > _listSelectedProduct[index].qty!) {
       _listSelectedProduct[index].textEditingController.text =
           _listSelectedProduct[index].qty.toString();
       Strings.maxQty.toToastError();

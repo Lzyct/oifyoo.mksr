@@ -7,20 +7,20 @@ import 'package:oifyoo_mksr/di/di.dart';
 class TotalSalesBloc extends Cubit<Result<HomeEntity>> {
   TotalSalesBloc() : super(Result.isLoading());
 
-  var _homeRepo = sl<HomeRepository>();
+  HomeRepository? _homeRepo = sl<HomeRepository>();
 
   totalSaleAll() async {
     emit(Result.isLoading());
-    emit(await _homeRepo.totalSalesAll());
+    emit(await _homeRepo!.totalSalesAll());
   }
 
   totalSaleCurMonth() async {
     emit(Result.isLoading());
-    emit(await _homeRepo.totalSalesCurMonth());
+    emit(await _homeRepo!.totalSalesCurMonth());
   }
 
   totalSaleLastMonth() async {
     emit(Result.isLoading());
-    emit(await _homeRepo.totalSalesLastMonth());
+    emit(await _homeRepo!.totalSalesLastMonth());
   }
 }

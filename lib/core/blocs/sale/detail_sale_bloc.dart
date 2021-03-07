@@ -7,10 +7,10 @@ import 'package:oifyoo_mksr/di/di.dart';
 class DetailSaleBloc extends Cubit<Result<List<TransactionEntity>>> {
   DetailSaleBloc() : super(Result.isLoading());
 
-  var _saleRepo = sl<SaleRepository>();
+  SaleRepository? _saleRepo = sl<SaleRepository>();
 
-  detailSale(String _transactionNumber) async {
+  detailSale(String? _transactionNumber) async {
     emit(Result.isLoading());
-    emit(await _saleRepo.getDetailSale(_transactionNumber));
+    emit(await _saleRepo!.getDetailSale(_transactionNumber));
   }
 }

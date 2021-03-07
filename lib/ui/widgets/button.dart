@@ -11,17 +11,17 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class Button extends StatelessWidget {
-  final String title;
-  final Function onPressed;
-  final double width;
-  final double height;
-  final Color color;
-  final Color titleColor;
-  final double fontSize;
-  final Color splashColor;
+  final String? title;
+  final Function? onPressed;
+  final double? width;
+  final double? height;
+  final Color? color;
+  final Color? titleColor;
+  final double? fontSize;
+  final Color? splashColor;
 
   const Button(
-      {Key key,
+      {Key? key,
       this.title,
       this.onPressed,
       this.width,
@@ -41,10 +41,10 @@ class Button extends StatelessWidget {
       decoration:
           BoxDecorations.button.copyWith(color: color ?? Palette.colorPrimary),
       child: TextButton(
-          onPressed: onPressed,
+          onPressed: onPressed as void Function()?,
           style: ButtonStyles.primary,
           child: Text(
-            title,
+            title!,
             style: TextStyle(
                 color: titleColor ?? Palette.colorText,
                 fontSize: fontSize ?? Dimens.fontNormal,

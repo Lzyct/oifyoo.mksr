@@ -1,10 +1,10 @@
 class SpendingEntity {
-  int id;
-  String name;
-  int price;
-  String note;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  String? name;
+  int? price;
+  String? note;
+  String? createdAt;
+  String? updatedAt;
 
   SpendingEntity({
     this.id,

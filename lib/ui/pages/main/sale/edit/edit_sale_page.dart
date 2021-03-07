@@ -13,12 +13,12 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class EditSalePage extends StatefulWidget {
-  final String transactionNumber;
-  final String total;
-  final String discount;
+  final String? transactionNumber;
+  final String? total;
+  final String? discount;
 
   const EditSalePage(
-      {Key key, this.transactionNumber, this.total, this.discount})
+      {Key? key, this.transactionNumber, this.total, this.discount})
       : super(key: key);
 
   @override
@@ -26,14 +26,14 @@ class EditSalePage extends StatefulWidget {
 }
 
 class _EditSalePageState extends State<EditSalePage> {
-  EditSaleBloc _editSaleBloc;
-  DetailSaleBloc _detailSaleBloc;
+  EditSaleBloc? _editSaleBloc;
+  DetailSaleBloc? _detailSaleBloc;
   var _total = "";
 
-  var _selectedStatus = Strings.listStatus[0];
-  var _note = "";
-  var _buyer = "";
-  List<TransactionEntity> _listSelectedProduct = [];
+  String? _selectedStatus = Strings.listStatus[0];
+  String? _note = "";
+  String? _buyer = "";
+  List<TransactionEntity>? _listSelectedProduct = [];
 
   @override
   void initState() {
@@ -41,10 +41,10 @@ class _EditSalePageState extends State<EditSalePage> {
 
     _editSaleBloc = BlocProvider.of(context);
     _detailSaleBloc = BlocProvider.of(context);
-    _detailSaleBloc.detailSale(widget.transactionNumber);
+    _detailSaleBloc!.detailSale(widget.transactionNumber);
 
-    _total = (widget.total.toClearText().toInt() -
-            widget.discount.toClearText().toInt())
+    _total = (widget.total!.toClearText().toInt() -
+            widget.discount!.toClearText().toInt())
         .toString()
         .toIDR();
   }
@@ -57,8 +57,8 @@ class _EditSalePageState extends State<EditSalePage> {
       child: MultiBlocListener(
         listeners: [
           BlocListener(
-            cubit: _editSaleBloc,
-            listener: (_, state) {
+            bloc: _editSaleBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -80,8 +80,8 @@ class _EditSalePageState extends State<EditSalePage> {
             },
           ),
           BlocListener(
-            cubit: _detailSaleBloc,
-            listener: (_, state) {
+            bloc: _detailSaleBloc,
+            listener: (_, dynamic state) {
               switch (state.status) {
                 case Status.LOADING:
                   {
@@ -97,10 +97,10 @@ class _EditSalePageState extends State<EditSalePage> {
                   {
                     setState(() {
                       _listSelectedProduct = state.data;
-                      _note = _listSelectedProduct[0].note;
-                      _buyer = _listSelectedProduct[0].buyer;
-                      _selectedStatus = _listSelectedProduct[0].status;
-                      logs("data ${_listSelectedProduct[0]}");
+                      _note = _listSelectedProduct![0].note;
+                      _buyer = _listSelectedProduct![0].buyer;
+                      _selectedStatus = _listSelectedProduct![0].status;
+                      logs("data ${_listSelectedProduct![0]}");
                     });
                   }
                   break;
@@ -121,7 +121,7 @@ class _EditSalePageState extends State<EditSalePage> {
             ),
             SizedBox(height: context.dp8()),
             ListView.builder(
-                itemCount: _listSelectedProduct.length,
+                itemCount: _listSelectedProduct!.length,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (_, index) {
@@ -136,7 +136,7 @@ class _EditSalePageState extends State<EditSalePage> {
                       TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 ),
                 Text(
-                  widget.total,
+                  widget.total!,
                   style:
                       TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 )
@@ -152,7 +152,7 @@ class _EditSalePageState extends State<EditSalePage> {
                       TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 ),
                 Text(
-                  widget.discount,
+                  widget.discount!,
                   style:
                       TextStyles.textBold.copyWith(fontSize: Dimens.fontLarge),
                 )
@@ -186,13 +186,13 @@ class _EditSalePageState extends State<EditSalePage> {
             DropDown(
               hint: Strings.status,
               value: _selectedStatus,
-              items: Strings.listStatus?.map((item) {
+              items: Strings.listStatus.map((item) {
                 return DropdownMenuItem(
                   child: Text(item, style: TextStyles.text),
                   value: item,
                 );
-              })?.toList(),
-              onChanged: (value) {
+              }).toList(),
+              onChanged: (dynamic value) {
                 _selectedStatus = value;
               },
             ),
@@ -206,7 +206,7 @@ class _EditSalePageState extends State<EditSalePage> {
                     "transactionNumber": widget.transactionNumber,
                     "status": _selectedStatus,
                   };
-                  _editSaleBloc.editSale(_params);
+                  _editSaleBloc!.editSale(_params);
                 })
           ],
         ),
@@ -215,8 +215,8 @@ class _EditSalePageState extends State<EditSalePage> {
   }
 
   _listItem(int index) {
-    int _qty = _listSelectedProduct[index].qty;
-    int _price = _listSelectedProduct[index].price;
+    int _qty = _listSelectedProduct![index].qty!;
+    int _price = _listSelectedProduct![index].price!;
     return Column(
       children: [
         Row(
@@ -227,7 +227,7 @@ class _EditSalePageState extends State<EditSalePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_listSelectedProduct[index].productName,
+                    Text(_listSelectedProduct![index].productName!,
                         style: TextStyles.textBold),
                     SizedBox(height: context.dp8()),
                     Text(

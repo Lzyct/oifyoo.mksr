@@ -14,7 +14,7 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class MainPage extends StatefulWidget {
-  MainPage({Key key}) : super(key: key);
+  MainPage({Key? key}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -23,8 +23,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<DataSelected> _dataMenus = [];
-  NavDrawerBloc _drawerBloc;
-  String _currentOpen = Strings.home;
+  late NavDrawerBloc _drawerBloc;
+  String? _currentOpen = Strings.home;
 
   @override
   void initState() {
@@ -49,9 +49,9 @@ class _MainPageState extends State<MainPage> {
             return true;
           } else {
             context.logs("false");
-            if (_scaffoldKey.currentState.isEndDrawerOpen) {
+            if (_scaffoldKey.currentState!.isEndDrawerOpen) {
               //hide navigation drawer
-              _scaffoldKey.currentState.openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
             } else {
               _drawerBloc.openDrawer(NavigationEvents.HomePage);
 
@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
               backgroundColor: Palette.colorPrimary,
               centerTitle: true,
               title: Text(
-                _currentOpen,
+                _currentOpen!,
                 style: TextStyles.primaryBold.copyWith(
                     fontSize: Dimens.fontLarge, color: Palette.colorText),
               ),
@@ -85,7 +85,7 @@ class _MainPageState extends State<MainPage> {
                   color: Palette.colorText,
                 ),
                 onPressed: () {
-                  _scaffoldKey.currentState.openDrawer();
+                  _scaffoldKey.currentState!.openDrawer();
                 },
               ),
             ),
@@ -194,7 +194,7 @@ class _MainPageState extends State<MainPage> {
                           });
 
                           //hide navigation drawer
-                          _scaffoldKey.currentState.openEndDrawer();
+                          _scaffoldKey.currentState!.openEndDrawer();
                         });
                       },
                       child: Column(
@@ -202,7 +202,7 @@ class _MainPageState extends State<MainPage> {
                           Row(
                             children: [
                               Opacity(
-                                opacity: value.isSelected ? 1 : 0,
+                                opacity: value.isSelected! ? 1 : 0,
                                 child: Container(
                                   color: Palette.colorText,
                                   width: 4,
@@ -213,7 +213,7 @@ class _MainPageState extends State<MainPage> {
                                 width: context.dp16(),
                               ),
                               Text(
-                                value.title,
+                                value.title!,
                                 style: TextStyles.primaryBold.copyWith(
                                     fontSize: Dimens.fontLarge,
                                     color: Palette.colorText),

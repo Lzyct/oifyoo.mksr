@@ -13,28 +13,28 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class DetailSpendingPage extends StatefulWidget {
-  final int id;
+  final int? id;
 
-  const DetailSpendingPage({Key key, this.id}) : super(key: key);
+  const DetailSpendingPage({Key? key, this.id}) : super(key: key);
 
   @override
   _DetailSpendingPageState createState() => _DetailSpendingPageState();
 }
 
 class _DetailSpendingPageState extends State<DetailSpendingPage> {
-  DetailSpendingBloc _detailSpendingBloc;
+  DetailSpendingBloc? _detailSpendingBloc;
 
   var _conName = TextEditingController();
   var _conNote = TextEditingController();
   var _conPrice = TextEditingController();
 
-  SpendingEntity _spendingEntity;
+  SpendingEntity? _spendingEntity;
 
   @override
   void initState() {
     super.initState();
     _detailSpendingBloc = BlocProvider.of(context);
-    _detailSpendingBloc.detailSpending(widget.id);
+    _detailSpendingBloc!.detailSpending(widget.id);
   }
 
   @override
@@ -42,8 +42,8 @@ class _DetailSpendingPageState extends State<DetailSpendingPage> {
     return Parent(
         appBar: context.appBar(title: Strings.detailSpending),
         child: BlocListener(
-          cubit: _detailSpendingBloc,
-          listener: (_, state) {
+          bloc: _detailSpendingBloc,
+          listener: (_, dynamic state) {
             switch (state.status) {
               case Status.LOADING:
                 {
@@ -59,10 +59,10 @@ class _DetailSpendingPageState extends State<DetailSpendingPage> {
                 {
                   _spendingEntity = state.data;
 
-                  _conName.text = _spendingEntity.name;
-                  _conNote.text = _spendingEntity.note;
+                  _conName.text = _spendingEntity!.name!;
+                  _conNote.text = _spendingEntity!.note!;
                   _conPrice.text =
-                      _spendingEntity.price.toString().toCurrency();
+                      _spendingEntity!.price.toString().toCurrency();
                 }
                 break;
             }

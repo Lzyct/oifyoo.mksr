@@ -13,16 +13,16 @@ import 'package:oifyoo_mksr/utils/utils.dart';
 ///*********************************************
 /// © 2021 | All Right Reserved
 class DetailProductPage extends StatefulWidget {
-  final int id;
+  final int? id;
 
-  const DetailProductPage({Key key, this.id}) : super(key: key);
+  const DetailProductPage({Key? key, this.id}) : super(key: key);
 
   @override
   _DetailProductPageState createState() => _DetailProductPageState();
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
-  DetailProductBloc _detailProductBloc;
+  DetailProductBloc? _detailProductBloc;
 
   var _conProductName = TextEditingController();
   var _conNote = TextEditingController();
@@ -31,13 +31,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
   var _conPurchasePrice = TextEditingController();
   var _conPurchaseDate = TextEditingController();
 
-  ProductEntity _productEntity;
+  ProductEntity? _productEntity;
 
   @override
   void initState() {
     super.initState();
     _detailProductBloc = BlocProvider.of(context);
-    _detailProductBloc.detailProduct(widget.id);
+    _detailProductBloc!.detailProduct(widget.id);
   }
 
   @override
@@ -45,8 +45,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
     return Parent(
         appBar: context.appBar(title: Strings.detailProduct),
         child: BlocListener(
-          cubit: _detailProductBloc,
-          listener: (_, state) {
+          bloc: _detailProductBloc,
+          listener: (_, dynamic state) {
             switch (state.status) {
               case Status.LOADING:
                 {
@@ -62,14 +62,15 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 {
                   _productEntity = state.data;
 
-                  _conProductName.text = _productEntity.productName;
-                  _conNote.text = _productEntity.note;
-                  _conQty.text = _productEntity.qty.toString();
+                  _conProductName.text = _productEntity!.productName!;
+                  _conNote.text = _productEntity!.note!;
+                  _conQty.text = _productEntity!.qty.toString();
                   _conSalesingPrice.text =
-                      _productEntity.sellingPrice.toString().toCurrency();
+                      _productEntity!.sellingPrice.toString().toCurrency();
                   _conPurchasePrice.text =
-                      _productEntity.purchasePrice.toString().toCurrency();
-                  _conPurchaseDate.text = _productEntity.createdAt.toDateTime();
+                      _productEntity!.purchasePrice.toString().toCurrency();
+                  _conPurchaseDate.text =
+                      _productEntity!.createdAt!.toDateTime();
                 }
                 break;
             }

@@ -46,7 +46,7 @@ extension ContextExtensions on BuildContext {
         MaterialPageRoute(builder: (context) => widget), (route) => false);
   }
 
-  appBar({@required String title}) {
+  appBar({required String title}) {
     return AppBar(
       brightness: Brightness.light,
       backgroundColor: Palette.colorPrimary,
@@ -84,7 +84,7 @@ extension ContextExtensions on BuildContext {
           brightness: Brightness.light),
       preferredSize: Size.fromHeight(0.0));
 
-  Future<DateTime> datePicker() async {
+  Future<DateTime?> datePicker() async {
     return await showDatePicker(
       context: this,
       initialDate: DateTime.now(),
@@ -112,14 +112,14 @@ extension ContextExtensions on BuildContext {
             ),
             dialogBackgroundColor: Colors.white,
           ),
-          child: child,
+          child: child!,
         );
       },
     );
   }
 
   Future<String> timePicker() async {
-    var result = await showTimePicker(
+    var result = await (showTimePicker(
       initialTime: TimeOfDay.now(),
       context: this,
       initialEntryMode: TimePickerEntryMode.dial,
@@ -143,17 +143,17 @@ extension ContextExtensions on BuildContext {
             ),
             dialogBackgroundColor: Colors.white,
           ),
-          child: child,
+          child: child!,
         );
       },
-    );
+    ) as Future<TimeOfDay>);
 
     //add 0 if length =1
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     return "${twoDigits(result.hour)}:${result.minute}";
   }
 
-  bottomSheet({@required String title, @required Widget child, double height}) {
+  bottomSheet({required String? title, required Widget child, double? height}) {
     showModalBottomSheet(
         context: this,
         enableDrag: true,
@@ -185,7 +185,7 @@ extension ContextExtensions on BuildContext {
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                 ),
                 Text(
-                  title,
+                  title!,
                   style: TextStyles.text.copyWith(
                       fontSize: Dimens.fontLarge2, fontWeight: FontWeight.w600),
                 ),

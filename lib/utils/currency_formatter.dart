@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class CurrencyFormatter extends TextInputFormatter {
   CurrencyFormatter({this.maxDigits});
 
-  final int maxDigits;
+  final int? maxDigits;
 
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
