@@ -31,9 +31,9 @@ class _MainPageState extends State<MainPage> {
     _dataMenus = [
       DataSelected(title: Strings.home, isSelected: true),
       DataSelected(title: Strings.sale, isSelected: false),
-      // DataSelected(title: Strings.purchase, isSelected: false),
       DataSelected(title: Strings.spending, isSelected: false),
       DataSelected(title: Strings.product, isSelected: false),
+      DataSelected(title: Strings.settings, isSelected: false),
     ];
   }
 

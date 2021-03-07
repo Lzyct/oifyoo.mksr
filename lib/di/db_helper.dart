@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,6 +24,9 @@ class DbHelper {
   initDb() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, Strings.dbName);
+
+    sl<PrefManager>().setDbPath(path);
+
     var theDb = await openDatabase(path, version: 1, onCreate: onCreate);
     return theDb;
   }

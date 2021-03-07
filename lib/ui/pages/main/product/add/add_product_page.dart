@@ -128,7 +128,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       "sellingPrice": _conSalesingPrice.text.toClearText(),
                       "qty": _conQty.text.toClearText()
                     };
-                    _addProductBloc!.addProduct(_params);
+                    _addProductBloc.addProduct(_params);
                   }
                 },
               )

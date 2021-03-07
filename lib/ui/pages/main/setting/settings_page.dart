@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Parent(
-      appBar: context.appBar(title: Strings.settings),
+      appBar: null,
       child: Column(
         children: [
           CardView(
@@ -155,7 +155,9 @@ class _SettingsPageState extends State<SettingsPage> {
   _backupDb() async {
     try {
       File _db = File(sl<PrefManager>().getDbPath() ?? "");
-      await _db.copy(_backupPath + Strings.dbName??"");
+      logs("dbPath ${_db.path}");
+      await _db.copy("$_backupPath/${Strings.dbName}");
+      logs("dbDestiny $_backupPath/${Strings.dbName}");
       Strings.successBackupData.toToastSuccess();
     } catch (e) {
       e.toString().toToastError();
