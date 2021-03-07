@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
@@ -18,7 +18,7 @@ class AddSpendingPage extends StatefulWidget {
 }
 
 class _AddSpendingPageState extends State<AddSpendingPage> {
-  AddSpendingBloc? _addSpendingBloc;
+  late AddSpendingBloc _addSpendingBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conName = TextEditingController();
@@ -33,6 +33,11 @@ class _AddSpendingPageState extends State<AddSpendingPage> {
   void initState() {
     super.initState();
     _addSpendingBloc = BlocProvider.of(context);
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _addSpendingBloc.close();
   }
 
   @override
@@ -107,7 +112,7 @@ class _AddSpendingPageState extends State<AddSpendingPage> {
                       "note": _conNote.text,
                       "price": _conPrice.text.toClearText()
                     };
-                    _addSpendingBloc!.addSpending(_params);
+                    _addSpendingBloc.addSpending(_params);
                   }
                 },
               )

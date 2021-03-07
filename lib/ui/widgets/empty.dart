@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by ukietux on 25/06/20 with ♥

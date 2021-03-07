@@ -1,13 +1,10 @@
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
-import 'package:oifyoo_mksr/core/enums/enums.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/pages/main/main.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by Mudassir (ukietux) on 1/12/21 with ♥
@@ -23,8 +20,8 @@ class ListSpendingPage extends StatefulWidget {
 }
 
 class _ListSpendingPageState extends State<ListSpendingPage> {
-  ListSpendingBloc? _listSpendingBloc;
-  DeleteSpendingBloc? _deleteSpendingBloc;
+  late ListSpendingBloc _listSpendingBloc;
+  late DeleteSpendingBloc _deleteSpendingBloc;
 
   Map<String, Map<String, List<SpendingEntity>>>? _listSpending;
   String _spendingName = "";
@@ -38,6 +35,13 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
   ];
 
   @override
+  void dispose() {
+    super.dispose();
+    _listSpendingBloc.close();
+    _deleteSpendingBloc.close();
+  }
+
+  @override
   void initState() {
     super.initState();
     _listSpendingBloc = BlocProvider.of(context);
@@ -46,8 +50,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
   }
 
   _getListSpending() {
-    _listSpendingBloc!
-        .listSpending(searchText: _spendingName, type: _searchType);
+    _listSpendingBloc.listSpending(searchText: _spendingName, type: _searchType);
   }
 
   @override
@@ -141,7 +144,6 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                     {
                       return Center(child: Loading());
                     }
-                    break;
                   case Status.EMPTY:
                     {
                       return Center(
@@ -150,7 +152,6 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                         ),
                       );
                     }
-                    break;
                   case Status.ERROR:
                     {
                       return Center(
@@ -159,7 +160,6 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                         ),
                       );
                     }
-                    break;
                   case Status.SUCCESS:
                     {
                       _listSpending = state.data;
@@ -187,7 +187,6 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                             }),
                       );
                     }
-                    break;
                   default:
                     return Container();
                 }
@@ -284,7 +283,7 @@ class _ListSpendingPageState extends State<ListSpendingPage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteSpendingBloc!.deleteSpending(spendingEntity.id);
+                      _deleteSpendingBloc.deleteSpending(spendingEntity.id);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },

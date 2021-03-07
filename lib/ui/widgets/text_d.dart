@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 
 class TextD extends StatefulWidget {
   TextD(

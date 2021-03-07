@@ -1,9 +1,7 @@
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
-import 'package:oifyoo_mksr/core/enums/enums.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/pages/main/sale/sale.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
@@ -23,8 +21,8 @@ class ListSalePage extends StatefulWidget {
 }
 
 class _ListSalePageState extends State<ListSalePage> {
-  ListSaleBloc? _listSaleBloc;
-  DeleteSaleBloc? _deleteSaleBloc;
+  late ListSaleBloc _listSaleBloc;
+  late DeleteSaleBloc _deleteSaleBloc;
 
   Map<String, Map<String, List<TransactionEntity>>>? _listSale;
   String _productName = "";
@@ -44,8 +42,15 @@ class _ListSalePageState extends State<ListSalePage> {
     _getListSale();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _listSaleBloc.close();
+    _deleteSaleBloc.close();
+  }
+
   _getListSale() async {
-    _listSaleBloc!.listSale(searchText: _productName, type: _searchType);
+    _listSaleBloc.listSale(searchText: _productName, type: _searchType);
   }
 
   @override
@@ -145,7 +150,6 @@ class _ListSalePageState extends State<ListSalePage> {
                     {
                       return Center(child: Loading());
                     }
-                    break;
                   case Status.EMPTY:
                     {
                       return Center(
@@ -154,7 +158,6 @@ class _ListSalePageState extends State<ListSalePage> {
                         ),
                       );
                     }
-                    break;
                   case Status.ERROR:
                     {
                       return Center(
@@ -163,7 +166,6 @@ class _ListSalePageState extends State<ListSalePage> {
                         ),
                       );
                     }
-                    break;
                   case Status.SUCCESS:
                     {
                       _listSale = state.data;
@@ -192,7 +194,6 @@ class _ListSalePageState extends State<ListSalePage> {
                             }),
                       );
                     }
-                    break;
                   default:
                     return Container();
                 }
@@ -293,8 +294,7 @@ class _ListSalePageState extends State<ListSalePage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteSaleBloc!
-                          .deleteSale(transactionEntity.transactionNumber);
+                      _deleteSaleBloc.deleteSale(transactionEntity.transactionNumber);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },

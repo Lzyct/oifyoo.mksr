@@ -2,15 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oifyoo_mksr/core/blocs/blocs.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/pages/main/main.dart';
-
-enum NavigationEvents {
-  HomePage,
-  SalePage,
-  // PurchasePage,
-  SpendingPage,
-  Product,
-}
 
 class NavDrawerBloc extends Cubit<Widget> {
   NavDrawerBloc()
@@ -56,6 +49,9 @@ class NavDrawerBloc extends Cubit<Widget> {
           ],
           child: ListSpendingPage(),
         ));
+        break;
+      case NavigationEvents.SettingPage:
+        emit(SettingsPage());
         break;
     }
   }

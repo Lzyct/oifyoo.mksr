@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/ui/pages/main/main.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by ukietux on 24/08/20 with ♥

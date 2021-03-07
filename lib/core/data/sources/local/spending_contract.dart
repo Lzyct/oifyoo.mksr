@@ -1,5 +1,4 @@
-import 'package:oifyoo_mksr/core/data/models/models.dart';
-import 'package:oifyoo_mksr/core/enums/enums.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 
 abstract class SpendingContract {
   Future<dynamic> addSpending(Map<String, dynamic> _params);

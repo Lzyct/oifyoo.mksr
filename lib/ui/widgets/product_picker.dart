@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';

@@ -103,4 +103,15 @@ class Strings {
 
   static const String totalIncomeAll = "Total Semua Pemasukan";
   static const String totalSpendingAll = "Total Semua Pengeluaran";
+
+  static const String settings = "Pengaturan";
+
+  static const String backup = "Cadangkan";
+
+  static const String backupDesc = "Database dicadangkan di folder ";
+
+  static const String restore = "Pulihkan";
+  static const String restoreDesc = "Pilih database untuk memulihkan data";
+
+  static const String dbName = "oifyoo_mksr.db";
 }

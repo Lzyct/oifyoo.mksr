@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:oifyoo_mksr/core/data/models/models.dart';
-import 'package:oifyoo_mksr/core/data/sources/local/sale_contract.dart';
-import 'package:oifyoo_mksr/core/enums/enums.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';

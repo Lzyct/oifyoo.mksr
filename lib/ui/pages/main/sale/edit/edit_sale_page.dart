@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
@@ -26,8 +25,8 @@ class EditSalePage extends StatefulWidget {
 }
 
 class _EditSalePageState extends State<EditSalePage> {
-  EditSaleBloc? _editSaleBloc;
-  DetailSaleBloc? _detailSaleBloc;
+  late EditSaleBloc _editSaleBloc;
+  late DetailSaleBloc _detailSaleBloc;
   var _total = "";
 
   String? _selectedStatus = Strings.listStatus[0];
@@ -41,7 +40,7 @@ class _EditSalePageState extends State<EditSalePage> {
 
     _editSaleBloc = BlocProvider.of(context);
     _detailSaleBloc = BlocProvider.of(context);
-    _detailSaleBloc!.detailSale(widget.transactionNumber);
+    _detailSaleBloc.detailSale(widget.transactionNumber);
 
     _total = (widget.total!.toClearText().toInt() -
             widget.discount!.toClearText().toInt())
@@ -49,6 +48,12 @@ class _EditSalePageState extends State<EditSalePage> {
         .toIDR();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _editSaleBloc.close();
+    _detailSaleBloc.close();
+  }
   @override
   Widget build(BuildContext context) {
     return Parent(
@@ -206,7 +211,7 @@ class _EditSalePageState extends State<EditSalePage> {
                     "transactionNumber": widget.transactionNumber,
                     "status": _selectedStatus,
                   };
-                  _editSaleBloc!.editSale(_params);
+                  _editSaleBloc.editSale(_params);
                 })
           ],
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
@@ -18,7 +18,7 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  AddProductBloc? _addProductBloc;
+  late AddProductBloc _addProductBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conProductName = TextEditingController();
@@ -35,6 +35,12 @@ class _AddProductPageState extends State<AddProductPage> {
   void initState() {
     super.initState();
     _addProductBloc = BlocProvider.of(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _addProductBloc.close();
   }
 
   @override

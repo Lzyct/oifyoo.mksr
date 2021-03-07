@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by ukietux on 25/08/20 with ♥
@@ -169,12 +167,12 @@ class _MainPageState extends State<MainPage> {
                                     .openDrawer(NavigationEvents.SalePage);
                               }
                               break;
-                            // case Strings.purchase:
-                            //   {
-                            //     _drawerBloc
-                            //         .openDrawer(NavigationEvents.PurchasePage);
-                            //   }
-                            //   break;
+                            case Strings.settings:
+                              {
+                                _drawerBloc
+                                    .openDrawer(NavigationEvents.SettingPage);
+                              }
+                              break;
                             case Strings.spending:
                               {
                                 _drawerBloc

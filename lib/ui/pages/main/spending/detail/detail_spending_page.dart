@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by Mudassir (ukietux) on 1/12/21 with ♥
@@ -22,7 +20,7 @@ class DetailSpendingPage extends StatefulWidget {
 }
 
 class _DetailSpendingPageState extends State<DetailSpendingPage> {
-  DetailSpendingBloc? _detailSpendingBloc;
+  late DetailSpendingBloc _detailSpendingBloc;
 
   var _conName = TextEditingController();
   var _conNote = TextEditingController();
@@ -34,7 +32,13 @@ class _DetailSpendingPageState extends State<DetailSpendingPage> {
   void initState() {
     super.initState();
     _detailSpendingBloc = BlocProvider.of(context);
-    _detailSpendingBloc!.detailSpending(widget.id);
+    _detailSpendingBloc.detailSpending(widget.id);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _detailSpendingBloc.close();
   }
 
   @override

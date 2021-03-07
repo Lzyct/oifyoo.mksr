@@ -7,6 +7,7 @@ class PrefManager {
   String kColor = "color";
   String kIcon = "icon";
   String kUser = "user";
+  String kDbPath = "pathDb";
   SharedPreferences preferences;
 
   PrefManager(this.preferences);
@@ -41,6 +42,8 @@ class PrefManager {
       await preferences.setString(kIcon, value);
 
   String? getIcon() => preferences.getString(kIcon) ?? null;
+
+  String? getDbPath() => preferences.getString(kDbPath) ?? null;
 
   logout() => preferences.clear();
 }

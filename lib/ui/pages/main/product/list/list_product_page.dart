@@ -1,12 +1,10 @@
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/pages/main/main.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
 
 ///*********************************************
 /// Created by Mudassir (ukietux) on 1/12/21 with ♥
@@ -22,8 +20,8 @@ class ListProductPage extends StatefulWidget {
 }
 
 class _ListProductPageState extends State<ListProductPage> {
-  ListProductBloc? _listProductBloc;
-  DeleteProductBloc? _deleteProductBloc;
+  late ListProductBloc _listProductBloc;
+  late DeleteProductBloc _deleteProductBloc;
 
   List<ProductEntity>? _listProduct;
   String _productName = "";
@@ -36,8 +34,15 @@ class _ListProductPageState extends State<ListProductPage> {
     _getListProduct();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _listProductBloc.close();
+    _deleteProductBloc.close();
+  }
+
   _getListProduct() {
-    _listProductBloc!.listProduct(_productName);
+    _listProductBloc.listProduct(_productName);
   }
 
   @override
@@ -79,7 +84,7 @@ class _ListProductPageState extends State<ListProductPage> {
             cursorColor: Palette.colorPrimary,
             onChanged: (value) {
               _productName = value;
-              _listProductBloc!.listProduct(_productName);
+              _listProductBloc.listProduct(_productName);
             },
           ).margin(
               edgeInsets: EdgeInsets.symmetric(horizontal: context.dp16())),
@@ -114,7 +119,6 @@ class _ListProductPageState extends State<ListProductPage> {
                     {
                       return Center(child: Loading());
                     }
-                    break;
                   case Status.EMPTY:
                     {
                       return Center(
@@ -123,7 +127,6 @@ class _ListProductPageState extends State<ListProductPage> {
                         ),
                       );
                     }
-                    break;
                   case Status.ERROR:
                     {
                       return Center(
@@ -132,7 +135,6 @@ class _ListProductPageState extends State<ListProductPage> {
                         ),
                       );
                     }
-                    break;
                   case Status.SUCCESS:
                     {
                       _listProduct = state.data;
@@ -142,14 +144,13 @@ class _ListProductPageState extends State<ListProductPage> {
                         },
                         child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: _listProduct!.length,
+                            itemCount: _listProduct?.length,
                             shrinkWrap: true,
                             itemBuilder: (_, index) {
                               return _listItem(index);
                             }),
                       );
                     }
-                    break;
                   default:
                     return Container();
                 }
@@ -210,8 +211,7 @@ class _ListProductPageState extends State<ListProductPage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteProductBloc!
-                          .deleteProduct(_listProduct![index].id);
+                      _deleteProductBloc.deleteProduct(_listProduct![index].id);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },
@@ -259,7 +259,7 @@ class _ListProductPageState extends State<ListProductPage> {
               ),
               SizedBox(height: context.dp8()),
               Text(
-                "${Strings.lastUpdate} ${_listProduct![index].updatedAt!.toDateTime()}",
+                "${Strings.lastUpdate} ${_listProduct?[index].updatedAt?.toDateTime()}",
                 style: TextStyles.textHint.copyWith(
                     fontStyle: FontStyle.italic, fontSize: Dimens.fontSmall),
               )

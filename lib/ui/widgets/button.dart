@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 
 ///*********************************************
 /// Created by ukieTux on 23/04/2020 with ♥

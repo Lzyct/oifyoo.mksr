@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oifyoo_mksr/utils/utils.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 
 ///*********************************************
 /// Created by ukietux on 24/08/20 with ♥

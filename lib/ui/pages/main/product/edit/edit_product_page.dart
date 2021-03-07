@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
@@ -23,8 +22,8 @@ class EditProductPage extends StatefulWidget {
 }
 
 class _EditProductPageState extends State<EditProductPage> {
-  EditProductBloc? _editProductBloc;
-  DetailProductBloc? _detailProductBloc;
+  late EditProductBloc _editProductBloc;
+  late DetailProductBloc _detailProductBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conProductName = TextEditingController();
@@ -44,7 +43,14 @@ class _EditProductPageState extends State<EditProductPage> {
     super.initState();
     _editProductBloc = BlocProvider.of(context);
     _detailProductBloc = BlocProvider.of(context);
-    _detailProductBloc!.detailProduct(widget.id);
+    _detailProductBloc.detailProduct(widget.id);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _editProductBloc.close();
+    _detailProductBloc.close();
   }
 
   @override
@@ -164,7 +170,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       "qty": _conQty.text.toClearText()
                     };
                     logs("params $_params");
-                    _editProductBloc!.editProduct(_params);
+                    _editProductBloc.editProduct(_params);
                   }
                 },
               )

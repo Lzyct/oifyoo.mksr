@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oifyoo_mksr/core/blocs/blocs.dart';
-import 'package:oifyoo_mksr/core/data/models/models.dart';
+import 'package:oifyoo_mksr/core/core.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
@@ -23,8 +22,8 @@ class EditSpendingPage extends StatefulWidget {
 }
 
 class _EditSpendingPageState extends State<EditSpendingPage> {
-  EditSpendingBloc? _editSpendingBloc;
-  DetailSpendingBloc? _detailSpendingBloc;
+  late EditSpendingBloc _editSpendingBloc;
+  late DetailSpendingBloc _detailSpendingBloc;
   var _formKey = GlobalKey<FormState>();
 
   var _conName = TextEditingController();
@@ -42,7 +41,13 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
     super.initState();
     _editSpendingBloc = BlocProvider.of(context);
     _detailSpendingBloc = BlocProvider.of(context);
-    _detailSpendingBloc!.detailSpending(widget.id);
+    _detailSpendingBloc.detailSpending(widget.id);
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _editSpendingBloc.close();
+    _detailSpendingBloc.close();
   }
 
   @override
@@ -148,7 +153,7 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                       "price": _conPrice.text.toClearText()
                     };
                     logs("params $_params");
-                    _editSpendingBloc!.editSpending(_params);
+                    _editSpendingBloc.editSpending(_params);
                   }
                 },
               )
