@@ -120,7 +120,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 nextFocusNode: _fnQty,
                 controller: _conProductName,
                 textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+                validator: (String? value) => value!.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.qty,
@@ -132,7 +132,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+                validator: (String? value) => value!.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.sellingPrice,
@@ -146,7 +146,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   CurrencyFormatter(),
                 ],
                 textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+                validator: (String? value) => value!.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.note,

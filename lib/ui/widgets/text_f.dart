@@ -152,7 +152,7 @@ class _TextFState extends State<TextF> {
             onFieldSubmitted: (value) {
               setState(() {
                 fieldFocusChange(
-                    context, widget.curFocusNode!, widget.nextFocusNode);
+                    context, widget.curFocusNode??FocusNode(), widget.nextFocusNode);
               });
             },
           ).margin(edgeInsets: EdgeInsets.symmetric(vertical: context.dp8()))

@@ -209,14 +209,15 @@ class _AddSalePageState extends State<AddSalePage> {
                   FilteringTextInputFormatter.digitsOnly,
                   CurrencyFormatter(),
                 ],
-                onChanged: (value) {
+                onChanged: (String? value) {
                   setState(() {
                     _totalPriceTmp =
                         _totalPrice - _conDiscount.text.toClearText().toInt();
                   });
                 },
                 textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+                validator: (String? value) =>
+                    value!.isEmpty ? Strings.errorEmpty : null,
               ),
               Visibility(
                   visible: _listSelectedProduct.isNotEmpty,
@@ -248,7 +249,8 @@ class _AddSalePageState extends State<AddSalePage> {
                 curFocusNode: _fnBuyer,
                 controller: _conBuyer,
                 textInputAction: TextInputAction.done,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+                validator: (String? value) =>
+                    value!.isEmpty ? Strings.errorEmpty : null,
               ),
               DropDown(
                 hint: Strings.status,

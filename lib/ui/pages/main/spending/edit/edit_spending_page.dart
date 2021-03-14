@@ -116,7 +116,7 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                 nextFocusNode: _fnPrice,
                 controller: _conName,
                 textInputAction: TextInputAction.next,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+                validator: (String? value) => value!.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.price,
@@ -130,7 +130,7 @@ class _EditSpendingPageState extends State<EditSpendingPage> {
                   CurrencyFormatter(),
                 ],
                 textInputAction: TextInputAction.done,
-                validator: (value) => value.isEmpty ? Strings.errorEmpty : null,
+                validator: (String? value) => value!.isEmpty ? Strings.errorEmpty : null,
               ),
               TextF(
                 hint: Strings.note,

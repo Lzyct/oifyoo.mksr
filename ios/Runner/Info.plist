@@ -61,7 +61,9 @@
 	<string>NSAppleMusicUsageDescription</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>NSLocationAlwaysUsageDescription </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>NSPhotoLibraryUsageDescription </string>
 	<key>UISupportsDocumentBrowser</key>
-    <true/>
+	<true/>
 </dict>
 </plist>
