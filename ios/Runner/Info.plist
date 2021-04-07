@@ -63,6 +63,10 @@
 	<string>NSLocationAlwaysUsageDescription </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>NSPhotoLibraryUsageDescription </string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>NSBluetoothPeripheralUsageDescription</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>NSBluetoothAlwaysUsageDescription</string>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
 </dict>
