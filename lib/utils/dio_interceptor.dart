@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -8,7 +7,7 @@ import 'utils.dart';
 
 class DioInterceptor extends Interceptor {
   @override
-  onRequest(RequestOptions options) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     logs(
         // ignore: unnecessary_null_comparison
         "REQUEST ► ︎ ${options.method != null ? options.method.toUpperCase() : 'METHOD'} ${"" + (options.baseUrl) + (options.path)}");
@@ -29,21 +28,23 @@ class DioInterceptor extends Interceptor {
         log("Error $e");
       }
     }
-    return options;
+
+    super.onRequest(options, handler);
   }
 
   @override
-  Future<dynamic> onError(DioError dioError) async {
-    log("<-- ${dioError.message} ${(dioError.response?.request != null ? (dioError.response!.request.baseUrl + dioError.response!.request.path) : 'URL')}");
+  void onError(DioError dioError, ErrorInterceptorHandler handler) {
+    log("<-- ${dioError.message} ${(dioError.response?.requestOptions != null ? (dioError.response!.requestOptions.baseUrl + dioError.response!.requestOptions.path) : 'URL')}");
     log("${dioError.response != null ? dioError.response!.data : 'Unknown Error'}");
     log("<-- End error");
+    super.onError(dioError, handler);
   }
 
   @override
-  Future<dynamic> onResponse(Response response) async {
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
     logs(
         // ignore: unnecessary_null_comparison
-        "◀ ︎RESPONSE ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
+        "◀ ︎RESPONSE ${response.statusCode} ${(response.requestOptions != null ? (response.requestOptions.baseUrl + response.requestOptions.path) : 'URL')}");
     log("Headers:");
     response.headers.forEach((k, v) => log('$k: $v'));
 
@@ -51,5 +52,11 @@ class DioInterceptor extends Interceptor {
     String prettyJson = encoder.convert(response.data);
     log("Response: $prettyJson");
     logs("◀ END REQUEST ► ︎");
+    super.onResponse(response, handler);
   }
+/*
+  @override
+  Future<dynamic> onResponse(Response response) async {
+
+  }*/
 }
