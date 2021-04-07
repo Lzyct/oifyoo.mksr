@@ -274,10 +274,10 @@ class _DetailSalePageState extends State<DetailSalePage> {
   Future<void> _shareStruck() async {
     RenderRepaintBoundary boundary =
         _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    ui.Image image = await boundary.toImage();
-    ByteData byteData = await (image.toByteData(format: ui.ImageByteFormat.png)
-        as Future<ByteData>);
-    Uint8List pngBytes = byteData.buffer.asUint8List();
+    ui.Image image = await boundary.toImage(pixelRatio: 5.0);
+    ByteData? byteData =
+        await (image.toByteData(format: ui.ImageByteFormat.png));
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
 
     var _tempDir = await getTemporaryDirectory();
     File _file = await File("${_tempDir.path}/ss.png").create();
