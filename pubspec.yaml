@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.16.0+17
+version: 1.17.0+18
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -31,19 +31,19 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # Use as default SVG image loader, prefer use SVG as image asset
-  flutter_svg: ^0.21.0-nullsafety.0
+  flutter_svg: ^0.21.0
 
   # Use as Network Client
-  dio: ^4.0.0-beta5
+  dio: ^4.0.0
 
   # Use as sharedPreferences to save local data
-  shared_preferences: ^2.0.3
+  shared_preferences: ^2.0.5
 
   # Use for Dependencies Injection
   get_it: ^6.0.0
 
   # Use for State Management with BLoC patter
-  flutter_bloc: ^7.0.0-nullsafety.3
+  flutter_bloc: ^7.0.0
 
   # Use for Time/Date Format
   intl: ^0.17.0
@@ -52,22 +52,22 @@ dependencies:
   oktoast: ^3.0.0
 
   # Use for responsive UI, set default size base on Mock Up
-  flutter_screenutil: ^5.0.0-nullsafety.7
+  flutter_screenutil: ^4.0.4+1
 
   # Use as path reader for Android and iOS
   path_provider: ^2.0.1
 
   # Use for request permission
-  permission_handler: ^6.0.1
+  permission_handler: ^6.1.1
 
   # search
   animated_search_bar: ^2.0.0
 
-  sqflite: ^2.0.0+2
+  sqflite: ^2.0.0+3
 
-  share: ^2.0.0
+  share: ^2.0.1
 
-  file_picker: ^3.0.0
+  file_picker: ^3.0.1
 
 
 dev_dependencies:
