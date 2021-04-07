@@ -54,9 +54,4 @@ class DioInterceptor extends Interceptor {
     logs("◀ END REQUEST ► ︎");
     super.onResponse(response, handler);
   }
-/*
-  @override
-  Future<dynamic> onResponse(Response response) async {
-
-  }*/
 }
