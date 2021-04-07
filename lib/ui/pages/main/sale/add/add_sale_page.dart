@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -323,7 +321,7 @@ class _AddSalePageState extends State<AddSalePage> {
                     _listSelectedProduct[index].textEditingController,
                 onChanged: (value) async {
                   await _minus(value, index);
-                  _plus(value, index);
+                  await _plus(value, index);
                   _updateTotal();
                 })
           ],
@@ -347,7 +345,7 @@ class _AddSalePageState extends State<AddSalePage> {
 
   _minus(String value, int index) async {
     if (value == "0") {
-      var _isRemove = await (showDialog<bool>(
+      var _isRemove = await (showDialog<bool?>(
           context: context,
           barrierDismissible: false,
           // false = user must tap button, true = tap outside dialog
@@ -395,8 +393,8 @@ class _AddSalePageState extends State<AddSalePage> {
                 ),
               ],
             );
-          }) as Future<bool>);
-      if (_isRemove) {
+          }));
+      if (_isRemove ?? true) {
         // delete from list product
         setState(() {
           _listProduct.forEach((element) {
@@ -417,10 +415,14 @@ class _AddSalePageState extends State<AddSalePage> {
 
   _plus(String value, int index) {
     var _qty = value.toInt();
-    if (_qty > _listSelectedProduct[index].qty!) {
-      _listSelectedProduct[index].textEditingController.text =
-          _listSelectedProduct[index].qty.toString();
-      Strings.maxQty.toToastError();
+    try {
+      if (_qty > _listSelectedProduct[index].qty!) {
+        _listSelectedProduct[index].textEditingController.text =
+            _listSelectedProduct[index].qty.toString();
+        Strings.maxQty.toToastError();
+      }
+    } catch (e) {
+      logs("Error on _plus $e");
     }
   }
 }
