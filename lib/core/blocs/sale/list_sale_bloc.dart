@@ -10,14 +10,14 @@ class ListSaleBloc
     extends Cubit<Result<Map<String, Map<String, List<TransactionEntity>>>>> {
   ListSaleBloc() : super(Result.isLoading());
 
-  SaleRepository? _saleRepo = sl<SaleRepository>();
+  SaleRepository _saleRepo = sl<SaleRepository>();
 
-  listSale({
-    String? searchText,
-    SearchType? type,
-    PaymentState? paymentState
-  }) async {
+  listSale(
+      {String? searchText,
+      required SearchType type,
+      required PaymentState paymentState}) async {
     emit(Result.isLoading());
-    emit(await _saleRepo!.getListSale(searchText: searchText, type: type));
+    emit(await _saleRepo.getListSale(
+        searchText: searchText, type: type, paymentState: paymentState));
   }
 }

@@ -13,7 +13,7 @@ abstract class SaleContract {
 
   Future<Map<String, Map<String, List<TransactionEntity>>>> getListSale(
       {String? searchText,
-      SearchType? type = SearchType.All,
+      SearchType type = SearchType.All,
       PaymentState paymentState = PaymentState.All});
 
   Future<List<TransactionEntity>> getDetailSale(String? _transactionNumber);

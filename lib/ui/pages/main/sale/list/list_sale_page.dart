@@ -60,7 +60,10 @@ class _ListSalePageState extends State<ListSalePage> {
   }
 
   _getListSale() async {
-    _listSaleBloc.listSale(searchText: _productName, type: _searchType);
+    _listSaleBloc.listSale(
+        searchText: _productName,
+        type: _searchType,
+        paymentState: _paymentState);
   }
 
   @override
@@ -163,6 +166,8 @@ class _ListSalePageState extends State<ListSalePage> {
                           _paymentState = PaymentState.BelumLunas;
                           break;
                       }
+                      logs("SelectedPayment onChanged $value");
+                      _getListSale();
                     });
                   },
                 ),
