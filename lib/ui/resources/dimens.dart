@@ -1,4 +1,4 @@
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Dimens {
   static double fontSmall = 12.sp;

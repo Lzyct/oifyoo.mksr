@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/screenutil_init.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/ui/pages/splashscreen/splash_screen_page.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
     return OKToast(
       child: ScreenUtilInit(
         designSize: Size(375, 667),
-        allowFontScaling: false,
         builder: () => MaterialApp(
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
