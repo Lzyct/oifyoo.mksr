@@ -2,6 +2,7 @@ import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oifyoo_mksr/core/core.dart';
+import 'package:oifyoo_mksr/core/enums/payment_state.dart';
 import 'package:oifyoo_mksr/ui/pages/main/sale/sale.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/ui/widgets/widgets.dart';
@@ -27,12 +28,21 @@ class _ListSalePageState extends State<ListSalePage> {
   Map<String, Map<String, List<TransactionEntity>>>? _listSale;
   String _productName = "";
   SearchType _searchType = SearchType.All;
+  PaymentState _paymentState = PaymentState.All;
 
   var _listLabelTab = [
     DataSelected(title: Strings.all, isSelected: true),
     DataSelected(title: Strings.thisMonth, isSelected: false),
     DataSelected(title: Strings.today, isSelected: false),
   ];
+
+  var _paymentStateLabel = [
+    Strings.all,
+    Strings.paidOff,
+    Strings.notYetPaidOff
+  ];
+
+  var _selectedPaymentState = Strings.all;
 
   @override
   void initState() {
@@ -118,6 +128,46 @@ class _ListSalePageState extends State<ListSalePage> {
               }
               _getListSale();
             },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(Strings.paymentStatus),
+              Container(
+                margin: EdgeInsets.all(context.dp16()),
+                width: context.widthInPercent(40),
+                child: DropdownButtonFormField(
+                  decoration: InputDecoration(
+                      alignLabelWithHint: true,
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: context.dp16()),
+                      border: OutlineInputBorder(gapPadding: 0)),
+                  items: _paymentStateLabel
+                      .map((label) => DropdownMenuItem(
+                            child: Text(label),
+                            value: label,
+                          ))
+                      .toList(),
+                  value: _selectedPaymentState,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedPaymentState = value.toString();
+                      switch (value) {
+                        case Strings.all:
+                          _paymentState = PaymentState.All;
+                          break;
+                        case Strings.paidOff:
+                          _paymentState = PaymentState.Lunas;
+                          break;
+                        case Strings.notYetPaidOff:
+                          _paymentState = PaymentState.BelumLunas;
+                          break;
+                      }
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
           Expanded(
               child: BlocListener(
@@ -294,7 +344,8 @@ class _ListSalePageState extends State<ListSalePage> {
                       style: TextStyles.text.copyWith(color: Palette.red),
                     ),
                     onPressed: () {
-                      _deleteSaleBloc.deleteSale(transactionEntity.transactionNumber);
+                      _deleteSaleBloc
+                          .deleteSale(transactionEntity.transactionNumber);
                       Navigator.pop(
                           dialogContext, true); // Dismiss alert dialog
                     },

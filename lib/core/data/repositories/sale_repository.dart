@@ -2,6 +2,7 @@ import 'package:oifyoo_mksr/core/blocs/blocs.dart';
 import 'package:oifyoo_mksr/core/data/models/models.dart';
 import 'package:oifyoo_mksr/core/data/sources/sources.dart';
 import 'package:oifyoo_mksr/core/enums/enums.dart';
+import 'package:oifyoo_mksr/core/enums/payment_state.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
@@ -70,6 +71,7 @@ class SaleRepository {
       getListSale({
     String? searchText,
     SearchType? type,
+    PaymentState? paymentState,
   }) async {
     try {
       var _response = await _saleTransaction!

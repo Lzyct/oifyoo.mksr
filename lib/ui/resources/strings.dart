@@ -114,4 +114,9 @@ class Strings {
   static const String restoreDesc = "Pilih database untuk memulihkan data";
 
   static const String dbName = "oifyoo_mksr.db";
+
+  static const String notYetPaidOff = "Belum Lunas";
+  static const String paidOff = "Lunas";
+
+  static const String paymentStatus = "Status Pembayaran";
 }

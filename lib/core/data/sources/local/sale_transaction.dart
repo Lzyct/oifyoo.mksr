@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:oifyoo_mksr/core/core.dart';
+import 'package:oifyoo_mksr/core/enums/payment_state.dart';
 import 'package:oifyoo_mksr/di/di.dart';
 import 'package:oifyoo_mksr/ui/resources/resources.dart';
 import 'package:oifyoo_mksr/utils/utils.dart';
@@ -176,10 +177,10 @@ class SaleTransaction extends SaleContract {
   }
 
   @override
-  Future<Map<String, Map<String, List<TransactionEntity>>>> getListSale({
-    String? searchText,
-    SearchType? type = SearchType.All,
-  }) async {
+  Future<Map<String, Map<String, List<TransactionEntity>>>> getListSale(
+      {String? searchText,
+      SearchType? type = SearchType.All,
+      PaymentState paymentState = PaymentState.All}) async {
     //connect db
     logs("SearchType $type");
     var _mapListSale = Map<String, Map<String, List<TransactionEntity>>>();
@@ -190,57 +191,178 @@ class SaleTransaction extends SaleContract {
       switch (type) {
         case SearchType.All:
           {
-            _query = '''
+            // filter payment status ALL
+            if (paymentState == PaymentState.All) {
+              _query = '''
                    SELECT *,SUM(qty*price) as total FROM transaksi 
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-            if (searchText!.isEmpty) {
-              _query = '''
+              if (searchText!.isEmpty) {
+                _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        GROUP BY transactionNumber ORDER BY createdAt DESC 
                       
                      ''';
+              }
+              // filter payment status belum lunas
+            } else if (paymentState == PaymentState.BelumLunas) {
+              _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND status='Belum Lunas'
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
+                   ''';
+              if (searchText!.isEmpty) {
+                _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND status='Belum Lunas'
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
+                      
+                     ''';
+              }
+              // filter paymetn status lunas
+            } else if (paymentState == PaymentState.Lunas) {
+              _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND status='Lunas'
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
+                   ''';
+              if (searchText!.isEmpty) {
+                _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND status='Lunas'
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
+                      
+                     ''';
+              }
             }
           }
           break;
         case SearchType.Month:
           {
-            _query = '''
+            // filter payment state all
+            if (paymentState == PaymentState.All) {
+              _query = '''
                    SELECT *,SUM(qty*price) as total FROM transaksi 
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-            if (searchText!.isEmpty) {
-              _query = '''
+              if (searchText!.isEmpty) {
+                _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
                        GROUP BY transactionNumber ORDER BY createdAt DESC 
                      ''';
+              }
+              // filter payment belum lunas
+            } else if (paymentState == PaymentState.BelumLunas) {
+              _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND status='Belum Lunas'
+                     AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
+                   ''';
+              if (searchText!.isEmpty) {
+                _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
+                       AND status='Belum Lunas'
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
+                     ''';
+              }
+              // filter payment lunas
+            } else if (paymentState == PaymentState.Lunas) {
+              _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND status='Lunas'
+                     AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
+                   ''';
+              if (searchText!.isEmpty) {
+                _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND createdAt like '%${DateTime.now().toString().toYearMonth()}%'
+                       AND status='Lunas'
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
+                     ''';
+              }
             }
           }
           break;
         case SearchType.Day:
           {
-            _query = '''
+            //filter payment All
+            if (paymentState == PaymentState.All) {
+              _query = '''
                    SELECT *,SUM(qty*price) as total FROM transaksi 
                      WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
                      AND type='${Strings.sale}'
                      AND createdAt like '%${DateTime.now().toString().toDate()}%'
                      GROUP BY transactionNumber ORDER BY createdAt DESC
                    ''';
-            if (searchText!.isEmpty) {
-              _query = '''
+              if (searchText!.isEmpty) {
+                _query = '''
                      SELECT *,SUM(qty*price) as total FROM transaksi 
                        WHERE type='${Strings.sale}'
                        AND createdAt like '%${DateTime.now().toString().toDate()}%'
                        GROUP BY transactionNumber ORDER BY createdAt DESC 
                      ''';
+              }
+              // filter payment belum lunas
+            } else if (paymentState == PaymentState.BelumLunas) {
+              _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND createdAt like '%${DateTime.now().toString().toDate()}%'
+                     AND status='Belum Lunas'
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
+                   ''';
+              if (searchText!.isEmpty) {
+                _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND createdAt like '%${DateTime.now().toString().toDate()}%'
+                       AND status='Belum Lunas'
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
+                     ''';
+              }
+              // filter payment lunas
+            } else if (paymentState == PaymentState.Lunas) {
+              _query = '''
+                   SELECT *,SUM(qty*price) as total FROM transaksi 
+                     WHERE (transactionNumber like '%$searchText%' OR buyer like '%$searchText%')
+                     AND type='${Strings.sale}'
+                     AND createdAt like '%${DateTime.now().toString().toDate()}%'
+                     AND status='Lunas'
+                     GROUP BY transactionNumber ORDER BY createdAt DESC
+                   ''';
+              if (searchText!.isEmpty) {
+                _query = '''
+                     SELECT *,SUM(qty*price) as total FROM transaksi 
+                       WHERE type='${Strings.sale}'
+                       AND createdAt like '%${DateTime.now().toString().toDate()}%'
+                       AND status='Lunas'
+                       GROUP BY transactionNumber ORDER BY createdAt DESC 
+                     ''';
+              }
             }
           }
           break;
